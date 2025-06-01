@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wedding Invitation</title>
+
+  <!-- Google Fonts – Cormorant Garamond -->
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap');
+    @font-face {
+      font-family: 'Sasuntsi';
+      src: url('Sasuntsi.ttf') format('truetype');
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cormorant Garamond', serif;
+      background: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg') no-repeat center center/cover;
+      height: 100vh;
+      color: white;
+      overflow: hidden;
+      position: relative;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body.unlocked {
+      background: white;
+      color: black;
+      overflow: auto;
+    }
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 10em;
+  transition: opacity 0.8s ease;
+  z-index: 10;
+}
+
+    .overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+
+    .main-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      text-align: center;
+      padding: 1em;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    .main-content.active {
+      display: flex;
+    }
+
+.overlay h1 {
+  position: relative;
+  font-family: 'Sasuntsi', serif;
+  font-size: 6em;
+  text-align: center;
+  margin: 0;
+  background: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg') no-repeat center center/cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  transform: translateY(140px);
+}
+
+    .main-content h1 {
+      font-family: 'Sasuntsi', serif;
+      font-size: 2.5em;
+      text-align: center;
+      margin: 0;
+      color: black;
+    }
+
+    .slider-text-wrapper {
+      margin-top: 10em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1em;
+    }
+
+    .text {
+      margin-top: 0;
+      font-size: 1em;
+      color: white;
+    }
+
+    .slider {
+      position: relative;
+      width: 250px;
+      height: 50px;
+      border: 2px dashed white;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 0;
+      cursor: pointer;
+      padding: 3px;
+      box-sizing: border-box;
+    }
+
+    .circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: transparent;
+      border: 2px solid white;
+      position: absolute;
+      right: 3px;
+      z-index: 1;
+    }
+
+    .arrow {
+      width: 44px;
+      height: 44px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 3px;
+      transition: left 0.5s ease;
+      z-index: 2;
+      font-size: 24px;
+      color: black;
+    }
+
+    .arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .content-container {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      padding: 30px 0 40px;
+    }
+
+    .monogram {
+      font-family: 'Great Vibes', cursive;
+      font-size: 5rem;
+      font-weight: 700;
+      color: #2c2c2c;
+      line-height: 1;
+      opacity: 0;
+      animation: bounceIn 1s ease-out 0.8s forwards;
+    }
+
+    .monogram div:first-child {
+      font-size: 0.7em;
+      margin-bottom: -10px;
+    }
+
+    .photo-gallery {
+      flex: 1;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .photo-frame {
+      flex: 1;
+      background: #d4b896;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      min-height: 350px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transform: translateY(-100%);
+      animation: slideDown 0.8s ease-out forwards;
+    }
+
+    .photo-frame:nth-child(1) {
+      background-image: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg');
+      background-position: left center;
+      animation-delay: 0.2s;
+    }
+
+    .photo-frame:nth-child(2) {
+      background-image: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg');
+      background-position: center center;
+      margin-top: 40px;
+      margin-bottom: -20px;
+      animation-delay: 0.4s;
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+    }
+
+    .photo-frame:nth-child(3) {
+      background-image: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg');
+      background-position: right center;
+      animation-delay: 0.6s;
+    }
+
+    .photo-frame::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 30% 40%, rgba(255,220,177,0.3) 0%, transparent 50%),
+                  linear-gradient(45deg, rgba(139,115,85,0.4) 0%, rgba(180,149,111,0.2) 100%);
+      pointer-events: none;
+    }
+
+    .photo-frame:nth-child(2)::after {
+      content: '';
+      position: absolute;
+      top: 20%; left: 10%; right: 10%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      pointer-events: none;
+    }
+
+    .photo-frame:nth-child(1)::after {
+      content: '';
+      position: absolute;
+      bottom: 30%; left: 15%; right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      pointer-events: none;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .date-section {
+      text-align: center;
+      padding-bottom: 20px;
+      opacity: 0;
+      animation: slideUp 0.8s ease-out 1.8s forwards;
+    }
+
+    .wedding-date {
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 4px;
+      color: #2c2c2c;
+      margin-bottom: 10px;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 380px) {
+      .content-container {
+        padding: 10px;
+      }
+      .monogram {
+        font-size: 4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay">
+    <h1>Լ & Ա</h1>
+
+    <div class="slider-text-wrapper">
+      <div class="text">Разблокируйте приглашение</div>
+
+      <div class="slider" id="slider">
+        <div class="arrow" id="arrow">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="circle" id="end-zone"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <div class="content-container">
+    <div class="header">
+      <div class="monogram">
+        <div>B</div>
+        <div>S</div>
+      </div>
+    </div>
+
+    <div class="photo-gallery">
+      <div class="photo-frame"></div>
+      <div class="photo-frame"></div>
+      <div class="photo-frame"></div>
+    </div>
+
+    <div class="date-section">
+      <div class="wedding-date">24.05.25</div>
+    </div>
+  </div>
+
+  <script>
+    const arrow = document.getElementById('arrow');
+    const slider = document.getElementById('slider');
+    const overlay = document.getElementById('overlay');
+    const mainContent = document.getElementById('mainContent');
+    const body = document.body;
+
+    let isDragging = false;
+    let startX;
+    let currentX;
+    let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+
+    arrow.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        if (parseInt(arrow.style.left) >= maxX - 10) {
+          overlay.classList.add('hidden');
+          mainContent.classList.add('active');
+          body.classList.add('unlocked');
+
+          // Անիմացիաների ռեստարտ
+          const photoFrames = document.querySelectorAll('.photo-frame');
+          photoFrames.forEach((frame) => {
+            frame.style.animation = 'none';
+            void frame.offsetWidth;
+            frame.style.animation = '';
+          });
+        } else {
+          arrow.style.left = '3px';
+        }
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        currentX = e.clientX - startX;
+        let newLeft = Math.min(Math.max(3, currentX + 3), maxX);
+        arrow.style.left = `${newLeft}px`;
+      }
+    });
+  </script>
+</body>
+</html>

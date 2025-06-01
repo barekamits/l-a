@@ -208,7 +208,7 @@ html, body {
 }
 
 .photo-frame {
-  width: calc(33.333% - 5.5px); /* երեք նկար՝ երկու բացվածքով */
+  width: calc(33.333% - 5.5px);
   border-radius: 8px;
   position: relative;
   overflow: hidden;
@@ -217,18 +217,6 @@ html, body {
   background-repeat: no-repeat;
   animation: slideDown 0.8s ease-out forwards;
 }
-@media (max-width: 480px) {
-  .photo-gallery {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .photo-frame {
-    width: 100%;
-    min-height: 200px;
-  }
-}
-
 
     .photo-frame:nth-child(1) {
       background-image: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg');

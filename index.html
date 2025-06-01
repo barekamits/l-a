@@ -350,50 +350,78 @@
   </div>
 
   <script>
-    const arrow = document.getElementById('arrow');
-    const slider = document.getElementById('slider');
-    const overlay = document.getElementById('overlay');
-    const mainContent = document.getElementById('mainContent');
-    const body = document.body;
+const arrow = document.getElementById('arrow');
+const slider = document.getElementById('slider');
+const overlay = document.getElementById('overlay');
+const mainContent = document.getElementById('mainContent');
+const body = document.body;
 
-    let isDragging = false;
-    let startX;
-    let currentX;
-    let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+let isDragging = false;
+let startX;
+let currentX;
+let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
-    arrow.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-    });
+// Desktop (mouse) events
+arrow.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  startX = e.clientX;
+});
+window.addEventListener('mouseup', () => {
+  if (isDragging) {
+    isDragging = false;
+    if (parseInt(arrow.style.left) >= maxX - 10) {
+      unlock();
+    } else {
+      arrow.style.left = '3px';
+    }
+  }
+});
+window.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    currentX = e.clientX - startX;
+    let newLeft = Math.min(Math.max(3, currentX + 3), maxX);
+    arrow.style.left = `${newLeft}px`;
+  }
+});
 
-    window.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        if (parseInt(arrow.style.left) >= maxX - 10) {
-          overlay.classList.add('hidden');
-          mainContent.classList.add('active');
-          body.classList.add('unlocked');
+// Mobile (touch) events
+arrow.addEventListener('touchstart', (e) => {
+  isDragging = true;
+  startX = e.touches[0].clientX;
+});
+window.addEventListener('touchend', () => {
+  if (isDragging) {
+    isDragging = false;
+    if (parseInt(arrow.style.left) >= maxX - 10) {
+      unlock();
+    } else {
+      arrow.style.left = '3px';
+    }
+  }
+});
+window.addEventListener('touchmove', (e) => {
+  if (isDragging) {
+    currentX = e.touches[0].clientX - startX;
+    let newLeft = Math.min(Math.max(3, currentX + 3), maxX);
+    arrow.style.left = `${newLeft}px`;
+  }
+});
 
-          // Անիմացիաների ռեստարտ
-          const photoFrames = document.querySelectorAll('.photo-frame');
-          photoFrames.forEach((frame) => {
-            frame.style.animation = 'none';
-            void frame.offsetWidth;
-            frame.style.animation = '';
-          });
-        } else {
-          arrow.style.left = '3px';
-        }
-      }
-    });
+// Unlock function
+function unlock() {
+  overlay.classList.add('hidden');
+  mainContent.classList.add('active');
+  body.classList.add('unlocked');
 
-    window.addEventListener('mousemove', (e) => {
-      if (isDragging) {
-        currentX = e.clientX - startX;
-        let newLeft = Math.min(Math.max(3, currentX + 3), maxX);
-        arrow.style.left = `${newLeft}px`;
-      }
-    });
+  // Անիմացիաների ռեստարտ
+  const photoFrames = document.querySelectorAll('.photo-frame');
+  photoFrames.forEach((frame) => {
+    frame.style.animation = 'none';
+    void frame.offsetWidth;
+    frame.style.animation = '';
+  });
+}
+
   </script>
 </body>
 </html>

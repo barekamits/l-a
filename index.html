@@ -15,7 +15,7 @@
       font-family: 'Sasuntsi';
       src: url('Sasuntsi.ttf') format('truetype');
     }
-       @font-face {
+     @font-face {
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
     }
@@ -104,8 +104,9 @@
     }
 
     .text {
+      font-family: 'Great Vibes', cursive;
       margin-top: 0;
-      font-size: 1em;
+      font-size: 2em;
       color: white;
     }
 
@@ -313,6 +314,194 @@
         font-size: 4rem;
       }
     }
+        .calendar {
+      margin-top: 30px;
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+
+    .calendar .month {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .calendar .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      max-width: 420px;
+      margin: 0 auto 10px;
+    }
+
+    .calendar .dates {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .dates > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1 / 1;
+    }
+
+    .heart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .heart-svg {
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .heart-text {
+      position: relative;
+      z-index: 1;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .script {
+      font-family: 'Great Vibes', cursive;
+      font-size: 48px;
+      margin: 40px 0 5px;
+    }
+
+    .small-text {
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+  .couple-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  color: #333;
+}
+
+    .info {
+      font-family:'Vrdznagir';
+      font-size: 25px;
+      letter-spacing: 1px;
+      line-height: 1.6;
+    }
+            .invitation {
+            background: white;
+            width: 400px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .invitation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4af37, #f4e87c, #d4af37);
+        }
+        
+        .icon-img {
+            display: block;
+            margin: 0 auto 25px;
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+        
+        .ceremony-title, .reception-title {
+            font-family: 'Vrdznagir';
+            font-size: 40px;
+            font-style: italic;
+            color: #8b7355;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        
+        .venue-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+        
+        .address {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .time {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 40px 0;
+        }
+        
+        a.map-link {
+            text-decoration: none;
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+        
+        a.map-link svg {
+            fill: #d4af37;
+            width: 16px;
+            height: 16px;
+        }
+        
+        .full-img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            object-fit: cover;
+            display: block;
+        }
+        .closing-text {
+    font-family: 'Vrdznagir';
+    font-size:35 px;
+    font-style: italic;
+    color: #8b7355;
+    margin-top: 20px;
+}
+.heart-outline {
+  vertical-align: middle;
+  margin-left: 8px;
+}
   </style>
 </head>
 <body>
@@ -320,7 +509,7 @@
     <h1>Լ & Ա</h1>
 
     <div class="slider-text-wrapper">
-      <div class="text">Разблокируйте приглашение</div>
+      <div class="text">Unlock the moments that will last a lifetime.</div>
 
       <div class="slider" id="slider">
         <div class="arrow" id="arrow">
@@ -337,8 +526,8 @@
     <div class="content-container">
     <div class="header">
       <div class="monogram">
-        <div>B</div>
-        <div>S</div>
+        <div>L</div>
+        <div>A</div>
       </div>
     </div>
 
@@ -350,6 +539,101 @@
 
     <div class="date-section">
       <div class="wedding-date">24.05.25</div>
+    </div>
+    
+    <div class="calendar">
+    <div class="month">MAY</div>
+    <div class="weekdays">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+    <div class="dates">
+      <div>21</div>
+      <div>22</div>
+      <div>23</div>
+      <div>
+        <div class="heart-wrapper">
+          <svg class="heart-svg" viewBox="0 0 60 60">
+            <path d="M30 52
+              C10 35, 5 20, 20 15
+              A10 10 0 0 1 30 20
+              A10 10 0 0 1 40 15
+              C55 20, 50 35, 30 52
+              Z"
+              fill="none"
+              stroke="#000"
+              stroke-dasharray="2,3"
+              stroke-width="1"
+            />
+          </svg>
+          <div class="heart-text">24</div>
+        </div>
+      </div>
+      <div>25</div>
+      <div>26</div>
+      <div>27</div>
+    </div>
+  </div>
+
+  <div class="script">save the date</div>
+  <div class="small-text">FOR THE WEDDING OF</div>
+  <div class="couple-names">Leo and Adrianna</div>
+  <div class="info">
+   <p> Սիրով հրավիրում ենք Ձեզ մեզ հետ կիսելու մեր գեղեցիկ օրը</p>
+  </div>
+
+  
+  <div class="invitation">
+        <!-- Church Image -->
+        <img src="https://assets.onecompiler.app/43gpeysj6/43keb2mje/church.png" alt="Եկեղեցի" class="icon-img" />
+        
+        <div class="ceremony-title">Եկեղեցի</div>
+        <div class="venue-name">ՍՈՒՐԲ ԱՍՏՎԱԾԱԾԻՆ</div>
+        <div class="venue-name">ԵԿԵՂԵՑԻ</div>
+        <div class="address">
+            Արշակունյաց 15, Երևան
+        </div>
+        
+        <div class="time">4:00 PM</div>
+        
+        <a href="https://goo.gl/maps/smW7N9CKYAxpSV4t9" target="_blank" rel="noopener noreferrer" class="map-link" >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            Տեսնել քարտեզում
+        </a>
+        
+
+        
+        <div class="divider"></div>
+        
+        <!-- Reception Image -->
+        <img src="https://assets.onecompiler.app/43gpeysj6/43keb2mje/champagne-glasses.png" alt="Հյուրասիրություն" class="icon-img" />
+        
+        <div class="reception-title">Ռեստորան</div>
+        <div class="venue-name">Նոր Դվին Ռեստորանային համալիր</div>
+        <div class="address">
+            Արմավիրի մարզ, Էջմիածին <br>
+             Աշտարակի խճուղի, 1 շենք
+        </div>
+        
+        <div class="time">7:00 PM</div>
+        
+        <a href="https://goo.gl/maps/Txv3FVEV6Wx82HsQ9" target="_blank" rel="noopener noreferrer" class="map-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            Տեսնել քարտեզում
+        </a>
+      </div>
+          <!-- Final photo block -->
+    <div class="invitation">
+        <img src="https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/e0a9dfc0ea4cbcfac0278918b620eeda.jpg" alt="Մեր նկարն է" class="full-img" />
+           <div class="closing-text">
+  Սիրով սպասում ենք Ձեզ 
+  <svg class="heart-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(10deg);">
+    <path d="M20.84 4.61c-1.54-1.3-3.77-1.3-5.31 0L12 8.09l-3.53-3.48c-1.54-1.3-3.77-1.3-5.31 0-1.55 1.31-1.55 3.43 0 4.74L12 21.35l8.84-11.99c1.55-1.31 1.55-3.43 0-4.75z"/>
+  </svg>
+</div>
     </div>
   </div>
 
@@ -425,7 +709,6 @@ function unlock() {
     frame.style.animation = '';
   });
 }
-
   </script>
 </body>
 </html>

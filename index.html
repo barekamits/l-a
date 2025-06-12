@@ -1,306 +1,188 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="hy">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wedding Invitation</title>
-
-  <!-- Google Fonts – Cormorant Garamond -->
-  
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <title>Video Background Test</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Allura&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap');
-    @font-face {
-      font-family: 'Sasuntsi';
-      src: url('Sasuntsi.ttf') format('truetype');
-    }
-     @font-face {
+       @font-face {
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
     }
-html, body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  max-width: 100vw;
-}
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Cormorant Garamond', serif;
-      background: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg') no-repeat center center/cover;
-      height: 100vh;
-      color: white;
-      overflow-x: hidden;
-      position: relative;
-      transition: background 0.5s ease, color 0.5s ease;
-    }
-
-    body.unlocked {
-      background: white;
-      color: black;
-      overflow-x: hidden;
-    }
-
-.overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 10em;
-  transition: opacity 0.8s ease;
-  z-index: 10;
-}
-
-    .overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-      display: none;
-    }
-
-    .main-content {
-      width: 100%;
+    body, html {
+      margin: 0; padding: 0; height: 100%;
       overflow: hidden;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2em;
-      text-align: center;
-      padding: 1em;
-      z-index: 1;
-      min-height: 100vh;
+      background:white;
+      color: black;
+      font-family: 'Great Vibes', cursive;
+      touch-action: none; /* Ավելացրել ենք touch-action */
     }
-    @media (max-width: 480px) {
-  .main-content {
-    font-size: 1em;
-    padding: 0.5em;
+
+    /* Կառավարում ենք իրական viewport-ի բարձրությունը մոբայլում */
+    :root {
+      --vh: 1vh;
+    }
+
+    /* --- Cover (վիդեո + սլայդեր) --- */
+    #cover {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: calc(var(--vh, 1vh) * 100);
+      z-index: 100;
+      background: transparent;
+    }
+
+    video#bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: calc(var(--vh, 1vh) * 100);
+      object-fit: cover;
+      z-index: -1;
+    }
+
+/* 1. Ավելացրեք այս @keyframes-ը ձեր CSS-ի սկզբում կամ վերջում */
+/* Դանդաղ, հեղուկ անիմացիա */
+@keyframes slowSmoothAppear {
+  0% {
+    opacity: 0;
+    transform: translateX(-35%) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-35%) translateY(0);
   }
 }
-
-    .main-content.active {
-      display: flex;
-    }
-
-.overlay h1 {
-  position: relative;
-  font-family: 'Sasuntsi', serif;
-  font-size: 6em;
-  text-align: center;
-  margin: 0;
-  background: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg') no-repeat center center/cover;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  transform: translateY(140px);
-}
-
-    .main-content h1 {
-      font-family: 'Sasuntsi', serif;
-      font-size: 2.5em;
-      text-align: center;
-      margin: 0;
-      color: black;
-    }
-
-    .slider-text-wrapper {
-      margin-top: 10em;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1em;
-    }
-
-    .text {
-      font-family: 'Great Vibes', cursive;
-      margin-top: 0;
-      font-size: 2em;
-      color: white;
-    }
-
-    .slider {
-      position: relative;
-      width: 250px;
-      height: 50px;
-      border: 2px dashed white;
-      border-radius: 25px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      margin-top: 0;
-      cursor: pointer;
-      padding: 3px;
-      box-sizing: border-box;
-    }
-
-    .circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background-color: transparent;
-      border: 2px solid white;
-      position: absolute;
-      right: 3px;
-      z-index: 1;
-    }
-
-    .arrow {
-      width: 44px;
-      height: 44px;
-      background-color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      left: 3px;
-      transition: left 0.5s ease;
-      z-index: 2;
-      font-size: 24px;
-      color: black;
-    }
-
-    .arrow svg {
-      width: 16px;
-      height: 16px;
-    }
-
- @media (max-width: 420px) {
-  .content-container {
-    max-width: 100%;
-    padding: 10px;
-  }
-}
-    .header {
-      text-align: center;
-      padding: 30px 0 40px;
-    }
-
-    .monogram {
-      font-family: 'Great Vibes', cursive;
-      font-size: 5rem;
-      font-weight: 700;
-      color: #2c2c2c;
-      line-height: 1;
-      opacity: 0;
-      animation: bounceIn 1s ease-out 0.8s forwards;
-    }
-
-    .monogram div:first-child {
-      font-size: 0.7em;
-      margin-bottom: -10px;
-    }
-
-.photo-gallery {
+/* 2. Ավելացրեք animation-ը ձեր .slider դասին (մնացածը նույնն է) */
+.slider {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  bottom: 15vh;
+  left: 35%;
+  transform: translateX(-35%);
+  background: transparent;
+  border: 2px dashed white;
+  border-radius: 25px;
   display: flex;
-  flex-direction: row; /* ← ետ բերում ենք կողք կողքի */
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 30px;
-  flex-wrap: nowrap;
+  align-items: center;
+  padding: 0 3px;
+  z-index: 102;
+  touch-action: none;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  /* ՆՈՐ ՏՈՂԵԿԱՆ */
+    animation: slowSmoothAppear 1.8s ease-in-out forwards; /* 1.2 վայրկյան */
+}
+/* Ձախի սպիտակ շրջանակ (սլաքի համար) */
+.arrow {
+  width: 44px;
+  height: 44px;
+  background: white; /* Մաքուր սպիտակ */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  left: 3px;
+  transition: left 0.5s ease;
+  z-index: 103;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-.photo-frame {
-  width: calc(33.333% - 5.5px);
-  border-radius: 8px;
-  position: relative;
-  overflow: hidden;
-  min-height: 300px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  animation: slideDown 0.8s ease-out forwards;
+/* Աջի սպիտակ շրջանակ */
+.circle {
+  width: 44px;
+  height: 44px;
+  background: white; /* Նույնը, ինչ ձախում */
+  border-radius: 50%;
+  position: absolute;
+  right: 3px;
+  z-index: 101;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-    .photo-frame:nth-child(1) {
-      background-image: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg');
-      background-position: left center;
-      animation-delay: 0.2s;
-    }
 
-    .photo-frame:nth-child(2) {
-      background-image: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg');
-      background-position: center center;
-      margin-top: 40px;
-      margin-bottom: -20px;
-      animation-delay: 0.4s;
-      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
-    }
 
-    .photo-frame:nth-child(3) {
-      background-image: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg');
-      background-position: right center;
-      animation-delay: 0.6s;
-    }
 
-    .photo-frame::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 30% 40%, rgba(255,220,177,0.3) 0%, transparent 50%),
-                  linear-gradient(45deg, rgba(139,115,85,0.4) 0%, rgba(180,149,111,0.2) 100%);
-      pointer-events: none;
-    }
+@media (max-width: 768px) {
+  .slider {
+    left: 34%; /* Մոբայլի համար ավելի շատ ձախ */
+    transform: translateX(-34%); /* Մոբայլի համար ավելի շատ ձախ */
+    width: 195px; /* Նախկինում 270px */
+    height: 55px; /* Նախկինում 70px */
+    bottom: 15vh;
+    border-radius: 27px; /* Նախկինում 30px */
+  }
 
-    .photo-frame:nth-child(2)::after {
-      content: '';
-      position: absolute;
-      top: 20%; left: 10%; right: 10%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      pointer-events: none;
-    }
+  .arrow, .circle {
+    width: 50px; /* Նախկինում 60px */
+    height: 50px; /* Նախկինում 60px */
+  }
 
-    .photo-frame:nth-child(1)::after {
-      content: '';
-      position: absolute;
-      bottom: 30%; left: 15%; right: 15%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      pointer-events: none;
-    }
+  .arrow svg {
+    width: 18px; /* Նախկինում 20px */
+    height: 18px; /* Նախկինում 20px */
+    stroke: #555555; /* Միջին մոխրագույն */
+  }
+}
 
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes bounceIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.3);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.1);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .date-section {
+    /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
+    #main-content {
+      display: none;
+      padding: 40px;
+      max-width: 800px;
+      margin: 100px auto;
       text-align: center;
+      font-size: 24px;
+      line-height: 1.5;
+      z-index: 1;
+      position: relative;
+    }
+.wings {
+  position: relative;
+  display: inline-block;
+  animation: fadeInFloat 2s ease-out forwards;
+}
+
+@keyframes fadeInFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wings img {
+  display: block;
+  max-width: 340px;
+  animation: gentlePulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes gentlePulse {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+  .date-section {
+     text-align: center;
       padding-bottom: 20px;
       opacity: 0;
-      animation: slideUp 0.8s ease-out 1.8s forwards;
+      animation: slideUp 0.8s ease-out 1s forwards;
     }
 
     .wedding-date {
-      font-size: 1.1rem;
+      font-size: 1.8rem;
       font-weight: 400;
       letter-spacing: 4px;
       color: #2c2c2c;
@@ -333,8 +215,9 @@ html, body {
     }
 
     .calendar .month {
+      font-family: 'Great Vibes'cursive;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 35px;
       margin-bottom: 10px;
     }
 
@@ -386,7 +269,7 @@ html, body {
     }
 
     .script {
-      font-family: 'Great Vibes', cursive;
+      font-family:'Vrdznagir';
       font-size: 48px;
       margin: 40px 0 5px;
     }
@@ -396,8 +279,8 @@ html, body {
       letter-spacing: 1px;
     }
 
-  .couple-names {
-  font-family: 'Great Vibes', cursive;
+  .baby-name {
+  font-family: 'Vrdznagir', cursive;
   font-size: 40px;
   font-weight: 700;
   text-align: center;
@@ -519,53 +402,40 @@ html, body {
   </style>
 </head>
 <body>
-  <div class="overlay" id="overlay">
-    <h1>Լ & Ա</h1>
+  <!--  վիդեո + սլայդեր -->
+  <div id="cover">
+    <video id="bg-video" autoplay muted playsinline >
+      <source src="IMG_1009.MP4" type="video/mp4">
+      Ձեր դիտարկիչը չի աջակցում վիդեո ցուցադրմանը։
+    </video>
 
-    <div class="slider-text-wrapper">
-      <div class="text">Unlock the moments that will last a lifetime.</div>
-
-      <div class="slider" id="slider">
-        <div class="arrow" id="arrow">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="circle" id="end-zone"></div>
+    <!-- Սլայդեր -->
+    <div class="slider" id="slider">
+      <div class="arrow" id="arrow">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
+      <div class="circle" id="end-zone"></div>
     </div>
   </div>
 
-  <div class="main-content" id="mainContent">
-    <div class="content-container">
-    <div class="header">
-      <div class="monogram">
-        <div>L</div>
-        <div>A</div>
-      </div>
-    </div>
-
-    <div class="photo-gallery">
-      <div class="photo-frame"></div>
-      <div class="photo-frame"></div>
-      <div class="photo-frame"></div>
-    </div>
-
+  <!-- Հիմնական կոնտենտը, որը կցուցադրվի սլայդի ավարտից հետո -->
+  <div id="main-content">
+<div class="wings">
+  <img src="https://assets.onecompiler.app/43gpeysj6/43mjx49uv/87816556837cc0a7149bf8e71c642e11-removebg-preview.png" class="flapping-wings">
+</div>
     <div class="date-section">
-      <div class="wedding-date">24.05.25</div>
+      <div class="wedding-date">06.07.25</div>
     </div>
     
     <div class="calendar">
-    <div class="month">MAY</div>
+    <div class="month">July</div>
     <div class="weekdays">
       <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
     </div>
     <div class="dates">
-      <div>21</div>
-      <div>22</div>
-      <div>23</div>
-      <div>
-        <div class="heart-wrapper">
+      <div class="heart-wrapper">
           <svg class="heart-svg" viewBox="0 0 60 60">
             <path d="M30 52
               C10 35, 5 20, 20 15
@@ -579,20 +449,21 @@ html, body {
               stroke-width="1"
             />
           </svg>
-          <div class="heart-text">24</div>
+          <div class="heart-text">6</div>
         </div>
-      </div>
-      <div>25</div>
-      <div>26</div>
-      <div>27</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+      <div>10</div>
+      <div>11</div>
+      <div>12</div>
     </div>
   </div>
 
-  <div class="script">save the date</div>
-  <div class="small-text">FOR THE WEDDING OF</div>
-  <div class="couple-names">Leo and Adrianna</div>
+  <div class="script">Միացեք մեզ հետ տոնելու</div>
+  <div class="baby-name">Հովհաննեսի Սուրբ Մկրտությունը</div>
   <div class="info">
-   <p> Սիրով հրավիրում ենք Ձեզ մեզ հետ կիսելու մեր գեղեցիկ օրը</p>
+   <p> </p>
   </div>
 
   
@@ -639,90 +510,120 @@ html, body {
             Տեսնել քարտեզում
         </a>
       </div>
-          <!-- Final photo block -->
-    <div class="invitation">
-        <img src="https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/e0a9dfc0ea4cbcfac0278918b620eeda.jpg" alt="Մեր նկարն է" class="full-img" />
-           <div class="closing-text">
-  Սիրով սպասում ենք Ձեզ 
-  <svg class="heart-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(10deg);">
-    <path d="M20.84 4.61c-1.54-1.3-3.77-1.3-5.31 0L12 8.09l-3.53-3.48c-1.54-1.3-3.77-1.3-5.31 0-1.55 1.31-1.55 3.43 0 4.74L12 21.35l8.84-11.99c1.55-1.31 1.55-3.43 0-4.75z"/>
-  </svg>
-</div>
+         
     </div>
+  </div>
   </div>
 
   <script>
-const arrow = document.getElementById('arrow');
-const slider = document.getElementById('slider');
-const overlay = document.getElementById('overlay');
-const mainContent = document.getElementById('mainContent');
-const body = document.body;
+    // Փոփոխական viewport բարձրության կարգավորում մոբայլի համար
+    const setVh = () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    window.addEventListener('resize', setVh);
+    setVh();
 
-let isDragging = false;
-let startX;
-let currentX;
-let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+    // Տարրերի ձեռք բերում
+    const slider = document.getElementById('slider');
+    const arrow = document.getElementById('arrow');
+    const cover = document.getElementById('cover');
+    const mainContent = document.getElementById('main-content');
+    const video = document.getElementById('bg-video');
 
-// Desktop (mouse) events
-arrow.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  startX = e.clientX;
-});
-window.addEventListener('mouseup', () => {
-  if (isDragging) {
-    isDragging = false;
-    if (parseInt(arrow.style.left) >= maxX - 10) {
-      unlock();
-    } else {
-      arrow.style.left = '3px';
+    let isDragging = false;
+    let startX = 0;
+    let startLeft = 0;
+
+    function moveArrow(currentX) {
+      const dx = currentX - startX;
+      const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+      let newLeft = Math.max(3, Math.min(startLeft + dx, maxOffset));
+      arrow.style.left = `${newLeft}px`;
+
+      // Ավելացրել ենք threshold-ի ստուգում
+      if (newLeft >= maxOffset - 10) { // 10px threshold
+        completeSlide();
+      }
     }
-  }
-});
-window.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    currentX = e.clientX - startX;
-    let newLeft = Math.min(Math.max(3, currentX + 3), maxX);
-    arrow.style.left = `${newLeft}px`;
-  }
-});
 
-// Mobile (touch) events
-arrow.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  startX = e.touches[0].clientX;
-});
-window.addEventListener('touchend', () => {
-  if (isDragging) {
-    isDragging = false;
-    if (parseInt(arrow.style.left) >= maxX - 10) {
-      unlock();
-    } else {
-      arrow.style.left = '3px';
+    function completeSlide() {
+      isDragging = false;
+      cover.style.opacity = '0';
+      cover.style.transition = 'opacity 0.5s ease';
+      setTimeout(() => {
+        cover.style.display = 'none';
+        mainContent.style.display = 'block';
+        document.body.style.overflow = 'auto';
+      }, 500);
     }
-  }
-});
-window.addEventListener('touchmove', (e) => {
-  if (isDragging) {
-    currentX = e.touches[0].clientX - startX;
-    let newLeft = Math.min(Math.max(3, currentX + 3), maxX);
-    arrow.style.left = `${newLeft}px`;
-  }
-});
 
-// Unlock function
-function unlock() {
-  overlay.classList.add('hidden');
-  mainContent.classList.add('active');
-  body.classList.add('unlocked');
+    // Mouse events
+    arrow.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isDragging = true;
+      startX = e.clientX;
+      startLeft = parseInt(arrow.style.left || '3');
+      arrow.style.transition = 'none';
+      video.play().catch(() => {});
+    });
 
-  // Անիմացիաների ռեստարտ
-  const photoFrames = document.querySelectorAll('.photo-frame');
-  photoFrames.forEach((frame) => {
-    frame.style.animation = 'none';
-    void frame.offsetWidth;
-    frame.style.animation = '';
-  });
-}
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        arrow.style.transition = 'left 0.5s ease';
+        const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+        if (parseInt(arrow.style.left) < maxOffset) {
+          arrow.style.left = '3px';
+        }
+      }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      moveArrow(e.clientX);
+    });
+
+    // Touch events - վերափոխված
+    arrow.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      startLeft = parseInt(arrow.style.left || '3');
+      arrow.style.transition = 'none';
+      video.play().catch(() => {});
+    }, { passive: false });
+
+    document.addEventListener('touchend', (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        isDragging = false;
+        arrow.style.transition = 'left 0.5s ease';
+        const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+        if (parseInt(arrow.style.left || '3') < maxOffset) {
+          arrow.style.left = '3px';
+        }
+      }
+    }, { passive: false });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      moveArrow(e.touches[0].clientX);
+    }, { passive: false });
+
+    // Ավելացրել ենք viewport meta tag-ի համար լրացուցիչ ստուգում
+    function fixViewport() {
+      let viewport = document.querySelector('meta[name=viewport]');
+      if (!viewport) {
+        viewport = document.createElement('meta');
+        viewport.name = 'viewport';
+        document.head.appendChild(viewport);
+      }
+      viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    }
+    fixViewport();
   </script>
 </body>
 </html>

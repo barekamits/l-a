@@ -15,19 +15,19 @@
 
     @font-face {
       font-family: 'Sasuntsi';
-      src: url('/D&A/Sasuntsi-Regular.ttf') format('truetype');
+      src: url('Sasuntsi-Regular.ttf') format('truetype');
     }
     @font-face {
       font-family: 'Vrdznagir';
-      src: url('/D&A/Vrdznagir.otf') format('opentype');
+      src: url('Vrdznagir.otf') format('opentype');
     }
     @font-face {
       font-family: 'Island-Moments';
-      src: url("/D&A/IslandMoments-Regular.ttf") format('truetype');
+      src: url("IslandMoments-Regular.ttf") format('truetype');
     }
     @font-face {
       font-family: 'HEGHNAR';
-      src: url("/D&A/artarumianheghnar.ttf") format('truetype');
+      src: url("artarumianheghnar.ttf") format('truetype');
     }
 
     * {
@@ -43,7 +43,7 @@
 
     body {
       font-family: 'Cormorant Garamond', serif;
-      background: url('/D&A/third.png') no-repeat center center/cover;
+      background: url('third.png') no-repeat center center/cover;
       min-height: 100vh;
       color: white;
       position: relative;
@@ -81,7 +81,7 @@
       font-size: 6em;
       text-align: center;
       margin: 0;
-      background: url('/D&A/third.png') no-repeat center center/cover;
+      background: url('third.png') no-repeat center center/cover;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -603,7 +603,7 @@
       <!-- Զույգի լուսանկար -->
       <div class="couple-photo">
         <div class="photo-placeholder">
-          <img src="/D&A/first.png" alt="Couple">
+          <img src="first.png" alt="Couple">
         </div>
       </div>
 
@@ -611,7 +611,7 @@
       <div class="content" id="content">
 
         <!-- Երաժշտություն -->
-        <img id="music-btn" src="/D&A/play.png" alt="Play">
+        <img id="music-btn" src="play.png" alt="Play">
         <audio id="bg-music" src="Мендельсон - Свадебный Марш.mp3"></audio>
 
         <!-- Քարտեզ + նկարներ -->
@@ -647,7 +647,7 @@
         </div>
 
         <!-- Զույգի ֆոնային նկար -->
-        <img src="/D&A/second.png.JPEG" alt="Couple BG" class="couple-bg-img">
+        <img src="second.png.JPEG" alt="Couple BG" class="couple-bg-img">
 
         <!-- Dress Code -->
         <section class="dress-code">
@@ -758,10 +758,10 @@
       musicBtn.addEventListener('click', () => {
         if (isPlaying) {
           music.pause();
-          musicBtn.src = '/D&A/play.png';
+          musicBtn.src = 'play.png';
         } else {
           music.play();
-          musicBtn.src = '/D&A/pause.png';
+          musicBtn.src = 'pause.png';
         }
         isPlaying = !isPlaying;
       });
@@ -791,3 +791,4 @@
   </script>
 </body>
 </html>
+

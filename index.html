@@ -13,10 +13,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Allura&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
 
-    @font-face {
-      font-family: 'Sasuntsi';
-      src: url('Sasuntsi-Regular.ttf') format('truetype');
-    }
+ 
     @font-face {
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
@@ -366,6 +363,10 @@
 
     .dress-colors {
       margin-top: 25px;
+      display: flex;
+      justify-content: center; /* կենտրոնացնում է սլացիկ տարրերը */
+      flex-wrap: wrap;         /* թույլ է տալիս հաջորդական տարրերին անցնել նոր շարքի */
+      gap: 8px;                /* տարբերությունը տարրերի միջև */
     }
 
     .dress-title {
@@ -392,15 +393,13 @@
     }
 
     .dress-colors span {
-      width: 60px;
-      height: 60px;
+      width: 50px;  /* փոքրացրել եմ մոբայլի համար */
+      height: 50px;
       border-radius: 50%;
       display: inline-block;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       transition: transform 0.3s ease;
-      margin: 4px;
     }
-
     .dress-colors span:hover { transform: scale(1.1); }
 
     /* ═══ CALENDAR ═══ */
@@ -408,6 +407,34 @@
       text-align: center;
       padding: 20px;
       width: 100%;
+      overflow-x: auto; /* եթե table-ն ավելի լայն է, scroll տանք */
+    }
+    .calendar-container table {
+      width: auto; /* կամ 100%, եթե ուզում ես, որ լցնի container-ը */
+      max-width: 100%; 
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse;
+      font-size: 16px; /* կարող է փոքրանալ */
+    }
+    @media (max-width: 480px) {
+      .calendar-container table {
+        font-size: 12px; /* փոքր տառեր մոբայլին */
+      }
+
+      .calendar-container th,
+      .calendar-container td {
+        padding: 4px 6px; /* փոքր spacing */
+      }
+
+      .heart-cell svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .heart-cell span {
+        font-size: 12px;
+      }
     }
 
     .big-date {
@@ -791,4 +818,3 @@
   </script>
 </body>
 </html>
-

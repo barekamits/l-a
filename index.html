@@ -31,7 +31,7 @@ html, body {
       margin: 0;
       padding: 0;
       font-family: 'Cormorant Garamond', serif;
-      background: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg') no-repeat center center/cover;
+      background: url('/D&A/third.png') no-repeat center center/cover;
       height: 100vh;
       color: white;
       overflow-x: hidden;
@@ -45,18 +45,18 @@ html, body {
       overflow-x: hidden;
     }
 
-.overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 10em;
-  transition: opacity 0.8s ease;
-  z-index: 10;
-}
+      .overlay {
+        background-color: rgba(0, 0, 0, 0.4);
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 18em; /* ← սա փոխեցինք 10em-ից */
+        transition: opacity 0.8s ease;
+        z-index: 10;
+      }
 
     .overlay.hidden {
       opacity: 0;
@@ -94,12 +94,12 @@ html, body {
   font-size: 6em;
   text-align: center;
   margin: 0;
-  background: url('https://assets.onecompiler.app/43gpeysj6/43k7xc2vq/1b30c294e034537102f322dccc3838ff.jpg') no-repeat center center/cover;
+  background: url('/D&A/third.png') no-repeat center center/cover;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-  transform: translateY(140px);
+  transform: translateY(60px);
 }
 
     .main-content h1 {
@@ -111,7 +111,7 @@ html, body {
     }
 
     .slider-text-wrapper {
-      margin-top: 10em;
+      margin-top: 4em;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -520,7 +520,7 @@ html, body {
 </head>
 <body>
   <div class="overlay" id="overlay">
-    <h1>Լ & Ա</h1>
+    <h1>Դ & Ա</h1>
 
     <div class="slider-text-wrapper">
       <div class="text">Unlock the moments that will last a lifetime.</div>

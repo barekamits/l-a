@@ -809,7 +809,7 @@
       const FORM     = document.getElementById('rsvpForm');
       const OK       = document.getElementById('successMessage');
       const ERR      = document.getElementById('errorMessage');
-      const ENDPOINT = "https://script.google.com/macros/s/AKfycbywU3O_MDaJKusVA-X3nDlaXzc7Ud6s71GBGQZ9THEoEAkNDikSWwxwT-oZuL4TmvI0/exec";
+      const ENDPOINT = "https://script.google.com/macros/s/AKfycbyTL1dzKag7Oe0OuwhysBFUPbN-cDG41frWpSXuMhduZpVCq-vCuyJJbpS6P0hr8MCP/exec";
 
       function showMsg(el, html) {
         /* Hide the other one first */
@@ -868,11 +868,11 @@
 
         /* ✅ Instant success UI */
         const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
-          ? 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
-          : 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
+          ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
+          : 'Մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
 
         showMsg(OK,
-          '<div class="message-title">Շնորհակալություն</div>' +
+          '<div class="message-title"></div>' +
           `<div class="message-text">${responseText}</div>`
         );
 
@@ -891,5 +891,6 @@
   </script>
 </body>
 </html>
+
 
 

@@ -724,27 +724,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  let isPlaying    = false;
-  let audioUnlocked = false;
-  let pendingPlay   = false; // play-ն սպասում է unlock-ի
-
-  const music    = document.getElementById('bg-music');
-  const musicBtn = document.getElementById('music-btn');
-
-  const arrow       = document.getElementById('arrow');
-  const slider      = document.getElementById('slider');
-  const endZone     = document.getElementById('end-zone');
-  const overlay     = document.getElementById('overlay');
-  const mainContent = document.getElementById('mainContent');
-  const body        = document.body;
-
-  let isDragging = false;
-  let startX = 0;
-  let maxX   = 0;
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-
   let isPlaying = false;
   const music   = document.getElementById('bg-music');
 
@@ -787,7 +766,7 @@ document.addEventListener('DOMContentLoaded', function () {
   arrow.addEventListener('mousedown',  e => startDrag(e.clientX));
   window.addEventListener('mousemove', e => moveDrag(e.clientX));
   window.addEventListener('mouseup',   endDrag);
-  arrow.addEventListener('touchstart', e => { e.preventDefault(); startDrag(e.touches[0].clientX); }, { passive: false });
+  arrow.addEventListener('touchstart', e => { startDrag(e.touches[0].clientX); }, { passive: true });
   window.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX));
   window.addEventListener('touchend',  endDrag);
 

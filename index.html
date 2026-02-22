@@ -600,7 +600,7 @@
       <div class="content" id="content">
 
         <img id="music-btn" src="play.png" alt="Play">
-        <audio id="bg-music" src="Marry Me - Sargis Avetisyan.m4a"></audio>
+        <audio id="bg-music" src="/D&A/Marry Me - Sargis Avetisyan.m4a"></audio>
 
         <div class="schedule-section">
 
@@ -805,27 +805,22 @@
     /* ═══════════════════════════════════════════
        MUSIC BUTTON
     ═══════════════════════════════════════════ */
-const music = document.getElementById('bg-music');
-const musicBtn = document.getElementById('music-btn');
+    const music    = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
 
-if (music && !isPlaying) {
-  music.currentTime = 14;
-  // iOS-ի համար՝ load() ռ play() synchronously
-  music.load();
-  const playPromise = music.play();
-  if (playPromise !== undefined) {
-    playPromise.then(() => {
-      if (musicBtn) musicBtn.src = 'pause.png';
-      isPlaying = true;
-    }).catch(() => {
-      // iOS blocked — fallback: user tap-ով կմիանա
-      if (musicBtn) {
-        musicBtn.src = 'play.png';
-        musicBtn.style.animation = 'heartPulse 1s ease-in-out 3';
-      }
-    });
-  }
-}
+    if (musicBtn && music) {
+      musicBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          music.pause();
+          musicBtn.src = 'play.png';
+        } else {
+          music.play();
+          musicBtn.src = 'pause.png';
+        }
+        isPlaying = !isPlaying;
+      });
+    }
+
     /* ═══════════════════════════════════════════
        Dress-code animation
     ═══════════════════════════════════════════ */
@@ -851,4 +846,3 @@ if (music && !isPlaying) {
   </script>
 </body>
 </html>
-

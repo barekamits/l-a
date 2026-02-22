@@ -711,17 +711,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let isPlaying = false;
   const music = document.getElementById('bg-music');
 
-  function startMusic() {
-    if (!music || isPlaying) return;
-
-    music.currentTime = 14;
-    music.play()
-      .then(() => {
-        isPlaying = true;
-      })
-      .catch(err => console.log('Play error:', err));
-  }
-
   /* ═══════════════════════════════════════════
      SLIDER / UNLOCK
   ═══════════════════════════════════════════ */
@@ -736,23 +725,11 @@ document.addEventListener('DOMContentLoaded', function () {
   let currentX = 0;
   let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
-  /* ── Mouse ── */
+  /* ───────────── MOUSE ───────────── */
   arrow.addEventListener('mousedown', e => {
     isDragging = true;
     startX = e.clientX;
     arrow.style.transition = 'none';
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    arrow.style.transition = 'left 0.5s ease';
-
-    if (parseInt(arrow.style.left || 3) >= maxX - 10) {
-      unlock();
-    } else {
-      arrow.style.left = '3px';
-    }
   });
 
   window.addEventListener('mousemove', e => {
@@ -761,11 +738,39 @@ document.addEventListener('DOMContentLoaded', function () {
     arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
   });
 
-  /* ── Touch ── */
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    arrow.style.transition = 'left 0.5s ease';
+
+    if (parseInt(arrow.style.left || 3) >= maxX - 10) {
+
+      // 🎵 PLAY HERE (gesture-safe)
+      if (!isPlaying && music) {
+        music.currentTime = 14;
+        music.play().then(() => {
+          isPlaying = true;
+        }).catch(err => console.log('Play error:', err));
+      }
+
+      unlock();
+
+    } else {
+      arrow.style.left = '3px';
+    }
+  });
+
+  /* ───────────── TOUCH ───────────── */
   arrow.addEventListener('touchstart', e => {
     isDragging = true;
     startX = e.touches[0].clientX;
     arrow.style.transition = 'none';
+  });
+
+  window.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX - startX;
+    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
   });
 
   window.addEventListener('touchend', () => {
@@ -774,16 +779,20 @@ document.addEventListener('DOMContentLoaded', function () {
     arrow.style.transition = 'left 0.5s ease';
 
     if (parseInt(arrow.style.left || 3) >= maxX - 10) {
+
+      // 🎵 PLAY HERE (gesture-safe)
+      if (!isPlaying && music) {
+        music.currentTime = 14;
+        music.play().then(() => {
+          isPlaying = true;
+        }).catch(err => console.log('Play error:', err));
+      }
+
       unlock();
+
     } else {
       arrow.style.left = '3px';
     }
-  });
-
-  window.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    currentX = e.touches[0].clientX - startX;
-    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
   });
 
   /* ═══════════════════════════════════════════
@@ -794,8 +803,6 @@ document.addEventListener('DOMContentLoaded', function () {
     mainContent.classList.add('active');
     body.classList.add('unlocked');
     document.getElementById('content').classList.add('show');
-
-    startMusic(); // ← Երաժշտությունը միանում է միայն այստեղ
 
     setTimeout(() => {
       const couplePhoto = document.getElementById('couplePhoto');
@@ -847,4 +854,5 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
+
 

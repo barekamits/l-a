@@ -805,22 +805,27 @@
     /* ═══════════════════════════════════════════
        MUSIC BUTTON
     ═══════════════════════════════════════════ */
-    const music    = document.getElementById('bg-music');
-    const musicBtn = document.getElementById('music-btn');
+const music = document.getElementById('bg-music');
+const musicBtn = document.getElementById('music-btn');
 
-    if (musicBtn && music) {
-      musicBtn.addEventListener('click', () => {
-        if (isPlaying) {
-          music.pause();
-          musicBtn.src = 'play.png';
-        } else {
-          music.play();
-          musicBtn.src = 'pause.png';
-        }
-        isPlaying = !isPlaying;
-      });
-    }
-
+if (music && !isPlaying) {
+  music.currentTime = 14;
+  // iOS-ի համար՝ load() ռ play() synchronously
+  music.load();
+  const playPromise = music.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      if (musicBtn) musicBtn.src = 'pause.png';
+      isPlaying = true;
+    }).catch(() => {
+      // iOS blocked — fallback: user tap-ով կմիանա
+      if (musicBtn) {
+        musicBtn.src = 'play.png';
+        musicBtn.style.animation = 'heartPulse 1s ease-in-out 3';
+      }
+    });
+  }
+}
     /* ═══════════════════════════════════════════
        Dress-code animation
     ═══════════════════════════════════════════ */
@@ -846,3 +851,4 @@
   </script>
 </body>
 </html>
+

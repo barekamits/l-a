@@ -601,7 +601,7 @@
       <div class="content" id="content">
 
         <img id="music-btn" src="play.png" alt="Play">
-        <audio id="bg-music" src="Marry Me - Sargis Avetisyan.m4a"></audio>
+        <audio id="bg-music" src="D&A/Marry Me - Sargis Avetisyan.m4a"></audio>
 
         <div class="schedule-section">
 
@@ -723,13 +723,16 @@ document.addEventListener('DOMContentLoaded', function () {
   let isDragging = false;
   let startX = 0;
   let currentX = 0;
-  let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+  // ✅ FIX: maxX հաշվարկվում է drag-ի սկզբին, ոչ թե load-ի ժամանակ
+  let maxX = 0;
 
   /* ───────────── MOUSE ───────────── */
   arrow.addEventListener('mousedown', e => {
     isDragging = true;
     startX = e.clientX;
     arrow.style.transition = 'none';
+    // ✅ FIX: հաշվիր այստեղ, երբ slider-ը արդեն visible է
+    maxX = slider.offsetWidth - arrow.offsetWidth - 6;
   });
 
   window.addEventListener('mousemove', e => {
@@ -765,6 +768,8 @@ document.addEventListener('DOMContentLoaded', function () {
     isDragging = true;
     startX = e.touches[0].clientX;
     arrow.style.transition = 'none';
+    // ✅ FIX: հաշվիր այստեղ, երբ slider-ը արդեն visible է
+    maxX = slider.offsetWidth - arrow.offsetWidth - 6;
   });
 
   window.addEventListener('touchmove', e => {
@@ -854,5 +859,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-
-

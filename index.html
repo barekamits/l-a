@@ -707,8 +707,31 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  const music = document.getElementById('bg-music');
   let isPlaying = false;
+  let audioUnlocked = false;
+  const music = document.getElementById('bg-music');
+
+  /* =============================
+     SAFE AUDIO UNLOCK (CRITICAL)
+  ============================== */
+  function unlockAudio() {
+    if (!music || audioUnlocked) return;
+
+    music.play()
+      .then(() => {
+        music.pause();
+        music.currentTime = 0;
+        audioUnlocked = true;
+      })
+      .catch(() => {});
+  }
+
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+  document.addEventListener('mousedown', unlockAudio, { once: true });
+
+  /* =============================
+     SLIDER
+  ============================== */
 
   const arrow       = document.getElementById('arrow');
   const slider      = document.getElementById('slider');
@@ -736,27 +759,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function endDrag() {
     if (!isDragging) return;
-
     isDragging = false;
-    arrow.style.transition = 'left 0.4s ease';
+    arrow.style.transition = 'left 0.5s ease';
 
     if (parseInt(arrow.style.left || 3) >= maxX - 10) {
 
-      // 🎵 ЕДИНСТВЕННЫЙ безопасный play
+      // 🔥 SUPER SAFE PLAY
       if (!isPlaying && music) {
+
+        if (!audioUnlocked) {
+          unlockAudio();
+        }
+
         music.currentTime = 14;
 
-        const playPromise = music.play();
-
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              isPlaying = true;
-            })
-            .catch(err => {
-              console.log('Play blocked:', err);
-            });
-        }
+        music.play()
+          .then(() => {
+            isPlaying = true;
+          })
+          .catch(err => {
+            console.log('Play blocked:', err);
+          });
       }
 
       unlockPage();
@@ -774,11 +797,11 @@ document.addEventListener('DOMContentLoaded', function () {
   /* Touch */
   arrow.addEventListener('touchstart', e => {
     startDrag(e.touches[0].clientX);
-  }, { passive: true });
+  });
 
   window.addEventListener('touchmove', e => {
     moveDrag(e.touches[0].clientX);
-  }, { passive: true });
+  });
 
   window.addEventListener('touchend', endDrag);
 
@@ -820,6 +843,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
+
 
 
 

@@ -108,6 +108,14 @@
       position: absolute;
       right: 3px;
       z-index: 1;
+      cursor: pointer;
+      /* Pulse animation to hint that it's tappable */
+      animation: circlePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes circlePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
+      50%       { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
     }
 
     .arrow {
@@ -126,7 +134,7 @@
     }
 
     .arrow svg { width: 16px; height: 16px; }
-    
+
     @media (max-width: 768px) {
       .overlay h1 {
         font-size: 6em;
@@ -229,13 +237,22 @@
     .content { display: none; text-align: center; width: 100%; position: relative; }
     .content.show { display: block; }
 
+    /* ═══ MUSIC BUTTON ═══ */
+    .music-btn-wrapper {
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     #music-btn {
-      pointer-events: none;
       width: 50px; height: 50px;
       cursor: pointer;
-      margin: 20px auto;
       display: block;
+      transition: transform 0.2s ease;
     }
+
+    #music-btn:hover { transform: scale(1.1); }
 
     @keyframes fadeInDrop {
       from { opacity: 0; transform: translateY(-20px); }
@@ -581,6 +598,7 @@
             <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
+        <!-- Circle — tap/click to unlock + play music -->
         <div class="circle" id="end-zone"></div>
       </div>
     </div>
@@ -600,10 +618,13 @@
 
       <div class="content" id="content">
 
-        <img id="music-btn" src="play.png" alt="Play">
-<audio id="bg-music" preload="auto" playsinline>
-  <source src="SargisAvetisyan.mp3" type="audio/mpeg">
-</audio>
+        <!-- Music controls (play/pause button after unlock) -->
+        <div class="music-btn-wrapper">
+          <img id="music-btn" src="play.png" alt="Play/Pause">
+        </div>
+        <audio id="bg-music" preload="auto" playsinline>
+          <source src="SargisAvetisyan.mp3" type="audio/mpeg">
+        </audio>
 
         <div class="schedule-section">
 
@@ -656,7 +677,7 @@
             <span style="background:#f7e2d6;"></span>
             <span style="background:#e4d8c3;"></span>
           </div>
-          <p class="no-white-text">Խնդրում ենք չկրել սպիտակ  զգեստներ ՝ հարգելով հարսնացուին </p>
+          <p class="no-white-text">Խնդրում ենք չկրել սպիտակ զգեստներ ՝ հարգելով հարսնացուին</p>
         </section>
 
         <!-- Calendar -->
@@ -708,42 +729,24 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   let isPlaying = false;
-  let audioUnlocked = false;
-  const music = document.getElementById('bg-music');
+  const music    = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-btn');
 
-  /* =============================
-     SAFE AUDIO UNLOCK (CRITICAL)
-  ============================== */
-  function unlockAudio() {
-    if (!music || audioUnlocked) return;
-
-    music.play()
-      .then(() => {
-        music.pause();
-        music.currentTime = 0;
-        audioUnlocked = true;
-      })
-      .catch(() => {});
-  }
-
-  document.addEventListener('touchstart', unlockAudio, { once: true });
-  document.addEventListener('mousedown', unlockAudio, { once: true });
-
-  /* =============================
-     SLIDER
-  ============================== */
-
+  /* ══════════════════════════════════
+     SLIDER — drag OR tap circle to unlock + play
+  ════════════════════════════════════ */
   const arrow       = document.getElementById('arrow');
   const slider      = document.getElementById('slider');
+  const endZone     = document.getElementById('end-zone');
   const overlay     = document.getElementById('overlay');
   const mainContent = document.getElementById('mainContent');
   const body        = document.body;
 
   let isDragging = false;
   let startX = 0;
-  let currentX = 0;
-  let maxX = 0;
+  let maxX   = 0;
 
+  /* ─── Drag (mouse & touch) ─── */
   function startDrag(clientX) {
     isDragging = true;
     startX = clientX;
@@ -753,7 +756,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function moveDrag(clientX) {
     if (!isDragging) return;
-    currentX = clientX - startX;
+    const currentX = clientX - startX;
     arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
   }
 
@@ -763,51 +766,51 @@ document.addEventListener('DOMContentLoaded', function () {
     arrow.style.transition = 'left 0.5s ease';
 
     if (parseInt(arrow.style.left || 3) >= maxX - 10) {
-
-      // 🔥 SUPER SAFE PLAY
-      if (!isPlaying && music) {
-
-        if (!audioUnlocked) {
-          unlockAudio();
-        }
-
-        music.currentTime = 14;
-
-        music.play()
-          .then(() => {
-            isPlaying = true;
-          })
-          .catch(err => {
-            console.log('Play blocked:', err);
-          });
-      }
-
-      unlockPage();
-
+      triggerUnlock();
     } else {
       arrow.style.left = '3px';
     }
   }
 
-  /* Mouse */
-  arrow.addEventListener('mousedown', e => startDrag(e.clientX));
+  arrow.addEventListener('mousedown',  e => startDrag(e.clientX));
   window.addEventListener('mousemove', e => moveDrag(e.clientX));
-  window.addEventListener('mouseup', endDrag);
+  window.addEventListener('mouseup',   endDrag);
 
-  /* Touch */
-  arrow.addEventListener('touchstart', e => {
-    startDrag(e.touches[0].clientX);
+  arrow.addEventListener('touchstart', e => startDrag(e.touches[0].clientX));
+  window.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX));
+  window.addEventListener('touchend',  endDrag);
+
+  /* ─── TAP / CLICK on circle → unlock immediately ─── */
+  endZone.addEventListener('click', function(e) {
+    e.stopPropagation();
+    triggerUnlock();
   });
 
-  window.addEventListener('touchmove', e => {
-    moveDrag(e.touches[0].clientX);
-  });
+  endZone.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    triggerUnlock();
+  }, { passive: false });
 
-  window.addEventListener('touchend', endDrag);
+  /* ─── Core unlock + play ─── */
+  function triggerUnlock() {
+    // Animate arrow to right so it looks complete
+    maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+    arrow.style.transition = 'left 0.4s ease';
+    arrow.style.left = maxX + 'px';
 
-  /* =============================
-     UNLOCK PAGE
-  ============================== */
+    // Play music
+    music.currentTime = 14;
+    music.play()
+      .then(() => {
+        isPlaying = true;
+        if (musicBtn) musicBtn.src = 'pause.png';
+      })
+      .catch(err => console.log('Autoplay blocked:', err));
+
+    // Unlock page after short delay so arrow animation is visible
+    setTimeout(unlockPage, 400);
+  }
 
   function unlockPage() {
     overlay.classList.add('hidden');
@@ -823,6 +826,29 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(initScrollAnimations, 300);
   }
 
+  /* ══════════════════════════════════
+     MUSIC BTN — play / pause toggle
+  ════════════════════════════════════ */
+  if (musicBtn) {
+    musicBtn.addEventListener('click', function () {
+      if (!isPlaying) {
+        music.play()
+          .then(() => {
+            isPlaying = true;
+            musicBtn.src = 'pause.png';
+          })
+          .catch(err => console.log('Play blocked:', err));
+      } else {
+        music.pause();
+        isPlaying = false;
+        musicBtn.src = 'play.png';
+      }
+    });
+  }
+
+  /* ══════════════════════════════════
+     SCROLL ANIMATIONS
+  ════════════════════════════════════ */
   function initScrollAnimations() {
     const imgWrapper = document.getElementById('secondImgWrapper');
     if (!imgWrapper) return;
@@ -843,8 +869,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-
-
-
-
-

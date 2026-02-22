@@ -108,14 +108,6 @@
       position: absolute;
       right: 3px;
       z-index: 1;
-      cursor: pointer;
-      /* Pulse animation to hint that it's tappable */
-      animation: circlePulse 2s ease-in-out infinite;
-    }
-
-    @keyframes circlePulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
-      50%       { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
     }
 
     .arrow {
@@ -134,7 +126,7 @@
     }
 
     .arrow svg { width: 16px; height: 16px; }
-
+    
     @media (max-width: 768px) {
       .overlay h1 {
         font-size: 6em;
@@ -237,22 +229,12 @@
     .content { display: none; text-align: center; width: 100%; position: relative; }
     .content.show { display: block; }
 
-    /* ═══ MUSIC BUTTON ═══ */
-    .music-btn-wrapper {
-      margin: 20px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
     #music-btn {
       width: 50px; height: 50px;
       cursor: pointer;
+      margin: 20px auto;
       display: block;
-      transition: transform 0.2s ease;
     }
-
-    #music-btn:hover { transform: scale(1.1); }
 
     @keyframes fadeInDrop {
       from { opacity: 0; transform: translateY(-20px); }
@@ -519,7 +501,7 @@
     .btn-no  { background-color: #7b685b; }
     .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    /* ═══ CONFIRMATION MESSAGES ═══ */
+    /* ═══ CONFIRMATION MESSAGES (Sergey-Lilit system) ═══ */
     .confirmation-message {
       position: fixed;
       top: 145px;
@@ -598,7 +580,6 @@
             <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <!-- Circle — tap/click to unlock + play music -->
         <div class="circle" id="end-zone"></div>
       </div>
     </div>
@@ -618,9 +599,8 @@
 
       <div class="content" id="content">
 
-        <audio id="bg-music" preload="auto" playsinline>
-          <source src="SargisAvetisyan.mp3" type="audio/mpeg">
-        </audio>
+        <img id="music-btn" src="play.png" alt="Play">
+        <audio id="bg-music" src="Մендельсон - Свадебный Марш.mp3"></audio>
 
         <div class="schedule-section">
 
@@ -653,7 +633,7 @@
           <div class="schedule-block">
             <div class="time">Ուշադրություն</div>
             <div class="title">Հարգելի Հյուրեր</div>
-            <div class="desc">Խնդրում ենք հատուկ ուշադրություն դարձնել երեխաներին ամբողջ տոնակատարության ընթացքում։</div>
+            <div class="desc">Խնդրում ենք հատուկ ուշադրություն դարձնել ձեր մանկահասակ երեխաներին ամբողջ տոնակատարության ընթացքում։</div>
           </div>
 
         </div>
@@ -673,7 +653,7 @@
             <span style="background:#f7e2d6;"></span>
             <span style="background:#e4d8c3;"></span>
           </div>
-          <p class="no-white-text">Խնդրում ենք չկրել սպիտակ զգեստներ ՝ հարգելով հարսնացուին</p>
+          <p class="no-white-text">Խնդրում ենք չհագնել սպիտակ զգեստ։<br>Սպիտակ գույնը վերապահված է հարսին։</p>
         </section>
 
         <!-- Calendar -->
@@ -701,7 +681,7 @@
           </table>
         </div>
 
-        <!-- RSVP FORM -->
+        <!-- ═══ RSVP FORM (Sergey-Lilit registration system) ═══ -->
         <form id="rsvpForm" class="name-fields">
           <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
           <input type="text" name="lastName"  class="name-input" placeholder="Ազգանուն" required>
@@ -721,111 +701,193 @@
     </div>
   </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+  <script>
+    /* ═══════════════════════════════════════════
+       SLIDER / UNLOCK
+    ═══════════════════════════════════════════ */
+    const arrow       = document.getElementById('arrow');
+    const slider      = document.getElementById('slider');
+    const overlay     = document.getElementById('overlay');
+    const mainContent = document.getElementById('mainContent');
+    const body        = document.body;
 
-  let isPlaying = false;
-  const music   = document.getElementById('bg-music');
+    let isDragging = false, startX, currentX;
+    let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
-  const arrow       = document.getElementById('arrow');
-  const slider      = document.getElementById('slider');
-  const endZone     = document.getElementById('end-zone');
-  const overlay     = document.getElementById('overlay');
-  const mainContent = document.getElementById('mainContent');
-  const body        = document.body;
+    arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+    window.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
+      else arrow.style.left = '3px';
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      currentX = e.clientX - startX;
+      arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+    });
 
-  let isDragging = false;
-  let startX = 0;
-  let maxX   = 0;
+    arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+    window.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
+      else arrow.style.left = '3px';
+    });
+    window.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      currentX = e.touches[0].clientX - startX;
+      arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+    });
 
-  /* ─── Drag ─── */
-  function startDrag(clientX) {
-    isDragging = true;
-    startX = clientX;
-    arrow.style.transition = 'none';
-    maxX = slider.offsetWidth - arrow.offsetWidth - 6;
-  }
+    function unlock() {
+      overlay.classList.add('hidden');
+      mainContent.classList.add('active');
+      body.classList.add('unlocked');
+      document.getElementById('content').classList.add('show');
 
-  function moveDrag(clientX) {
-    if (!isDragging) return;
-    const currentX = clientX - startX;
-    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
-  }
+      setTimeout(() => {
+        const couplePhoto = document.getElementById('couplePhoto');
+        if (couplePhoto) couplePhoto.classList.add('reveal');
+      }, 200);
 
-  function endDrag() {
-    if (!isDragging) return;
-    isDragging = false;
-    arrow.style.transition = 'left 0.5s ease';
-    if (parseInt(arrow.style.left || 3) >= maxX - 10) {
-      triggerUnlock();
-    } else {
-      arrow.style.left = '3px';
+      setTimeout(initScrollAnimations, 300);
     }
-  }
 
-  arrow.addEventListener('mousedown',  e => startDrag(e.clientX));
-  window.addEventListener('mousemove', e => moveDrag(e.clientX));
-  window.addEventListener('mouseup',   endDrag);
-  arrow.addEventListener('touchstart', e => { startDrag(e.touches[0].clientX); }, { passive: true });
-  window.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX));
-  window.addEventListener('touchend',  endDrag);
+    function initScrollAnimations() {
+      const imgWrapper = document.getElementById('secondImgWrapper');
+      const imgObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('img-visible');
+            imgObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      if (imgWrapper) imgObserver.observe(imgWrapper);
+    }
 
-  /* ─── Circle TAP → unlock + play ─── */
-  endZone.addEventListener('click', function(e) {
-    e.stopPropagation();
-    triggerUnlock();
-  });
+    /* ═══════════════════════════════════════════
+       MUSIC BUTTON
+    ═══════════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', function () {
+      const music    = document.getElementById('bg-music');
+      const musicBtn = document.getElementById('music-btn');
+      let isPlaying  = false;
 
-  endZone.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    triggerUnlock();
-  }, { passive: false });
-
-  /* ─── UNLOCK + PLAY ─── */
-  function triggerUnlock() {
-    maxX = slider.offsetWidth - arrow.offsetWidth - 6;
-    arrow.style.transition = 'left 0.4s ease';
-    arrow.style.left = maxX + 'px';
-
-    // Play music — circle-ի tap-ն ինքը user gesture է, play() կաշխատի
-    music.currentTime = 14;
-    music.play()
-      .then(() => { isPlaying = true; })
-      .catch(err => console.warn('Play blocked:', err));
-
-    setTimeout(unlockPage, 400);
-  }
-
-  function unlockPage() {
-    overlay.classList.add('hidden');
-    mainContent.classList.add('active');
-    body.classList.add('unlocked');
-    document.getElementById('content').classList.add('show');
-
-    setTimeout(() => {
-      const couplePhoto = document.getElementById('couplePhoto');
-      if (couplePhoto) couplePhoto.classList.add('reveal');
-    }, 200);
-
-    setTimeout(initScrollAnimations, 300);
-  }
-
-  /* ─── Scroll animations ─── */
-  function initScrollAnimations() {
-    const imgWrapper = document.getElementById('secondImgWrapper');
-    if (!imgWrapper) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('img-visible');
-          obs.unobserve(entry.target);
-        }
+      musicBtn.addEventListener('click', () => {
+        if (isPlaying) { music.pause(); musicBtn.src = 'play.png'; }
+        else           { music.play();  musicBtn.src = 'pause.png'; }
+        isPlaying = !isPlaying;
       });
-    }, { threshold: 0.25 });
-    obs.observe(imgWrapper);
-  }
 
-});
+      /* Dress-code scroll animation */
+      const dressSection = document.querySelector('.dress-code');
+      if (dressSection) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.querySelector('.dress-title').classList.add('animate');
+              entry.target.querySelector('.dress-text').classList.add('animate');
+              entry.target.querySelectorAll('.dress-colors span').forEach(s => s.classList.add('animate'));
+              const noWhite = entry.target.querySelector('.no-white-text');
+              if (noWhite) noWhite.classList.add('animate');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        observer.observe(dressSection);
+      }
+    });
+
+    /* ═══════════════════════════════════════════
+       RSVP — Sergey-Lilit registration system
+       fire-and-forget fetch + instant UI feedback
+       + auto-hide after 4 sec + slideOut animation
+    ═══════════════════════════════════════════ */
+    (function () {
+      const FORM     = document.getElementById('rsvpForm');
+      const OK       = document.getElementById('successMessage');
+      const ERR      = document.getElementById('errorMessage');
+      const ENDPOINT = "https://script.google.com/macros/s/AKfycbyp-mgYcgZyEPC2C7Kd0GlNAVYZ1MbI9G6TLRLGT4NkB9hHPvQNwFWnm4Ei7M5CF1In/exec";
+
+      function showMsg(el, html) {
+        /* Hide the other one first */
+        [OK, ERR].forEach(m => {
+          m.style.display = 'none';
+          m.classList.remove('show', 'hide');
+        });
+
+        el.innerHTML = html;
+        el.style.display = 'block';
+        /* Tiny delay so display:block is painted before animation starts */
+        setTimeout(() => el.classList.add('show'), 10);
+
+        /* Auto-hide after 4 seconds */
+        setTimeout(() => {
+          el.classList.add('hide');
+          setTimeout(() => {
+            el.style.display = 'none';
+            el.classList.remove('show', 'hide');
+          }, 500);
+        }, 4000);
+      }
+
+      FORM.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+        const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
+
+        if (!first || !last) {
+          showMsg(ERR,
+            '<div class="message-title">Սխալ</div>' +
+            '<div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>'
+          );
+          return;
+        }
+
+        const resp = (document.getElementById('responseInput').value || '').trim();
+        if (!resp) {
+          showMsg(ERR,
+            '<div class="message-title">Սխալ</div>' +
+            '<div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>'
+          );
+          return;
+        }
+
+        /* Build form data */
+        const fd = new FormData(FORM);
+        fd.set('full_name', `${first} ${last}`);
+        fd.set('response',  resp);
+        fd.set('attend',    resp);
+        fd.append('timestamp', new Date().toISOString());
+
+        /* 🔥 Fire-and-forget — keepalive so it sends even if page changes */
+        fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
+
+        /* ✅ Instant success UI */
+        const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
+          ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
+          : 'Մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
+
+        showMsg(OK,
+          '<div class="message-title">Շնորհակալություն</div>' +
+          `<div class="message-text">${responseText}</div>`
+        );
+
+        /* Reset form */
+        FORM.reset();
+        document.getElementById('responseInput').value = '';
+      });
+
+      /* Public helper called by the two buttons */
+      window.setResponseAndSubmit = function (answer) {
+        document.getElementById('responseInput').value = answer;
+        if (FORM.requestSubmit) FORM.requestSubmit();
+        else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      };
+    })();
+  </script>
 </body>
 </html>

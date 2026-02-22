@@ -501,7 +501,7 @@
     .btn-no  { background-color: #7b685b; }
     .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    /* ═══ CONFIRMATION MESSAGES (Sergey-Lilit system) ═══ */
+    /* ═══ CONFIRMATION MESSAGES ═══ */
     .confirmation-message {
       position: fixed;
       top: 145px;
@@ -681,7 +681,7 @@
           </table>
         </div>
 
-        <!-- ═══ RSVP FORM (Sergey-Lilit registration system) ═══ -->
+        <!-- RSVP FORM -->
         <form id="rsvpForm" class="name-fields">
           <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
           <input type="text" name="lastName"  class="name-input" placeholder="Ազգանուն" required>
@@ -708,8 +708,20 @@ document.addEventListener('DOMContentLoaded', function () {
      GLOBAL MUSIC STATE
   ═══════════════════════════════════════════ */
   let isPlaying = false;
-  const music = document.getElementById('bg-music');
+  const music    = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-btn');
+
+  /* ─── playMusic: called only after user gesture (slider release) ─── */
+  function playMusic() {
+    if (!music || isPlaying) return;
+    music.currentTime = 14;
+    music.play()
+      .then(() => {
+        if (musicBtn) musicBtn.src = 'pause.png';
+        isPlaying = true;
+      })
+      .catch(err => console.log('Play error:', err));
+  }
 
   /* ═══════════════════════════════════════════
      SLIDER / UNLOCK
@@ -723,31 +735,61 @@ document.addEventListener('DOMContentLoaded', function () {
   let isDragging = false, startX, currentX;
   let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
-  arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+  /* ── Mouse ── */
+  arrow.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.clientX;
+    arrow.style.transition = 'none'; // remove transition while dragging
+  });
+
   window.addEventListener('mouseup', () => {
     if (!isDragging) return;
     isDragging = false;
-    if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
-    else arrow.style.left = '3px';
+    arrow.style.transition = 'left 0.5s ease';
+
+    if (parseInt(arrow.style.left || 3) >= maxX - 10) {
+      unlock();
+      playMusic(); // ← music starts on slider release (user gesture)
+    } else {
+      arrow.style.left = '3px';
+    }
   });
+
   window.addEventListener('mousemove', e => {
     if (!isDragging) return;
     currentX = e.clientX - startX;
     arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
   });
-  arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+
+  /* ── Touch ── */
+  arrow.addEventListener('touchstart', e => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    arrow.style.transition = 'none';
+  });
+
   window.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
-    if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
-    else arrow.style.left = '3px';
+    arrow.style.transition = 'left 0.5s ease';
+
+    if (parseInt(arrow.style.left || 3) >= maxX - 10) {
+      unlock();
+      playMusic(); // ← music starts on slider release (user gesture)
+    } else {
+      arrow.style.left = '3px';
+    }
   });
+
   window.addEventListener('touchmove', e => {
     if (!isDragging) return;
     currentX = e.touches[0].clientX - startX;
     arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
   });
 
+  /* ═══════════════════════════════════════════
+     UNLOCK (NO autoplay here anymore)
+  ═══════════════════════════════════════════ */
   function unlock() {
     overlay.classList.add('hidden');
     mainContent.classList.add('active');
@@ -760,23 +802,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 200);
 
     setTimeout(initScrollAnimations, 300);
-
-    /* 🔊 Mobile-friendly autoplay 14s */
-    if (music && !isPlaying) {
-      music.currentTime = 14;
-
-      const playMusic = () => {
-        music.play().then(() => {
-          if (musicBtn) musicBtn.src = 'pause.png';
-          isPlaying = true;
-        }).catch(err => {
-          console.log('Autoplay blocked on mobile:', err);
-        });
-      };
-
-      if (music.readyState >= 2) playMusic();
-      else music.addEventListener('loadedmetadata', playMusic, { once: true });
-    }
   }
 
   function initScrollAnimations() {
@@ -796,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ═══════════════════════════════════════════
-     MUSIC BUTTON
+     MUSIC BUTTON (play / pause toggle)
   ═══════════════════════════════════════════ */
   if (musicBtn && music) {
     musicBtn.addEventListener('click', () => {
@@ -835,5 +860,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-
-

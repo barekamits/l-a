@@ -13,7 +13,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Allura&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
 
- 
+
     @font-face {
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
@@ -27,16 +27,8 @@
       src: url("artarumianheghnar.ttf") format('truetype');
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      overflow-x: hidden;
-      max-width: 100vw;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { overflow-x: hidden; max-width: 100vw; }
 
     body {
       font-family: 'Cormorant Garamond', serif;
@@ -67,11 +59,7 @@
       z-index: 100;
     }
 
-    .overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-      display: none;
-    }
+    .overlay.hidden { opacity: 0; pointer-events: none; display: none; }
 
     .overlay h1 {
       font-family: 'Sasuntsi', serif;
@@ -94,11 +82,7 @@
       gap: 1em;
     }
 
-    .text {
-      font-family: 'Great Vibes', cursive;
-      font-size: 1.5em;
-      color: white;
-    }
+    .text { font-family: 'Great Vibes', cursive; font-size: 1.5em; color: white; }
 
     .slider {
       position: relative;
@@ -115,8 +99,7 @@
     }
 
     .circle {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border-radius: 50%;
       background-color: transparent;
       border: 2px solid white;
@@ -126,8 +109,7 @@
     }
 
     .arrow {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       background-color: white;
       border-radius: 50%;
       display: flex;
@@ -141,10 +123,7 @@
       color: black;
     }
 
-    .arrow svg {
-      width: 16px;
-      height: 16px;
-    }
+    .arrow svg { width: 16px; height: 16px; }
 
     /* ═══ MAIN CONTENT ═══ */
     .main-content {
@@ -157,11 +136,8 @@
       z-index: 1;
     }
 
-    .main-content.active {
-      display: flex;
-    }
+    .main-content.active { display: flex; }
 
-    /* ═══ INVITATION CARD ═══ */
     .invitation-card {
       background-color: #e8e0d6;
       width: 100%;
@@ -169,47 +145,6 @@
       text-align: center;
       padding: 40px 30px;
       position: relative;
-    }
-
-    .main-title {
-      font-family: 'HEGHNAR', serif;
-      font-size: 2.2rem;
-      font-weight: 400;
-      color: #2c2c2c;
-      letter-spacing: 0.1em;
-      margin-bottom: 30px;
-      line-height: 1.2;
-    }
-
-    .amp {
-      font-family: 'Italianno';
-      font-size: 60px;
-      color: inherit;
-      display: inline-block;
-      line-height: 1;
-    }
-
-    .date-info {
-      font-family: 'Crafty Girls';
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 60px;
-      font-size: 2.1rem;
-      color: #2c2c2c;
-      font-weight: bold;
-      position: relative;
-    }
-
-    .date-info::after {
-      content: '';
-      position: absolute;
-      width: 80%;
-      height: 1px;
-      background-color: #2c2c2c;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-top: 30px;
     }
 
     .couple-photo {
@@ -228,27 +163,17 @@
       filter: grayscale(100%);
     }
 
-    /* ═══ INNER CONTENT ═══ */
-    .content {
-      display: none;
-      text-align: center;
-      width: 100%;
-      position: relative;
-    }
-
-    .content.show {
-      display: block;
-    }
+    .content { display: none; text-align: center; width: 100%; position: relative; }
+    .content.show { display: block; }
 
     #music-btn {
-      width: 50px;
-      height: 50px;
+      width: 50px; height: 50px;
       cursor: pointer;
       margin: 20px auto;
       display: block;
     }
 
-    /* ═══ SCHEDULE SECTION ═══ */
+    /* ═══ SCHEDULE ═══ */
     .schedule-section {
       width: 100%;
       display: flex;
@@ -257,24 +182,6 @@
       gap: 0;
       margin-top: 30px;
       position: relative;
-    }
-
-    .map-image {
-      width: 300px;
-      margin: 0 auto 20px;
-      display: block;
-    }
-
-    .couple-cutout {
-      width: 280px;
-      margin: 0 auto 10px;
-      display: block;
-    }
-
-    .location-icon {
-      width: 60px;
-      margin: 0 auto 10px;
-      display: block;
     }
 
     .schedule-block {
@@ -286,7 +193,7 @@
     }
 
     .time {
-      font-size: 60px;
+      font-size: 45px;
       font-family: 'HEGHNAR';
       color: rgba(0, 0, 0, 0.1);
       font-weight: bold;
@@ -303,7 +210,7 @@
       font-size: 36px;
       font-weight: bold;
       color: #222;
-      margin-top: 50px;
+      margin-top: 30px;
       z-index: 1;
       position: relative;
     }
@@ -334,9 +241,7 @@
       z-index: 1;
     }
 
-    .nav-btn:hover {
-      background: #f2f2f2;
-    }
+    .nav-btn:hover { background: #f2f2f2; }
 
     .couple-bg-img {
       width: 100%;
@@ -356,23 +261,21 @@
     }
 
     .dress-text,
-    .dress-colors span {
-      font-family: 'Vrdznagir';
+    .dress-colors span,
+    .no-white-text {
       opacity: 0;
+      font-family: 'Vrdznagir';
     }
 
     .dress-colors {
       margin-top: 25px;
       display: flex;
-      justify-content: center; /* կենտրոնացնում է սլացիկ տարրերը */
-      flex-wrap: wrap;         /* թույլ է տալիս հաջորդական տարրերին անցնել նոր շարքի */
-      gap: 8px;                /* տարբերությունը տարրերի միջև */
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .dress-title {
-      font-family: 'HEGHNAR';
-      font-size: 48px;
-    }
+    .dress-title { font-family: 'HEGHNAR'; font-size: 48px; }
 
     .dress-title.animate { animation: slideDown 1s forwards; }
     .dress-text.animate  { animation: slideDown 1s forwards 0.3s; }
@@ -381,6 +284,8 @@
     .dress-colors span.animate:nth-child(2) { animation: slideIn 0.6s forwards 0.7s; --start: 50px; }
     .dress-colors span.animate:nth-child(3) { animation: slideIn 0.6s forwards 0.8s; --start: -50px; }
     .dress-colors span.animate:nth-child(4) { animation: slideIn 0.6s forwards 0.9s; --start: 50px; }
+
+    .no-white-text.animate { animation: slideDown 1s forwards 1.1s; }
 
     @keyframes slideDown {
       0%   { transform: translateY(-50px); opacity: 0; }
@@ -393,8 +298,7 @@
     }
 
     .dress-colors span {
-      width: 50px;  /* փոքրացրել եմ մոբայլի համար */
-      height: 50px;
+      width: 50px; height: 50px;
       border-radius: 50%;
       display: inline-block;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -402,39 +306,36 @@
     }
     .dress-colors span:hover { transform: scale(1.1); }
 
+    /* no-white — desc ոճով */
+    .no-white-text {
+      font-family: 'Vrdznagir';
+      font-size: 16px;
+      color: #333;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
     /* ═══ CALENDAR ═══ */
     .calendar-container {
       text-align: center;
       padding: 20px;
       width: 100%;
-      overflow-x: auto; /* եթե table-ն ավելի լայն է, scroll տանք */
+      overflow-x: auto;
     }
+
     .calendar-container table {
-      width: auto; /* կամ 100%, եթե ուզում ես, որ լցնի container-ը */
-      max-width: 100%; 
-      margin-left: auto;
-      margin-right: auto;
+      width: auto;
+      max-width: 100%;
+      margin: 0 auto;
       border-collapse: collapse;
-      font-size: 16px; /* կարող է փոքրանալ */
+      font-size: 16px;
     }
+
     @media (max-width: 480px) {
-      .calendar-container table {
-        font-size: 12px; /* փոքր տառեր մոբայլին */
-      }
-
-      .calendar-container th,
-      .calendar-container td {
-        padding: 4px 6px; /* փոքր spacing */
-      }
-
-      .heart-cell svg {
-        width: 24px;
-        height: 24px;
-      }
-
-      .heart-cell span {
-        font-size: 12px;
-      }
+      .calendar-container table { font-size: 12px; }
+      .calendar-container th, .calendar-container td { padding: 4px 6px; }
+      .heart-cell svg { width: 24px; height: 24px; }
+      .heart-cell span { font-size: 12px; }
     }
 
     .big-date {
@@ -450,50 +351,29 @@
       font-size: 32px;
       font-style: italic;
       color: #333;
-      margin-top: -40px;
+      margin-top: -15px;
       margin-bottom: 20px;
     }
 
-    table {
-      border-collapse: collapse;
-      margin: 0; /* կամ margin-left: 0; */
-      text-align: center; /* եթե ուզում ես նաև տեքստերը ձախ */
-      font-size: 18px;
-    }
-    th {
-      font-weight: 400;
-      padding: 10px;
-      color: #666;
-    }
+    table { border-collapse: collapse; margin: 0; text-align: center; font-size: 18px; }
+    th { font-weight: 400; padding: 10px; color: #666; }
+    td { width: 40px; height: 40px; padding: 5px; color: #333; position: relative; }
 
-    td {
-      width: 40px;
-      height: 40px;
-      padding: 5px;
-      color: #333;
-      position: relative;
-    }
-
-    .heart-cell {
-      position: relative;
-    }
+    .heart-cell { position: relative; }
 
     .heart-cell svg {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       stroke: #2c3e50;
       stroke-width: 2;
       fill: none;
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
     }
 
     .heart-cell span {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       font-size: 16px;
       font-weight: 500;
@@ -501,12 +381,8 @@
       z-index: 1;
     }
 
-    /* ═══ RSVP FORM ═══ */
-    #rsvpForm {
-      margin: 40px auto;
-      width: 100%;
-      max-width: 320px;
-    }
+    /* ═══ RSVP ═══ */
+    #rsvpForm { margin: 40px auto; width: 100%; max-width: 320px; }
 
     .name-fields {
       display: flex;
@@ -529,11 +405,7 @@
     }
 
     .name-input::placeholder { color: #888; }
-
-    .name-input:focus {
-      border-color: #4c4731;
-      box-shadow: 0 0 0 2px rgba(76, 71, 49, 0.1);
-    }
+    .name-input:focus { border-color: #4c4731; box-shadow: 0 0 0 2px rgba(76,71,49,0.1); }
 
     .button-wrapper {
       margin-top: 20px;
@@ -556,11 +428,7 @@
 
     .btn-yes { background-color: #4c4731; }
     .btn-no  { background-color: #7b685b; }
-
-    .btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
     .confirmation-message {
       position: fixed;
@@ -582,10 +450,7 @@
       pointer-events: none;
     }
 
-    .confirmation-message.show {
-      opacity: 1;
-      animation: slideInFromTop 0.6s ease-out;
-    }
+    .confirmation-message.show { opacity: 1; animation: slideInFromTop 0.6s ease-out; }
 
     .error-message {
       color: #d32f2f !important;
@@ -600,21 +465,20 @@
 
     @media (max-width: 480px) {
       .overlay h1 { font-size: 4em; }
-      .main-title  { font-size: 1.8rem; }
       .big-date    { font-size: 70px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ═══ OVERLAY - SLIDER ═══ -->
+  <!-- ═══ OVERLAY ═══ -->
   <div class="overlay" id="overlay">
     <h1>Դ &amp; Ա</h1>
     <div class="slider-text-wrapper">
       <div class="text">Unlock the moments that will last a lifetime.</div>
       <div class="slider" id="slider">
         <div class="arrow" id="arrow">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 24 24" fill="none">
             <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
@@ -627,25 +491,19 @@
   <div class="main-content" id="mainContent">
     <div class="invitation-card">
 
-      <!-- Զույգի լուսանկար -->
       <div class="couple-photo">
         <div class="photo-placeholder">
           <img src="first.png" alt="Couple">
         </div>
       </div>
 
-      <!-- ═══ CONTENT ═══ -->
       <div class="content" id="content">
 
-        <!-- Երաժշտություն -->
         <img id="music-btn" src="play.png" alt="Play">
         <audio id="bg-music" src="Мендельсон - Свадебный Марш.mp3"></audio>
 
-        <!-- Քարտեզ + նկարներ -->
         <div class="schedule-section">
-          
 
-          <!-- Ժամանակացույց -->
           <div class="schedule-block">
             <div class="time">11:00</div>
             <div class="title">Փեսայի Տուն</div>
@@ -671,10 +529,17 @@
             <div class="desc">Հրաշք Այգի Ռեստորանային համալիր</div>
             <a href="#" class="nav-btn">Ինչպես հասնել</a>
           </div>
+
+          <!-- Երեխաների հայտարարություն — schedule-block ոճով -->
+          <div class="schedule-block">
+            <div class="time">Ուշադրություն</div>
+            <div class="title">Հարգելի Հյուրեր</div>
+            <div class="desc">Խնդրում ենք հատուկ ուշադրություն դարձնել ձեր մանկահասակ երեխաներին ամբողջ տոնակատարության ընթացքում։</div>
+          </div>
+
         </div>
 
-        <!-- Զույգի ֆոնային նկար -->
-        <img src="second.png.JPEG" alt="Couple BG" class="couple-bg-img">
+        <img src="/D&A/second.png.JPEG" alt="Couple BG" class="couple-bg-img">
 
         <!-- Dress Code -->
         <section class="dress-code">
@@ -686,9 +551,10 @@
             <span style="background:#f7e2d6;"></span>
             <span style="background:#e4d8c3;"></span>
           </div>
+          <p class="no-white-text">Խնդրում ենք չհագնել սպիտակ զգեստ։<br>Սպիտակ գույնը վերապահված է հարսին։</p>
         </section>
 
-        <!-- Օրացույց -->
+        <!-- Calendar -->
         <div class="calendar-container">
           <p class="big-date">15/10</p>
           <p class="month-text">15 Հոկտեմբերի</p>
@@ -713,7 +579,7 @@
           </table>
         </div>
 
-        <!-- RSVP Form -->
+        <!-- RSVP -->
         <form id="rsvpForm" class="name-fields">
           <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
           <input type="text" name="lastName" class="name-input" placeholder="Ազգանուն" required>
@@ -727,20 +593,18 @@
           <div class="confirmation-message error-message" id="errorMessage" style="display:none;"></div>
         </form>
 
-      </div><!-- /content -->
-    </div><!-- /invitation-card -->
-  </div><!-- /main-content -->
+      </div>
+    </div>
+  </div>
 
   <script>
-    /* ═══ SLIDER UNLOCK ═══ */
     const arrow       = document.getElementById('arrow');
     const slider      = document.getElementById('slider');
     const overlay     = document.getElementById('overlay');
     const mainContent = document.getElementById('mainContent');
     const body        = document.body;
 
-    let isDragging = false;
-    let startX, currentX;
+    let isDragging = false, startX, currentX;
     let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
     arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
@@ -773,27 +637,20 @@
       overlay.classList.add('hidden');
       mainContent.classList.add('active');
       body.classList.add('unlocked');
-      document.getElementById('content').classList.add('show'); // ← ԱՅՍ ՏՈՂ ԱՎԵԼԱՑՎԵՑ
+      document.getElementById('content').classList.add('show');
     }
 
-    /* ═══ MUSIC + ANIMATIONS ═══ */
     document.addEventListener('DOMContentLoaded', function () {
       const music    = document.getElementById('bg-music');
       const musicBtn = document.getElementById('music-btn');
       let isPlaying  = false;
 
       musicBtn.addEventListener('click', () => {
-        if (isPlaying) {
-          music.pause();
-          musicBtn.src = 'play.png';
-        } else {
-          music.play();
-          musicBtn.src = 'pause.png';
-        }
+        if (isPlaying) { music.pause(); musicBtn.src = 'play.png'; }
+        else           { music.play();  musicBtn.src = 'pause.png'; }
         isPlaying = !isPlaying;
       });
 
-      /* ═══ DRESS CODE SCROLL ANIMATION ═══ */
       const dressSection = document.querySelector('.dress-code');
       if (dressSection) {
         const observer = new IntersectionObserver(entries => {
@@ -802,6 +659,8 @@
               entry.target.querySelector('.dress-title').classList.add('animate');
               entry.target.querySelector('.dress-text').classList.add('animate');
               entry.target.querySelectorAll('.dress-colors span').forEach(s => s.classList.add('animate'));
+              const noWhite = entry.target.querySelector('.no-white-text');
+              if (noWhite) noWhite.classList.add('animate');
               observer.unobserve(entry.target);
             }
           });
@@ -810,7 +669,6 @@
       }
     });
 
-    /* ═══ RSVP FORM ═══ */
     function setResponseAndSubmit(response) {
       document.getElementById('responseInput').value = response;
       document.getElementById('submitBtn').click();

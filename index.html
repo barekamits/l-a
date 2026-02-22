@@ -711,8 +711,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const music    = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-btn');
 
-  /* ─── playMusic: called only after user gesture (slider release) ─── */
-  function playMusic() {
+  /* ─── startMusic: triggered by slider release, keeps playing ─── */
+  function startMusic() {
     if (!music || isPlaying) return;
     music.currentTime = 14;
     music.play()
@@ -749,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (parseInt(arrow.style.left || 3) >= maxX - 10) {
       unlock();
-      playMusic(); // ← music starts on slider release (user gesture)
+      startMusic(); // ← slider release = play, then keeps going
     } else {
       arrow.style.left = '3px';
     }
@@ -775,7 +775,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (parseInt(arrow.style.left || 3) >= maxX - 10) {
       unlock();
-      playMusic(); // ← music starts on slider release (user gesture)
+      startMusic(); // ← slider release = play, then keeps going
     } else {
       arrow.style.left = '3px';
     }

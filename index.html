@@ -618,10 +618,6 @@
 
       <div class="content" id="content">
 
-        <!-- Music controls (play/pause button after unlock) -->
-        <div class="music-btn-wrapper">
-          <img id="music-btn" src="play.png" alt="Play/Pause">
-        </div>
         <audio id="bg-music" preload="auto" playsinline>
           <source src="SargisAvetisyan.mp3" type="audio/mpeg">
         </audio>
@@ -728,13 +724,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  let isPlaying = false;
+  let isPlaying    = false;
+  let audioUnlocked = false;
+  let pendingPlay   = false; // play-ն սպասում է unlock-ի
+
   const music    = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-btn');
 
-  /* ══════════════════════════════════
-     SLIDER — drag OR tap circle to unlock + play
-  ════════════════════════════════════ */
   const arrow       = document.getElementById('arrow');
   const slider      = document.getElementById('slider');
   const endZone     = document.getElementById('end-zone');
@@ -746,7 +742,24 @@ document.addEventListener('DOMContentLoaded', function () {
   let startX = 0;
   let maxX   = 0;
 
-  /* ─── Drag (mouse & touch) ─── */
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  let isPlaying = false;
+  const music   = document.getElementById('bg-music');
+
+  const arrow       = document.getElementById('arrow');
+  const slider      = document.getElementById('slider');
+  const endZone     = document.getElementById('end-zone');
+  const overlay     = document.getElementById('overlay');
+  const mainContent = document.getElementById('mainContent');
+  const body        = document.body;
+
+  let isDragging = false;
+  let startX = 0;
+  let maxX   = 0;
+
+  /* ─── Drag ─── */
   function startDrag(clientX) {
     isDragging = true;
     startX = clientX;
@@ -764,7 +777,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!isDragging) return;
     isDragging = false;
     arrow.style.transition = 'left 0.5s ease';
-
     if (parseInt(arrow.style.left || 3) >= maxX - 10) {
       triggerUnlock();
     } else {
@@ -775,12 +787,11 @@ document.addEventListener('DOMContentLoaded', function () {
   arrow.addEventListener('mousedown',  e => startDrag(e.clientX));
   window.addEventListener('mousemove', e => moveDrag(e.clientX));
   window.addEventListener('mouseup',   endDrag);
-
-  arrow.addEventListener('touchstart', e => startDrag(e.touches[0].clientX));
+  arrow.addEventListener('touchstart', e => { e.preventDefault(); startDrag(e.touches[0].clientX); }, { passive: false });
   window.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX));
   window.addEventListener('touchend',  endDrag);
 
-  /* ─── TAP / CLICK on circle → unlock immediately ─── */
+  /* ─── Circle TAP → unlock + play ─── */
   endZone.addEventListener('click', function(e) {
     e.stopPropagation();
     triggerUnlock();
@@ -792,23 +803,18 @@ document.addEventListener('DOMContentLoaded', function () {
     triggerUnlock();
   }, { passive: false });
 
-  /* ─── Core unlock + play ─── */
+  /* ─── UNLOCK + PLAY ─── */
   function triggerUnlock() {
-    // Animate arrow to right so it looks complete
     maxX = slider.offsetWidth - arrow.offsetWidth - 6;
     arrow.style.transition = 'left 0.4s ease';
     arrow.style.left = maxX + 'px';
 
-    // Play music
+    // Play music — circle-ի tap-ն ինքը user gesture է, play() կաշխատի
     music.currentTime = 14;
     music.play()
-      .then(() => {
-        isPlaying = true;
-        if (musicBtn) musicBtn.src = 'pause.png';
-      })
-      .catch(err => console.log('Autoplay blocked:', err));
+      .then(() => { isPlaying = true; })
+      .catch(err => console.warn('Play blocked:', err));
 
-    // Unlock page after short delay so arrow animation is visible
     setTimeout(unlockPage, 400);
   }
 
@@ -826,46 +832,21 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(initScrollAnimations, 300);
   }
 
-  /* ══════════════════════════════════
-     MUSIC BTN — play / pause toggle
-  ════════════════════════════════════ */
-  if (musicBtn) {
-    musicBtn.addEventListener('click', function () {
-      if (!isPlaying) {
-        music.play()
-          .then(() => {
-            isPlaying = true;
-            musicBtn.src = 'pause.png';
-          })
-          .catch(err => console.log('Play blocked:', err));
-      } else {
-        music.pause();
-        isPlaying = false;
-        musicBtn.src = 'play.png';
-      }
-    });
-  }
-
-  /* ══════════════════════════════════
-     SCROLL ANIMATIONS
-  ════════════════════════════════════ */
+  /* ─── Scroll animations ─── */
   function initScrollAnimations() {
     const imgWrapper = document.getElementById('secondImgWrapper');
     if (!imgWrapper) return;
-
-    const imgObserver = new IntersectionObserver((entries) => {
+    const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('img-visible');
-          imgObserver.unobserve(entry.target);
+          obs.unobserve(entry.target);
         }
       });
     }, { threshold: 0.25 });
-
-    imgObserver.observe(imgWrapper);
+    obs.observe(imgWrapper);
   }
 
 });
-</script>
 </body>
 </html>

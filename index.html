@@ -739,7 +739,8 @@ document.addEventListener('DOMContentLoaded', function () {
   arrow.addEventListener('mousedown', e => {
     isDragging = true;
     startX = e.clientX;
-    arrow.style.transition = 'none'; // remove transition while dragging
+    arrow.style.transition = 'none';
+    startMusic(); // ← browser always allows play on mousedown
   });
 
   window.addEventListener('mouseup', () => {
@@ -766,6 +767,7 @@ document.addEventListener('DOMContentLoaded', function () {
     isDragging = true;
     startX = e.touches[0].clientX;
     arrow.style.transition = 'none';
+    startMusic(); // ← browser always allows play on touchstart
   });
 
   window.addEventListener('touchend', () => {

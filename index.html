@@ -731,32 +731,35 @@ document.addEventListener('DOMContentLoaded', function () {
   function moveDrag(clientX) {
     if (!isDragging) return;
     currentX = clientX - startX;
-    arrow.style.left =
-      `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
   }
 
   function endDrag() {
     if (!isDragging) return;
+
     isDragging = false;
     arrow.style.transition = 'left 0.4s ease';
 
     if (parseInt(arrow.style.left || 3) >= maxX - 10) {
 
-      // 🔥 MUSIC PLAY — один вызов, строго внутри gesture
+      // 🎵 ЕДИНСТВЕННЫЙ безопасный play
       if (!isPlaying && music) {
         music.currentTime = 14;
 
         const playPromise = music.play();
+
         if (playPromise !== undefined) {
-          playPromise.then(() => {
-            isPlaying = true;
-          }).catch(err => {
-            console.log("Play blocked:", err);
-          });
+          playPromise
+            .then(() => {
+              isPlaying = true;
+            })
+            .catch(err => {
+              console.log('Play blocked:', err);
+            });
         }
       }
 
-      unlock();
+      unlockPage();
 
     } else {
       arrow.style.left = '3px';
@@ -769,11 +772,21 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('mouseup', endDrag);
 
   /* Touch */
-  arrow.addEventListener('touchstart', e => startDrag(e.touches[0].clientX), { passive: true });
-  window.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX), { passive: true });
+  arrow.addEventListener('touchstart', e => {
+    startDrag(e.touches[0].clientX);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', e => {
+    moveDrag(e.touches[0].clientX);
+  }, { passive: true });
+
   window.addEventListener('touchend', endDrag);
 
-  function unlock() {
+  /* =============================
+     UNLOCK PAGE
+  ============================== */
+
+  function unlockPage() {
     overlay.classList.add('hidden');
     mainContent.classList.add('active');
     body.classList.add('unlocked');
@@ -807,6 +820,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
+
 
 
 

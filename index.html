@@ -165,8 +165,6 @@
     }
 
     /* ═══ IMAGE ANIMATIONS ═══ */
-
-    /* First image — couple photo — dramatic reveal from center */
     .couple-photo {
       width: 100%;
       height: 300px;
@@ -431,7 +429,6 @@
       transform: translate(-50%, -50%);
     }
 
-    /* Animated heart pulse */
     .heart-cell svg {
       animation: heartPulse 2s ease-in-out infinite;
     }
@@ -504,6 +501,7 @@
     .btn-no  { background-color: #7b685b; }
     .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
+    /* ═══ CONFIRMATION MESSAGES (Sergey-Lilit system) ═══ */
     .confirmation-message {
       position: fixed;
       top: 145px;
@@ -520,11 +518,19 @@
       border-radius: 20px;
       border: 1px solid #4c4731;
       box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      backdrop-filter: blur(10px);
       max-width: 350px;
       pointer-events: none;
     }
 
-    .confirmation-message.show { opacity: 1; animation: slideInFromTop 0.6s ease-out; }
+    .confirmation-message.show {
+      opacity: 1;
+      animation: slideInFromTop 0.6s ease-out;
+    }
+
+    .confirmation-message.hide {
+      animation: slideOutToTop 0.5s ease-in;
+    }
 
     .error-message {
       color: #d32f2f !important;
@@ -535,6 +541,24 @@
     @keyframes slideInFromTop {
       from { opacity: 0; transform: translateX(-50%) translateY(-100px); }
       to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    @keyframes slideOutToTop {
+      from { opacity: 1; transform: translateX(-50%) translateY(0); }
+      to   { opacity: 0; transform: translateX(-50%) translateY(-100px); }
+    }
+
+    .message-title {
+      font-family: 'Vrdznagir', sans-serif;
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: #4c4731;
+    }
+
+    .message-text {
+      font-family: 'Vrdznagir', sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
     }
 
     @media (max-width: 480px) {
@@ -565,7 +589,7 @@
   <div class="main-content" id="mainContent">
     <div class="invitation-card">
 
-      <!-- FIRST IMAGE: dramatic wipe + zoom reveal -->
+      <!-- FIRST IMAGE -->
       <div class="couple-photo" id="couplePhoto">
         <div class="photo-wipe"></div>
         <div class="photo-placeholder">
@@ -576,7 +600,7 @@
       <div class="content" id="content">
 
         <img id="music-btn" src="play.png" alt="Play">
-        <audio id="bg-music" src="Мендельсон - Свадебный Марш.mp3"></audio>
+        <audio id="bg-music" src="Մендельсон - Свадебный Марш.mp3"></audio>
 
         <div class="schedule-section">
 
@@ -614,7 +638,7 @@
 
         </div>
 
-        <!-- SECOND IMAGE: float-in + shimmer -->
+        <!-- SECOND IMAGE -->
         <div class="img-wrapper" id="secondImgWrapper">
           <img src="second.png.JPEG" alt="Couple BG" class="couple-bg-img-inner">
         </div>
@@ -657,16 +681,18 @@
           </table>
         </div>
 
-        <!-- RSVP -->
+        <!-- ═══ RSVP FORM (Sergey-Lilit registration system) ═══ -->
         <form id="rsvpForm" class="name-fields">
           <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
-          <input type="text" name="lastName" class="name-input" placeholder="Ազգանուն" required>
+          <input type="text" name="lastName"  class="name-input" placeholder="Ազգանուն" required>
           <input type="hidden" name="response" id="responseInput">
+
           <div class="button-wrapper">
             <button type="button" class="btn btn-yes" onclick="setResponseAndSubmit('ԳԱԼԻՍ ԵՄ')">ԳԱԼԻՍ ԵՄ</button>
             <button type="button" class="btn btn-no"  onclick="setResponseAndSubmit('ՉԵՄ ԳԱԼԻՍ')">ՉԵՄ ԳԱԼԻՍ</button>
             <button type="submit" id="submitBtn" style="display:none;">Ուղարկել</button>
           </div>
+
           <div class="confirmation-message" id="successMessage" style="display:none;"></div>
           <div class="confirmation-message error-message" id="errorMessage" style="display:none;"></div>
         </form>
@@ -676,6 +702,9 @@
   </div>
 
   <script>
+    /* ═══════════════════════════════════════════
+       SLIDER / UNLOCK
+    ═══════════════════════════════════════════ */
     const arrow       = document.getElementById('arrow');
     const slider      = document.getElementById('slider');
     const overlay     = document.getElementById('overlay');
@@ -717,34 +746,30 @@
       body.classList.add('unlocked');
       document.getElementById('content').classList.add('show');
 
-      // Trigger first image reveal
       setTimeout(() => {
         const couplePhoto = document.getElementById('couplePhoto');
         if (couplePhoto) couplePhoto.classList.add('reveal');
       }, 200);
 
-      // Start scroll-triggered animations after unlock
       setTimeout(initScrollAnimations, 300);
     }
 
     function initScrollAnimations() {
-      // Second image — float + shimmer reveal
       const imgWrapper = document.getElementById('secondImgWrapper');
       const imgObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('img-visible');
-            setTimeout(() => {
-              entry.target.classList.add('shimmer-active');
-            }, 400);
             imgObserver.unobserve(entry.target);
           }
         });
       }, { threshold: 0.25 });
-
       if (imgWrapper) imgObserver.observe(imgWrapper);
     }
 
+    /* ═══════════════════════════════════════════
+       MUSIC BUTTON
+    ═══════════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', function () {
       const music    = document.getElementById('bg-music');
       const musicBtn = document.getElementById('music-btn');
@@ -756,6 +781,7 @@
         isPlaying = !isPlaying;
       });
 
+      /* Dress-code scroll animation */
       const dressSection = document.querySelector('.dress-code');
       if (dressSection) {
         const observer = new IntersectionObserver(entries => {
@@ -774,10 +800,94 @@
       }
     });
 
-    function setResponseAndSubmit(response) {
-      document.getElementById('responseInput').value = response;
-      document.getElementById('submitBtn').click();
-    }
+    /* ═══════════════════════════════════════════
+       RSVP — Sergey-Lilit registration system
+       fire-and-forget fetch + instant UI feedback
+       + auto-hide after 4 sec + slideOut animation
+    ═══════════════════════════════════════════ */
+    (function () {
+      const FORM     = document.getElementById('rsvpForm');
+      const OK       = document.getElementById('successMessage');
+      const ERR      = document.getElementById('errorMessage');
+      const ENDPOINT = "https://script.google.com/macros/s/AKfycbzMnMF8P0gJVkVipAeaBc9DRPH_sH-KnSqLKNaB6jq5bSMVOfJH0W2DjAJbyjYMFhPa/exec";
+
+      function showMsg(el, html) {
+        /* Hide the other one first */
+        [OK, ERR].forEach(m => {
+          m.style.display = 'none';
+          m.classList.remove('show', 'hide');
+        });
+
+        el.innerHTML = html;
+        el.style.display = 'block';
+        /* Tiny delay so display:block is painted before animation starts */
+        setTimeout(() => el.classList.add('show'), 10);
+
+        /* Auto-hide after 4 seconds */
+        setTimeout(() => {
+          el.classList.add('hide');
+          setTimeout(() => {
+            el.style.display = 'none';
+            el.classList.remove('show', 'hide');
+          }, 500);
+        }, 4000);
+      }
+
+      FORM.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+        const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
+
+        if (!first || !last) {
+          showMsg(ERR,
+            '<div class="message-title">Սխալ</div>' +
+            '<div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>'
+          );
+          return;
+        }
+
+        const resp = (document.getElementById('responseInput').value || '').trim();
+        if (!resp) {
+          showMsg(ERR,
+            '<div class="message-title">Սխալ</div>' +
+            '<div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>'
+          );
+          return;
+        }
+
+        /* Build form data */
+        const fd = new FormData(FORM);
+        fd.set('full_name', `${first} ${last}`);
+        fd.set('response',  resp);
+        fd.set('attend',    resp);
+        fd.append('timestamp', new Date().toISOString());
+
+        /* 🔥 Fire-and-forget — keepalive so it sends even if page changes */
+        fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
+
+        /* ✅ Instant success UI */
+        const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
+          ? 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
+          : 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
+
+        showMsg(OK,
+          '<div class="message-title">Շնորհակալություն</div>' +
+          `<div class="message-text">${responseText}</div>`
+        );
+
+        /* Reset form */
+        FORM.reset();
+        document.getElementById('responseInput').value = '';
+      });
+
+      /* Public helper called by the two buttons */
+      window.setResponseAndSubmit = function (answer) {
+        document.getElementById('responseInput').value = answer;
+        if (FORM.requestSubmit) FORM.requestSubmit();
+        else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      };
+    })();
   </script>
 </body>
 </html>

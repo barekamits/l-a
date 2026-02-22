@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wedding Invitation</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,7 +13,10 @@
     @import url('https://fonts.googleapis.com/css2?family=Allura&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
 
-
+    @font-face {
+      font-family: 'Sasuntsi';
+      src: url('/D&A/Sasuntsi-Regular.ttf') format('truetype');
+    }
     @font-face {
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
@@ -46,24 +49,23 @@
     }
 
     /* ═══ OVERLAY ═══ */
- .overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  overflow: hidden;
-  top: 0; left: 0; right: 0; bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* ← flex-start-ի փոխարեն */
-  padding-top: 0; /* ← հեռացրու */
-  transition: opacity 0.8s ease;
-  z-index: 100;
-}
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.4);
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 18em;
+      transition: opacity 0.8s ease;
+      z-index: 100;
+    }
 
     .overlay.hidden { opacity: 0; pointer-events: none; display: none; }
 
     .overlay h1 {
-      font-family: 'Sasuntsi', serif;
+   
       font-size: 6em;
       text-align: center;
       margin: 0;
@@ -125,6 +127,22 @@
     }
 
     .arrow svg { width: 16px; height: 16px; }
+    
+    /* Mobile — մոբայլի համար ամբողջությամբ կառավարիր */
+    @media (max-width: 768px) {
+      .overlay h1 {
+        font-size: 5em;
+        transform: translateY(280px);
+      }
+      .slider-text-wrapper {
+        margin-top: 20em;
+      }
+      .text {
+        font-size: 1.5em; /* ← ճիշտ անգլերեն կետով, բացատ չկա */
+        padding: 0 20px;
+        text-align: center;
+      }
+    }
 
     /* ═══ MAIN CONTENT ═══ */
     .main-content {
@@ -677,6 +695,3 @@
   </script>
 </body>
 </html>
-
-
-

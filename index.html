@@ -600,7 +600,7 @@
       <div class="content" id="content">
 
         <img id="music-btn" src="play.png" alt="Play">
-        <audio id="bg-music" src="Մендельсон - Свадебный Марш.mp3"></audio>
+        <audio id="bg-music" src="Marry Me - Sargis Avetisyan.m4a"></audio>
 
         <div class="schedule-section">
 
@@ -702,6 +702,13 @@
   </div>
 
   <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    /* ═══════════════════════════════════════════
+       GLOBAL MUSIC STATE
+    ═══════════════════════════════════════════ */
+    let isPlaying = false;
+
     /* ═══════════════════════════════════════════
        SLIDER / UNLOCK
     ═══════════════════════════════════════════ */
@@ -714,26 +721,36 @@
     let isDragging = false, startX, currentX;
     let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
-    arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+    arrow.addEventListener('mousedown', e => {
+      isDragging = true;
+      startX = e.clientX;
+    });
+
     window.addEventListener('mouseup', () => {
       if (!isDragging) return;
       isDragging = false;
       if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
       else arrow.style.left = '3px';
     });
+
     window.addEventListener('mousemove', e => {
       if (!isDragging) return;
       currentX = e.clientX - startX;
       arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
     });
 
-    arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+    arrow.addEventListener('touchstart', e => {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+    });
+
     window.addEventListener('touchend', () => {
       if (!isDragging) return;
       isDragging = false;
       if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
       else arrow.style.left = '3px';
     });
+
     window.addEventListener('touchmove', e => {
       if (!isDragging) return;
       currentX = e.touches[0].clientX - startX;
@@ -752,10 +769,27 @@
       }, 200);
 
       setTimeout(initScrollAnimations, 300);
+
+      /* 🔊 Auto play music */
+      const music = document.getElementById('bg-music');
+      const musicBtn = document.getElementById('music-btn');
+
+      if (music && !isPlaying) {
+        music.currentTime = 14; // ← ԱՅՍ ՏՈՂԸ ԱՎԵԼԱՑՐՈՒ
+
+        music.play().then(() => {
+          if (musicBtn) musicBtn.src = 'pause.png';
+          isPlaying = true;
+        }).catch(err => {
+          console.log('Autoplay blocked:', err);
+        });
+      }
     }
 
     function initScrollAnimations() {
       const imgWrapper = document.getElementById('secondImgWrapper');
+      if (!imgWrapper) return;
+
       const imgObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -764,133 +798,51 @@
           }
         });
       }, { threshold: 0.25 });
-      if (imgWrapper) imgObserver.observe(imgWrapper);
+
+      imgObserver.observe(imgWrapper);
     }
 
     /* ═══════════════════════════════════════════
        MUSIC BUTTON
     ═══════════════════════════════════════════ */
-    document.addEventListener('DOMContentLoaded', function () {
-      const music    = document.getElementById('bg-music');
-      const musicBtn = document.getElementById('music-btn');
-      let isPlaying  = false;
+    const music    = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
 
+    if (musicBtn && music) {
       musicBtn.addEventListener('click', () => {
-        if (isPlaying) { music.pause(); musicBtn.src = 'play.png'; }
-        else           { music.play();  musicBtn.src = 'pause.png'; }
+        if (isPlaying) {
+          music.pause();
+          musicBtn.src = 'play.png';
+        } else {
+          music.play();
+          musicBtn.src = 'pause.png';
+        }
         isPlaying = !isPlaying;
       });
-
-      /* Dress-code scroll animation */
-      const dressSection = document.querySelector('.dress-code');
-      if (dressSection) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.querySelector('.dress-title').classList.add('animate');
-              entry.target.querySelector('.dress-text').classList.add('animate');
-              entry.target.querySelectorAll('.dress-colors span').forEach(s => s.classList.add('animate'));
-              const noWhite = entry.target.querySelector('.no-white-text');
-              if (noWhite) noWhite.classList.add('animate');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.3 });
-        observer.observe(dressSection);
-      }
-    });
+    }
 
     /* ═══════════════════════════════════════════
-       RSVP — Sergey-Lilit registration system
-       fire-and-forget fetch + instant UI feedback
-       + auto-hide after 4 sec + slideOut animation
+       Dress-code animation
     ═══════════════════════════════════════════ */
-    (function () {
-      const FORM     = document.getElementById('rsvpForm');
-      const OK       = document.getElementById('successMessage');
-      const ERR      = document.getElementById('errorMessage');
-      const ENDPOINT = "https://script.google.com/macros/s/AKfycbyTL1dzKag7Oe0OuwhysBFUPbN-cDG41frWpSXuMhduZpVCq-vCuyJJbpS6P0hr8MCP/exec";
-
-      function showMsg(el, html) {
-        /* Hide the other one first */
-        [OK, ERR].forEach(m => {
-          m.style.display = 'none';
-          m.classList.remove('show', 'hide');
+    const dressSection = document.querySelector('.dress-code');
+    if (dressSection) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.querySelector('.dress-title')?.classList.add('animate');
+            entry.target.querySelector('.dress-text')?.classList.add('animate');
+            entry.target.querySelectorAll('.dress-colors span')
+              .forEach(s => s.classList.add('animate'));
+            entry.target.querySelector('.no-white-text')?.classList.add('animate');
+            observer.unobserve(entry.target);
+          }
         });
+      }, { threshold: 0.3 });
 
-        el.innerHTML = html;
-        el.style.display = 'block';
-        /* Tiny delay so display:block is painted before animation starts */
-        setTimeout(() => el.classList.add('show'), 10);
+      observer.observe(dressSection);
+    }
 
-        /* Auto-hide after 4 seconds */
-        setTimeout(() => {
-          el.classList.add('hide');
-          setTimeout(() => {
-            el.style.display = 'none';
-            el.classList.remove('show', 'hide');
-          }, 500);
-        }, 4000);
-      }
-
-      FORM.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
-        const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
-
-        if (!first || !last) {
-          showMsg(ERR,
-            '<div class="message-title">Սխալ</div>' +
-            '<div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>'
-          );
-          return;
-        }
-
-        const resp = (document.getElementById('responseInput').value || '').trim();
-        if (!resp) {
-          showMsg(ERR,
-            '<div class="message-title">Սխալ</div>' +
-            '<div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>'
-          );
-          return;
-        }
-
-        /* Build form data */
-        const fd = new FormData(FORM);
-        fd.set('full_name', `${first} ${last}`);
-        fd.set('response',  resp);
-        fd.set('attend',    resp);
-        fd.append('timestamp', new Date().toISOString());
-
-        /* 🔥 Fire-and-forget — keepalive so it sends even if page changes */
-        fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
-
-        /* ✅ Instant success UI */
-        const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
-          ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
-          : 'Մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
-
-        showMsg(OK,
-          '<div class="message-title"></div>' +
-          `<div class="message-text">${responseText}</div>`
-        );
-
-        /* Reset form */
-        FORM.reset();
-        document.getElementById('responseInput').value = '';
-      });
-
-      /* Public helper called by the two buttons */
-      window.setResponseAndSubmit = function (answer) {
-        document.getElementById('responseInput').value = answer;
-        if (FORM.requestSubmit) FORM.requestSubmit();
-        else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-      };
-    })();
+  });
   </script>
 </body>
 </html>
-
-
-

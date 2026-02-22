@@ -701,148 +701,138 @@
     </div>
   </div>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-    /* ═══════════════════════════════════════════
-       GLOBAL MUSIC STATE
-    ═══════════════════════════════════════════ */
-    let isPlaying = false;
+  /* ═══════════════════════════════════════════
+     GLOBAL MUSIC STATE
+  ═══════════════════════════════════════════ */
+  let isPlaying = false;
+  const music = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-btn');
 
-    /* ═══════════════════════════════════════════
-       SLIDER / UNLOCK
-    ═══════════════════════════════════════════ */
-    const arrow       = document.getElementById('arrow');
-    const slider      = document.getElementById('slider');
-    const overlay     = document.getElementById('overlay');
-    const mainContent = document.getElementById('mainContent');
-    const body        = document.body;
+  /* ═══════════════════════════════════════════
+     SLIDER / UNLOCK
+  ═══════════════════════════════════════════ */
+  const arrow       = document.getElementById('arrow');
+  const slider      = document.getElementById('slider');
+  const overlay     = document.getElementById('overlay');
+  const mainContent = document.getElementById('mainContent');
+  const body        = document.body;
 
-    let isDragging = false, startX, currentX;
-    let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+  let isDragging = false, startX, currentX;
+  let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
-    arrow.addEventListener('mousedown', e => {
-      isDragging = true;
-      startX = e.clientX;
-    });
+  arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
+    else arrow.style.left = '3px';
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    currentX = e.clientX - startX;
+    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+  });
+  arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+  window.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
+    else arrow.style.left = '3px';
+  });
+  window.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX - startX;
+    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+  });
 
-    window.addEventListener('mouseup', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
-      else arrow.style.left = '3px';
-    });
+  function unlock() {
+    overlay.classList.add('hidden');
+    mainContent.classList.add('active');
+    body.classList.add('unlocked');
+    document.getElementById('content').classList.add('show');
 
-    window.addEventListener('mousemove', e => {
-      if (!isDragging) return;
-      currentX = e.clientX - startX;
-      arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
-    });
+    setTimeout(() => {
+      const couplePhoto = document.getElementById('couplePhoto');
+      if (couplePhoto) couplePhoto.classList.add('reveal');
+    }, 200);
 
-    arrow.addEventListener('touchstart', e => {
-      isDragging = true;
-      startX = e.touches[0].clientX;
-    });
+    setTimeout(initScrollAnimations, 300);
 
-    window.addEventListener('touchend', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
-      else arrow.style.left = '3px';
-    });
+    /* 🔊 Mobile-friendly autoplay 14s */
+    if (music && !isPlaying) {
+      music.currentTime = 14;
 
-    window.addEventListener('touchmove', e => {
-      if (!isDragging) return;
-      currentX = e.touches[0].clientX - startX;
-      arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
-    });
-
-    function unlock() {
-      overlay.classList.add('hidden');
-      mainContent.classList.add('active');
-      body.classList.add('unlocked');
-      document.getElementById('content').classList.add('show');
-
-      setTimeout(() => {
-        const couplePhoto = document.getElementById('couplePhoto');
-        if (couplePhoto) couplePhoto.classList.add('reveal');
-      }, 200);
-
-      setTimeout(initScrollAnimations, 300);
-
-      /* 🔊 Auto play music */
-      const music = document.getElementById('bg-music');
-      const musicBtn = document.getElementById('music-btn');
-
-      if (music && !isPlaying) {
-        music.currentTime = 14; // ← ԱՅՍ ՏՈՂԸ ԱՎԵԼԱՑՐՈՒ
-
+      const playMusic = () => {
         music.play().then(() => {
           if (musicBtn) musicBtn.src = 'pause.png';
           isPlaying = true;
         }).catch(err => {
-          console.log('Autoplay blocked:', err);
+          console.log('Autoplay blocked on mobile:', err);
         });
-      }
+      };
+
+      if (music.readyState >= 2) playMusic();
+      else music.addEventListener('loadedmetadata', playMusic, { once: true });
     }
+  }
 
-    function initScrollAnimations() {
-      const imgWrapper = document.getElementById('secondImgWrapper');
-      if (!imgWrapper) return;
+  function initScrollAnimations() {
+    const imgWrapper = document.getElementById('secondImgWrapper');
+    if (!imgWrapper) return;
 
-      const imgObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('img-visible');
-            imgObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.25 });
-
-      imgObserver.observe(imgWrapper);
-    }
-
-    /* ═══════════════════════════════════════════
-       MUSIC BUTTON
-    ═══════════════════════════════════════════ */
-    const music    = document.getElementById('bg-music');
-    const musicBtn = document.getElementById('music-btn');
-
-    if (musicBtn && music) {
-      musicBtn.addEventListener('click', () => {
-        if (isPlaying) {
-          music.pause();
-          musicBtn.src = 'play.png';
-        } else {
-          music.play();
-          musicBtn.src = 'pause.png';
+    const imgObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('img-visible');
+          imgObserver.unobserve(entry.target);
         }
-        isPlaying = !isPlaying;
       });
-    }
+    }, { threshold: 0.25 });
 
-    /* ═══════════════════════════════════════════
-       Dress-code animation
-    ═══════════════════════════════════════════ */
-    const dressSection = document.querySelector('.dress-code');
-    if (dressSection) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.querySelector('.dress-title')?.classList.add('animate');
-            entry.target.querySelector('.dress-text')?.classList.add('animate');
-            entry.target.querySelectorAll('.dress-colors span')
-              .forEach(s => s.classList.add('animate'));
-            entry.target.querySelector('.no-white-text')?.classList.add('animate');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 });
+    imgObserver.observe(imgWrapper);
+  }
 
-      observer.observe(dressSection);
-    }
+  /* ═══════════════════════════════════════════
+     MUSIC BUTTON
+  ═══════════════════════════════════════════ */
+  if (musicBtn && music) {
+    musicBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        music.pause();
+        musicBtn.src = 'play.png';
+      } else {
+        music.play();
+        musicBtn.src = 'pause.png';
+      }
+      isPlaying = !isPlaying;
+    });
+  }
 
-  });
-  </script>
+  /* ═══════════════════════════════════════════
+     Dress-code animation
+  ═══════════════════════════════════════════ */
+  const dressSection = document.querySelector('.dress-code');
+  if (dressSection) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelector('.dress-title')?.classList.add('animate');
+          entry.target.querySelector('.dress-text')?.classList.add('animate');
+          entry.target.querySelectorAll('.dress-colors span').forEach(s => s.classList.add('animate'));
+          entry.target.querySelector('.no-white-text')?.classList.add('animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    observer.observe(dressSection);
+  }
+
+});
+</script>
 </body>
 </html>
+

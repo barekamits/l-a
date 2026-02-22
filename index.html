@@ -787,19 +787,19 @@
     response: this.response.value
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbwi8uDSqY1yTuiZIWEdkA-FUqWxcQTbaudM9YK54JLJWjIDsDEoYW3zyy9-qhuMIFgh/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbzyzZRefKvD9c4P1bR-m0sSInlzTDmE5DkD2UioKKQJ1iotYN9Zewppdr4vvfDxru54/exec", {
     method: "POST",
     body: JSON.stringify(formData)
   })
   .then(res => res.json())
   .then(data => {
-    document.getElementById("successMessage").innerText = "Շնորհակալություն ❤️";
+    document.getElementById("successMessage").innerText = "Շնորհակալություն ";
     document.getElementById("successMessage").style.display = "block";
     document.getElementById("successMessage").classList.add("show");
     this.reset();
   })
   .catch(err => {
-    document.getElementById("errorMessage").innerText = "Սխալ առաջացավ 😔";
+    document.getElementById("errorMessage").innerText = "Սխալ առաջացավ ";
     document.getElementById("errorMessage").style.display = "block";
     document.getElementById("errorMessage").classList.add("show");
   });
@@ -807,4 +807,5 @@
   </script>
 </body>
 </html>
+
 

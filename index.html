@@ -229,12 +229,90 @@
     .content { display: none; text-align: center; width: 100%; position: relative; }
     .content.show { display: block; }
 
-    #music-btn {
-      width: 50px; height: 50px;
-      cursor: pointer;
-      margin: 20px auto;
-      display: block;
+    /* ═══ MUSIC PLAYER ═══ */
+    .music-player {
+      margin: 28px auto 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      max-width: 320px;
     }
+
+    /* Progress bar row */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 12px;
+    }
+
+    .progress-bar-wrap {
+      flex: 1;
+      position: relative;
+      height: 2px;
+      background: #222;
+    }
+
+    .progress-dot {
+      width: 10px;
+      height: 10px;
+      background: #111;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 22%;
+      transform: translate(-50%, -50%);
+    }
+
+    .heart-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    /* Controls row */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .ctrl-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .ctrl-btn:hover { transform: scale(1.1); }
+
+    .ctrl-btn svg { display: block; }
+
+    /* Large play/pause circle */
+    .play-btn {
+      width: 54px;
+      height: 54px;
+      background: #111;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .play-btn:hover { transform: scale(1.05); }
+
+    .play-btn svg { display: block; }
 
     @keyframes fadeInDrop {
       from { opacity: 0; transform: translateY(-20px); }
@@ -386,14 +464,14 @@
       max-width: 100%;
       margin: 0 auto;
       border-collapse: collapse;
-      font-size: 16px;
+      font-size: 26px; /* ← ՄԵԾԱՑՎԱԾ */
     }
 
     @media (max-width: 480px) {
-      .calendar-container table { font-size: 12px; }
-      .calendar-container th, .calendar-container td { padding: 4px 6px; }
-      .heart-cell svg { width: 24px; height: 24px; }
-      .heart-cell span { font-size: 12px; }
+      .calendar-container table { font-size: 20px; }
+      .calendar-container th, .calendar-container td { padding: 5px 8px; }
+      .heart-cell svg { width: 32px; height: 32px; }
+      .heart-cell span { font-size: 16px; }
     }
 
     .big-date {
@@ -413,14 +491,14 @@
       margin-bottom: 20px;
     }
 
-    table { border-collapse: collapse; margin: 0; text-align: center; font-size: 18px; }
-    th { font-weight: 400; padding: 10px; color: #666; }
-    td { width: 40px; height: 40px; padding: 5px; color: #333; position: relative; }
+    table { border-collapse: collapse; margin: 0; text-align: center; font-size: 26px; } /* ← ՄԵԾԱՑՎԱԾ */
+    th { font-weight: 400; padding: 10px 14px; color: #666; }
+    td { width: 52px; height: 52px; padding: 6px; color: #333; position: relative; } /* ← ՄԵԾԱՑՎԱԾ */
 
     .heart-cell { position: relative; }
 
     .heart-cell svg {
-      width: 40px; height: 40px;
+      width: 48px; height: 48px; /* ← ՄԵԾԱՑՎԱԾ */
       stroke: #2c3e50;
       stroke-width: 2;
       fill: none;
@@ -442,7 +520,7 @@
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 16px;
+      font-size: 20px; /* ← ՄԵԾԱՑՎԱԾ */
       font-weight: 500;
       color: #2c3e50;
       z-index: 1;
@@ -501,7 +579,7 @@
     .btn-no  { background-color: #7b685b; }
     .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    /* ═══ CONFIRMATION MESSAGES (Sergey-Lilit system) ═══ */
+    /* ═══ CONFIRMATION MESSAGES ═══ */
     .confirmation-message {
       position: fixed;
       top: 145px;
@@ -599,7 +677,72 @@
 
       <div class="content" id="content">
 
-        <img id="music-btn" src="play.png" alt="Play">
+        <!-- ═══ MUSIC PLAYER (new design) ═══ -->
+        <div class="music-player">
+          <!-- Progress bar + heart -->
+          <div class="progress-row">
+            <div class="progress-bar-wrap">
+              <div class="progress-dot"></div>
+            </div>
+            <!-- Heart icon -->
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="#111" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21s-6-4.35-9-8.7C-1.5 6.6 4.5 0 12 5.25 19.5 0 25.5 6.6 21 12.3c-3 4.35-9 8.7-9 8.7z"/>
+            </svg>
+          </div>
+
+          <!-- Controls -->
+          <div class="controls-row">
+            <!-- Shuffle -->
+            <button class="ctrl-btn" title="Shuffle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 3 21 3 21 8"/>
+                <line x1="4" y1="20" x2="21" y2="3"/>
+                <polyline points="21 16 21 21 16 21"/>
+                <line x1="15" y1="15" x2="21" y2="21"/>
+              </svg>
+            </button>
+
+            <!-- Prev -->
+            <button class="ctrl-btn" title="Previous">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#111" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="19 20 9 12 19 4 19 20"/>
+                <line x1="5" y1="19" x2="5" y2="5" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <!-- Play / Pause -->
+            <button class="play-btn" id="playBtn" title="Play/Pause">
+              <!-- Play icon shown by default -->
+              <svg id="iconPlay" width="22" height="22" viewBox="0 0 24 24" fill="white">
+                <polygon points="6 3 20 12 6 21 6 3"/>
+              </svg>
+              <!-- Pause icon (hidden) -->
+              <svg id="iconPause" width="22" height="22" viewBox="0 0 24 24" fill="white" style="display:none;">
+                <rect x="6" y="4" width="4" height="16" rx="1"/>
+                <rect x="14" y="4" width="4" height="16" rx="1"/>
+              </svg>
+            </button>
+
+            <!-- Next -->
+            <button class="ctrl-btn" title="Next">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#111" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="5 4 15 12 5 20 5 4"/>
+                <line x1="19" y1="5" x2="19" y2="19" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <!-- Repeat -->
+            <button class="ctrl-btn" title="Repeat">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="17 1 21 5 17 9"/>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                <polyline points="7 23 3 19 7 15"/>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
         <audio id="bg-music" src="Մендельсон - Свадебный Марш.mp3"></audio>
 
         <div class="schedule-section">
@@ -681,7 +824,7 @@
           </table>
         </div>
 
-        <!-- ═══ RSVP FORM (Sergey-Lilit registration system) ═══ -->
+        <!-- ═══ RSVP FORM ═══ -->
         <form id="rsvpForm" class="name-fields">
           <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
           <input type="text" name="lastName"  class="name-input" placeholder="Ազգանուն" required>
@@ -768,16 +911,25 @@
     }
 
     /* ═══════════════════════════════════════════
-       MUSIC BUTTON
+       MUSIC PLAYER
     ═══════════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', function () {
-      const music    = document.getElementById('bg-music');
-      const musicBtn = document.getElementById('music-btn');
-      let isPlaying  = false;
+      const music     = document.getElementById('bg-music');
+      const playBtn   = document.getElementById('playBtn');
+      const iconPlay  = document.getElementById('iconPlay');
+      const iconPause = document.getElementById('iconPause');
+      let isPlaying   = false;
 
-      musicBtn.addEventListener('click', () => {
-        if (isPlaying) { music.pause(); musicBtn.src = 'play.png'; }
-        else           { music.play();  musicBtn.src = 'pause.png'; }
+      playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          music.pause();
+          iconPlay.style.display  = 'block';
+          iconPause.style.display = 'none';
+        } else {
+          music.play();
+          iconPlay.style.display  = 'none';
+          iconPause.style.display = 'block';
+        }
         isPlaying = !isPlaying;
       });
 
@@ -801,18 +953,15 @@
     });
 
     /* ═══════════════════════════════════════════
-       RSVP — Sergey-Lilit registration system
-       fire-and-forget fetch + instant UI feedback
-       + auto-hide after 4 sec + slideOut animation
+       RSVP
     ═══════════════════════════════════════════ */
     (function () {
       const FORM     = document.getElementById('rsvpForm');
       const OK       = document.getElementById('successMessage');
       const ERR      = document.getElementById('errorMessage');
-      const ENDPOINT = "https://script.google.com/macros/s/AKfycbyp-mgYcgZyEPC2C7Kd0GlNAVYZ1MbI9G6TLRLGT4NkB9hHPvQNwFWnm4Ei7M5CF1In/exec";
+      const ENDPOINT = "https://script.google.com/macros/s/AKfycbzMnMF8P0gJVkVipAeaBc9DRPH_sH-KnSqLKNaB6jq5bSMVOfJH0W2DjAJbyjYMFhPa/exec";
 
       function showMsg(el, html) {
-        /* Hide the other one first */
         [OK, ERR].forEach(m => {
           m.style.display = 'none';
           m.classList.remove('show', 'hide');
@@ -820,10 +969,8 @@
 
         el.innerHTML = html;
         el.style.display = 'block';
-        /* Tiny delay so display:block is painted before animation starts */
         setTimeout(() => el.classList.add('show'), 10);
 
-        /* Auto-hide after 4 seconds */
         setTimeout(() => {
           el.classList.add('hide');
           setTimeout(() => {
@@ -856,17 +1003,14 @@
           return;
         }
 
-        /* Build form data */
         const fd = new FormData(FORM);
         fd.set('full_name', `${first} ${last}`);
         fd.set('response',  resp);
         fd.set('attend',    resp);
         fd.append('timestamp', new Date().toISOString());
 
-        /* 🔥 Fire-and-forget — keepalive so it sends even if page changes */
         fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
 
-        /* ✅ Instant success UI */
         const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
           ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
           : 'Մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
@@ -876,12 +1020,10 @@
           `<div class="message-text">${responseText}</div>`
         );
 
-        /* Reset form */
         FORM.reset();
         document.getElementById('responseInput').value = '';
       });
 
-      /* Public helper called by the two buttons */
       window.setResponseAndSubmit = function (answer) {
         document.getElementById('responseInput').value = answer;
         if (FORM.requestSubmit) FORM.requestSubmit();

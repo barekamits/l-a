@@ -778,37 +778,6 @@
       document.getElementById('responseInput').value = response;
       document.getElementById('submitBtn').click();
     }
-    document.getElementById("rsvpForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const formData = {
-    firstName: this.firstName.value,
-    lastName: this.lastName.value,
-    response: this.response.value
-  };
-
-fetch("https://script.google.com/macros/s/AKfycbzyzZRefKvD9c4P1bR-m0sSInlzTDmE5DkD2UioKKQJ1iotYN9Zewppdr4vvfDxru54/exec", {
-  method: "POST",
-  mode: "no-cors",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(formData)
-})
-.then(() => {
-  document.getElementById("successMessage").innerText = "Շնորհակալություն ❤️";
-  document.getElementById("successMessage").style.display = "block";
-  document.getElementById("successMessage").classList.add("show");
-  this.reset();
-})
-.catch(() => {
-  document.getElementById("errorMessage").innerText = "Սխալ առաջացավ 😔";
-  document.getElementById("errorMessage").style.display = "block";
-  document.getElementById("errorMessage").classList.add("show");
-});
   </script>
 </body>
 </html>
-
-
-

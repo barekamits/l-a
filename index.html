@@ -65,7 +65,6 @@
     .overlay.hidden { opacity: 0; pointer-events: none; display: none; }
 
     .overlay h1 {
-   
       font-size: 6em;
       text-align: center;
       margin: 0;
@@ -128,7 +127,6 @@
 
     .arrow svg { width: 16px; height: 16px; }
     
-    /* Mobile — մոբայլի համար ամբողջությամբ կառավարիր */
     @media (max-width: 768px) {
       .overlay h1 {
         font-size: 6em;
@@ -138,7 +136,7 @@
         margin-top: 15em;
       }
       .text {
-        font-size: 1.5em; /* ← ճիշտ անգլերեն կետով, բացատ չկա */
+        font-size: 1.5em;
         padding: 0 20px;
         text-align: center;
       }
@@ -166,11 +164,23 @@
       position: relative;
     }
 
+    /* ═══ IMAGE ANIMATIONS ═══ */
+
+    /* First image — couple photo — dramatic reveal from center */
     .couple-photo {
       width: 100%;
       height: 300px;
       border-radius: 8px;
       margin-bottom: 50px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .photo-wipe { display: none; }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
       overflow: hidden;
     }
 
@@ -180,8 +190,44 @@
       object-fit: cover;
       object-position: center 30%;
       filter: grayscale(100%);
+      opacity: 0;
+      transform: scale(0.88) translateY(30px);
+      transition: none;
     }
 
+    .couple-photo.reveal .photo-placeholder img {
+      animation: comeForward 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+    }
+
+    @keyframes comeForward {
+      0%   { opacity: 0; transform: scale(0.88) translateY(30px); filter: grayscale(100%) blur(6px); }
+      60%  { opacity: 1; filter: grayscale(100%) blur(0px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: grayscale(100%) blur(0px); }
+    }
+
+    .img-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .couple-bg-img-inner {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      opacity: 0;
+      transform: scale(0.88) translateY(30px);
+      filter: blur(6px);
+    }
+
+    .img-wrapper.img-visible .couple-bg-img-inner {
+      animation: comeForward 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Content sections reveal */
     .content { display: none; text-align: center; width: 100%; position: relative; }
     .content.show { display: block; }
 
@@ -190,6 +236,11 @@
       cursor: pointer;
       margin: 20px auto;
       display: block;
+    }
+
+    @keyframes fadeInDrop {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ═══ SCHEDULE ═══ */
@@ -262,15 +313,6 @@
 
     .nav-btn:hover { background: #f2f2f2; }
 
-    .couple-bg-img {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 10px;
-      opacity: 0.8;
-      margin: 20px auto;
-      display: block;
-    }
-
     /* ═══ DRESS CODE ═══ */
     .dress-code {
       text-align: center;
@@ -325,7 +367,6 @@
     }
     .dress-colors span:hover { transform: scale(1.1); }
 
-    /* no-white — desc ոճով */
     .no-white-text {
       font-family: 'Vrdznagir';
       font-size: 16px;
@@ -390,6 +431,16 @@
       transform: translate(-50%, -50%);
     }
 
+    /* Animated heart pulse */
+    .heart-cell svg {
+      animation: heartPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50%       { transform: translate(-50%, -50%) scale(1.15); }
+    }
+
     .heart-cell span {
       position: absolute;
       top: 50%; left: 50%;
@@ -401,7 +452,11 @@
     }
 
     /* ═══ RSVP ═══ */
-    #rsvpForm { margin: 40px auto; width: 100%; max-width: 320px; }
+    #rsvpForm {
+      margin: 40px auto;
+      width: 100%;
+      max-width: 320px;
+    }
 
     .name-fields {
       display: flex;
@@ -510,7 +565,9 @@
   <div class="main-content" id="mainContent">
     <div class="invitation-card">
 
-      <div class="couple-photo">
+      <!-- FIRST IMAGE: dramatic wipe + zoom reveal -->
+      <div class="couple-photo" id="couplePhoto">
+        <div class="photo-wipe"></div>
         <div class="photo-placeholder">
           <img src="first.png" alt="Couple">
         </div>
@@ -549,7 +606,6 @@
             <a href="#" class="nav-btn">Ինչպես հասնել</a>
           </div>
 
-          <!-- Երեխաների հայտարարություն — schedule-block ոճով -->
           <div class="schedule-block">
             <div class="time">Ուշադրություն</div>
             <div class="title">Հարգելի Հյուրեր</div>
@@ -558,7 +614,10 @@
 
         </div>
 
-        <img src="second.png.JPEG" alt="Couple BG" class="couple-bg-img">
+        <!-- SECOND IMAGE: float-in + shimmer -->
+        <div class="img-wrapper" id="secondImgWrapper">
+          <img src="second.png.JPEG" alt="Couple BG" class="couple-bg-img-inner">
+        </div>
 
         <!-- Dress Code -->
         <section class="dress-code">
@@ -574,7 +633,7 @@
         </section>
 
         <!-- Calendar -->
-        <div class="calendar-container">
+        <div class="calendar-container" id="calendarContainer">
           <p class="big-date">15/10</p>
           <p class="month-text">15 Հոկտեմբերի</p>
           <table>
@@ -657,6 +716,33 @@
       mainContent.classList.add('active');
       body.classList.add('unlocked');
       document.getElementById('content').classList.add('show');
+
+      // Trigger first image reveal
+      setTimeout(() => {
+        const couplePhoto = document.getElementById('couplePhoto');
+        if (couplePhoto) couplePhoto.classList.add('reveal');
+      }, 200);
+
+      // Start scroll-triggered animations after unlock
+      setTimeout(initScrollAnimations, 300);
+    }
+
+    function initScrollAnimations() {
+      // Second image — float + shimmer reveal
+      const imgWrapper = document.getElementById('secondImgWrapper');
+      const imgObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('img-visible');
+            setTimeout(() => {
+              entry.target.classList.add('shimmer-active');
+            }, 400);
+            imgObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+
+      if (imgWrapper) imgObserver.observe(imgWrapper);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -695,5 +781,3 @@
   </script>
 </body>
 </html>
-
-

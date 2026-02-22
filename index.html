@@ -601,7 +601,12 @@
       <div class="content" id="content">
 
         <img id="music-btn" src="play.png" alt="Play">
-        <audio id="bg-music" src="Marry Me - Sargis Avetisyan.m4a"></audio>
+         <audio 
+           id="bg-music" 
+           src="Marry Me - Sargis Avetisyan.m4a"
+           preload="auto"
+           playsinline
+         ></audio>
 
         <div class="schedule-section">
 
@@ -703,160 +708,141 @@
   </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
 
-  /* ═══════════════════════════════════════════
-     GLOBAL MUSIC STATE
-  ═══════════════════════════════════════════ */
-  let isPlaying = false;
-  const music = document.getElementById('bg-music');
+    let isPlaying = false;
+    let audioUnlocked = false;
+    const music = document.getElementById('bg-music');
 
-  /* ═══════════════════════════════════════════
-     SLIDER / UNLOCK
-  ═══════════════════════════════════════════ */
-  const arrow       = document.getElementById('arrow');
-  const slider      = document.getElementById('slider');
-  const overlay     = document.getElementById('overlay');
-  const mainContent = document.getElementById('mainContent');
-  const body        = document.body;
+    /* =============================
+       SAFE AUDIO UNLOCK (CRITICAL)
+    ============================== */
+    function unlockAudio() {
+      if (!music || audioUnlocked) return;
 
-  let isDragging = false;
-  let startX = 0;
-  let currentX = 0;
-  // ✅ FIX: maxX հաշվարկվում է drag-ի սկզբին, ոչ թե load-ի ժամանակ
-  let maxX = 0;
-
-  /* ───────────── MOUSE ───────────── */
-  arrow.addEventListener('mousedown', e => {
-    isDragging = true;
-    startX = e.clientX;
-    arrow.style.transition = 'none';
-    // ✅ FIX: հաշվիր այստեղ, երբ slider-ը արդեն visible է
-    maxX = slider.offsetWidth - arrow.offsetWidth - 6;
-  });
-
-  window.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    currentX = e.clientX - startX;
-    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    arrow.style.transition = 'left 0.5s ease';
-
-    if (parseInt(arrow.style.left || 3) >= maxX - 10) {
-
-      // 🎵 PLAY HERE (gesture-safe)
-      if (!isPlaying && music) {
-        music.currentTime = 14;
-        music.play().then(() => {
-          isPlaying = true;
-        }).catch(err => console.log('Play error:', err));
-      }
-
-      unlock();
-
-    } else {
-      arrow.style.left = '3px';
+      music.play()
+        .then(() => {
+          music.pause();
+          music.currentTime = 0;
+          audioUnlocked = true;
+        })
+        .catch(() => {});
     }
-  });
 
-  /* ───────────── TOUCH ───────────── */
-  arrow.addEventListener('touchstart', e => {
-    isDragging = true;
-    startX = e.touches[0].clientX;
-    arrow.style.transition = 'none';
-    // ✅ FIX: հաշվիր այստեղ, երբ slider-ը արդեն visible է
-    maxX = slider.offsetWidth - arrow.offsetWidth - 6;
-  });
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('mousedown', unlockAudio, { once: true });
 
-  window.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    currentX = e.touches[0].clientX - startX;
-    arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
-  });
+    /* =============================
+       SLIDER
+    ============================== */
 
-  window.addEventListener('touchend', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    arrow.style.transition = 'left 0.5s ease';
+    const arrow       = document.getElementById('arrow');
+    const slider      = document.getElementById('slider');
+    const overlay     = document.getElementById('overlay');
+    const mainContent = document.getElementById('mainContent');
+    const body        = document.body;
 
-    if (parseInt(arrow.style.left || 3) >= maxX - 10) {
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    let maxX = 0;
 
-      // 🎵 PLAY HERE (gesture-safe)
-      if (!isPlaying && music) {
-        music.currentTime = 14;
-        music.play().then(() => {
-          isPlaying = true;
-        }).catch(err => console.log('Play error:', err));
-      }
-
-      unlock();
-
-    } else {
-      arrow.style.left = '3px';
+    function startDrag(clientX) {
+      isDragging = true;
+      startX = clientX;
+      arrow.style.transition = 'none';
+      maxX = slider.offsetWidth - arrow.offsetWidth - 6;
     }
+
+    function moveDrag(clientX) {
+      if (!isDragging) return;
+      currentX = clientX - startX;
+      arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+    }
+
+    function endDrag() {
+      if (!isDragging) return;
+      isDragging = false;
+      arrow.style.transition = 'left 0.5s ease';
+
+      if (parseInt(arrow.style.left || 3) >= maxX - 10) {
+
+        // 🔥 SUPER SAFE PLAY
+        if (!isPlaying && music) {
+
+          if (!audioUnlocked) {
+            unlockAudio();
+          }
+
+          music.currentTime = 14;
+
+          music.play()
+            .then(() => {
+              isPlaying = true;
+            })
+            .catch(err => {
+              console.log('Play blocked:', err);
+            });
+        }
+
+        unlockPage();
+
+      } else {
+        arrow.style.left = '3px';
+      }
+    }
+
+    /* Mouse */
+    arrow.addEventListener('mousedown', e => startDrag(e.clientX));
+    window.addEventListener('mousemove', e => moveDrag(e.clientX));
+    window.addEventListener('mouseup', endDrag);
+
+    /* Touch */
+    arrow.addEventListener('touchstart', e => {
+      startDrag(e.touches[0].clientX);
+    });
+
+    window.addEventListener('touchmove', e => {
+      moveDrag(e.touches[0].clientX);
+    });
+
+    window.addEventListener('touchend', endDrag);
+
+    /* =============================
+       UNLOCK PAGE
+    ============================== */
+
+    function unlockPage() {
+      overlay.classList.add('hidden');
+      mainContent.classList.add('active');
+      body.classList.add('unlocked');
+      document.getElementById('content').classList.add('show');
+
+      setTimeout(() => {
+        const couplePhoto = document.getElementById('couplePhoto');
+        if (couplePhoto) couplePhoto.classList.add('reveal');
+      }, 200);
+
+      setTimeout(initScrollAnimations, 300);
+    }
+
+    function initScrollAnimations() {
+      const imgWrapper = document.getElementById('secondImgWrapper');
+      if (!imgWrapper) return;
+
+      const imgObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('img-visible');
+            imgObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+
+      imgObserver.observe(imgWrapper);
+    }
+
   });
-
-  /* ═══════════════════════════════════════════
-     UNLOCK
-  ═══════════════════════════════════════════ */
-  function unlock() {
-    overlay.classList.add('hidden');
-    mainContent.classList.add('active');
-    body.classList.add('unlocked');
-    document.getElementById('content').classList.add('show');
-
-    setTimeout(() => {
-      const couplePhoto = document.getElementById('couplePhoto');
-      if (couplePhoto) couplePhoto.classList.add('reveal');
-    }, 200);
-
-    setTimeout(initScrollAnimations, 300);
-  }
-
-  function initScrollAnimations() {
-    const imgWrapper = document.getElementById('secondImgWrapper');
-    if (!imgWrapper) return;
-
-    const imgObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('img-visible');
-          imgObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.25 });
-
-    imgObserver.observe(imgWrapper);
-  }
-
-  /* ═══════════════════════════════════════════
-     Dress-code animation
-  ═══════════════════════════════════════════ */
-  const dressSection = document.querySelector('.dress-code');
-  if (dressSection) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.querySelector('.dress-title')?.classList.add('animate');
-          entry.target.querySelector('.dress-text')?.classList.add('animate');
-          entry.target.querySelectorAll('.dress-colors span')
-            .forEach(s => s.classList.add('animate'));
-          entry.target.querySelector('.no-white-text')
-            ?.classList.add('animate');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-
-    observer.observe(dressSection);
-  }
-
-});
 </script>
 </body>
 </html>
-

@@ -16,11 +16,6 @@
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
 
     @font-face {
-      font-family: 'Sasuntsi';
-      src: url('/D&A/Sasuntsi-Regular.ttf') format('truetype');
-    }
-
-    @font-face {
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
     }
@@ -288,45 +283,75 @@
 
     /* ═══ MUSIC PLAYER ═══ */
     .music-player {
-      margin: 28px auto 10px;
+      margin: 0 auto 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
       width: 100%;
-      max-width: 320px;
+      max-width: 340px;
     }
 
-    /* Progress bar row */
-    .progress-row {
-      display: flex;
-      align-items: center;
+    /* Album Art Square */
+    .album-art {
       width: 100%;
-      gap: 12px;
-    }
-
-    .progress-bar-wrap {
-      flex: 1;
+      aspect-ratio: 1 / 1;
+      border: 1.5px solid #222;
+      overflow: hidden;
+      margin-bottom: 28px;
       position: relative;
+    }
+
+    .album-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: grayscale(100%);
+      display: block;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    /* Progress bar */
+    .progress-section {
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    .progress-track {
+      width: 100%;
       height: 2px;
       background: #222;
+      position: relative;
+      cursor: pointer;
     }
 
-    .progress-dot {
+    .progress-fill {
+      height: 100%;
+      background: #222;
+      width: 37%;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
       width: 10px;
       height: 10px;
       background: #111;
       border-radius: 50%;
       position: absolute;
+      right: -5px;
       top: 50%;
-      left: 22%;
-      transform: translate(-50%, -50%);
+      transform: translateY(-50%);
     }
 
-    .heart-icon {
-      width: 22px;
-      height: 22px;
-      flex-shrink: 0;
+    .progress-times {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #555;
+      font-family: 'Cormorant Garamond', serif;
     }
 
     /* Controls row */
@@ -334,14 +359,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
+      gap: 0;
+      width: 100%;
+      margin-top: 8px;
+      position: relative;
     }
 
     .ctrl-btn {
       background: none;
       border: none;
       cursor: pointer;
-      padding: 0;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -358,17 +386,18 @@
 
     /* Large play/pause circle */
     .play-btn {
-      width: 54px;
-      height: 54px;
-      background: #111;
+      width: 58px;
+      height: 58px;
+      background: transparent;
       border-radius: 50%;
+      border: 2px solid #111;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      border: none;
       transition: transform 0.15s ease;
       flex-shrink: 0;
+      margin: 0 8px;
     }
 
     .play-btn:hover {
@@ -377,6 +406,25 @@
 
     .play-btn svg {
       display: block;
+    }
+
+    /* Shuffle & Repeat — corners */
+    .bottom-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 12px;
+      padding: 0 4px;
+    }
+
+    /* Heart icon left of controls */
+    .heart-ctrl {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
     }
 
     @keyframes fadeInDrop {
@@ -437,7 +485,7 @@
       font-family: 'Vrdznagir';
       font-size: 16px;
       color: #333;
-      margin: 15px 0 20px;
+      margin: 22px 0 20px;
       line-height: 1.5;
       z-index: 1;
       position: relative;
@@ -574,17 +622,14 @@
       padding: 20px;
       width: 100%;
       overflow-x: hidden;
-      /* ← ՓՈԽՎԱԾ */
     }
 
     .calendar-container table {
       width: 100%;
-      /* ← ՓՈԽՎԱԾ */
       max-width: 100%;
       margin: 0 auto;
       border-collapse: collapse;
       font-size: clamp(14px, 4vw, 22px);
-      /* ← ADAPTIVE */
     }
 
     table {
@@ -619,12 +664,12 @@
       }
 
       .heart-cell svg {
-        width: 36px;
-        height: 36px;
+        width: 28px;
+        height: 28px;
       }
 
       .heart-cell span {
-        font-size: 14px;
+        font-size: 12px;
       }
     }
 
@@ -652,7 +697,6 @@
       font-size: 26px;
     }
 
-    /* ← ՄԵԾԱՑՎԱԾ */
     th {
       font-weight: 400;
       padding: 10px 14px;
@@ -667,16 +711,13 @@
       position: relative;
     }
 
-    /* ← ՄԵԾԱՑՎԱԾ */
-
     .heart-cell {
       position: relative;
     }
 
     .heart-cell svg {
-      width: 48px;
-      height: 48px;
-      /* ← ՄԵԾԱՑՎԱԾ */
+      width: 34px;
+      height: 34px;
       stroke: #2c3e50;
       stroke-width: 2;
       fill: none;
@@ -707,8 +748,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 20px;
-      /* ← ՄԵԾԱՑՎԱԾ */
+      font-size: 16px;
       font-weight: 500;
       color: #2c3e50;
       z-index: 1;
@@ -890,32 +930,80 @@
   <div class="main-content" id="mainContent">
     <div class="invitation-card">
 
-      <!-- FIRST IMAGE -->
-      <div class="couple-photo" id="couplePhoto">
-        <div class="photo-wipe"></div>
-        <div class="photo-placeholder">
-          <img src="first.png" alt="Couple">
-        </div>
-      </div>
+      <!-- FIRST IMAGE is now shown in the music player album art above -->
 
       <div class="content" id="content">
 
-        <!-- ═══ MUSIC PLAYER (new design) ═══ -->
+        <!-- ═══ MUSIC PLAYER (Apple Music style) ═══ -->
         <div class="music-player">
-          <!-- Progress bar + heart -->
-          <div class="progress-row">
-            <div class="progress-bar-wrap">
-              <div class="progress-dot"></div>
-            </div>
-            <!-- Heart icon -->
-            <svg class="heart-icon" viewBox="0 0 24 24" fill="#111" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 21s-6-4.35-9-8.7C-1.5 6.6 4.5 0 12 5.25 19.5 0 25.5 6.6 21 12.3c-3 4.35-9 8.7-9 8.7z" />
-            </svg>
+          <!-- Album Art Square with couple photo -->
+          <div class="album-art">
+            <img src="first.png" alt="Couple">
           </div>
 
-          <!-- Controls -->
+          <!-- Progress bar -->
+          <div class="progress-section">
+            <div class="progress-track">
+              <div class="progress-fill"></div>
+            </div>
+            <div class="progress-times">
+              <span id="currentTime">1:23</span>
+              <span>3:21</span>
+            </div>
+          </div>
+
+          <!-- Main controls: heart, prev, play/pause, next -->
           <div class="controls-row">
-            <!-- Shuffle -->
+            <!-- Heart -->
+            <button class="heart-ctrl" title="Like">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            </button>
+
+            <!-- Prev -->
+            <button class="ctrl-btn" title="Previous">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="#111">
+                <polygon points="19 20 9 12 19 4 19 20" />
+                <line x1="5" y1="19" x2="5" y2="5" stroke="#111" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+
+            <!-- Play / Pause circle -->
+            <button class="play-btn" id="playBtn" title="Play/Pause">
+              <svg id="iconPlay" width="24" height="24" viewBox="0 0 24 24" fill="#111">
+                <polygon points="6 3 20 12 6 21 6 3" />
+              </svg>
+              <svg id="iconPause" width="24" height="24" viewBox="0 0 24 24" fill="#111" style="display:none;">
+                <rect x="6" y="4" width="4" height="16" rx="1" />
+                <rect x="14" y="4" width="4" height="16" rx="1" />
+              </svg>
+            </button>
+
+            <!-- Next -->
+            <button class="ctrl-btn" title="Next">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="#111">
+                <polygon points="5 4 15 12 5 20 5 4" />
+                <line x1="19" y1="5" x2="19" y2="19" stroke="#111" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+
+            <!-- Repeat -->
+            <button class="ctrl-btn" title="Repeat">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="17 1 21 5 17 9" />
+                <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                <polyline points="7 23 3 19 7 15" />
+                <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Shuffle bottom left -->
+          <div class="bottom-controls">
             <button class="ctrl-btn" title="Shuffle">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -925,50 +1013,11 @@
                 <line x1="15" y1="15" x2="21" y2="21" />
               </svg>
             </button>
-
-            <!-- Prev -->
-            <button class="ctrl-btn" title="Previous">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#111" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="19 20 9 12 19 4 19 20" />
-                <line x1="5" y1="19" x2="5" y2="5" stroke="#111" stroke-width="2" stroke-linecap="round" />
-              </svg>
-            </button>
-
-            <!-- Play / Pause -->
-            <button class="play-btn" id="playBtn" title="Play/Pause">
-              <!-- Play icon shown by default -->
-              <svg id="iconPlay" width="22" height="22" viewBox="0 0 24 24" fill="white">
-                <polygon points="6 3 20 12 6 21 6 3" />
-              </svg>
-              <!-- Pause icon (hidden) -->
-              <svg id="iconPause" width="22" height="22" viewBox="0 0 24 24" fill="white" style="display:none;">
-                <rect x="6" y="4" width="4" height="16" rx="1" />
-                <rect x="14" y="4" width="4" height="16" rx="1" />
-              </svg>
-            </button>
-
-            <!-- Next -->
-            <button class="ctrl-btn" title="Next">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#111" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="5 4 15 12 5 20 5 4" />
-                <line x1="19" y1="5" x2="19" y2="19" stroke="#111" stroke-width="2" stroke-linecap="round" />
-              </svg>
-            </button>
-
-            <!-- Repeat -->
-            <button class="ctrl-btn" title="Repeat">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="17 1 21 5 17 9" />
-                <path d="M3 11V9a4 4 0 0 1 4-4h14" />
-                <polyline points="7 23 3 19 7 15" />
-                <path d="M21 13v2a4 4 0 0 1-4 4H3" />
-              </svg>
-            </button>
+            <div></div>
           </div>
         </div>
 
-        <audio id="bg-music" src="SargisAvetisyan.mp3"></audio>
+        <audio id="bg-music" src="Sargis Avetisyan - Marry Me (Official Music Video 2024).mp3"></audio>
 
         <div class="schedule-section">
 
@@ -1022,7 +1071,7 @@
             <span style="background:#f7e2d6;"></span>
             <span style="background:#e4d8c3;"></span>
           </div>
-          <p class="no-white-text">Խնդրում ենք չհագնել սպիտակ զգեստ։<br>Սպիտակ գույնը վերապահված է հարսին։</p>
+          <p class="no-white-text">Հորդորում ենք չկրել սպիտակ զգեստ՝ <br>հարգելով հարսնացուին։</p>
         </section>
 
         <!-- Calendar -->
@@ -1157,11 +1206,6 @@
       body.classList.add('unlocked');
       document.getElementById('content').classList.add('show');
 
-      setTimeout(() => {
-        const couplePhoto = document.getElementById('couplePhoto');
-        if (couplePhoto) couplePhoto.classList.add('reveal');
-      }, 200);
-
       setTimeout(initScrollAnimations, 300);
     }
 
@@ -1186,6 +1230,8 @@
       const playBtn = document.getElementById('playBtn');
       const iconPlay = document.getElementById('iconPlay');
       const iconPause = document.getElementById('iconPause');
+      const fill = document.querySelector('.progress-fill');
+      const currentEl = document.getElementById('currentTime');
       let isPlaying = false;
 
       playBtn.addEventListener('click', () => {
@@ -1199,6 +1245,17 @@
           iconPause.style.display = 'block';
         }
         isPlaying = !isPlaying;
+      });
+
+      music.addEventListener('timeupdate', () => {
+        if (!music.duration) return;
+        const pct = (music.currentTime / music.duration) * 100;
+        if (fill) fill.style.width = pct + '%';
+        if (currentEl) {
+          const m = Math.floor(music.currentTime / 60);
+          const s = Math.floor(music.currentTime % 60).toString().padStart(2, '0');
+          currentEl.textContent = `${m}:${s}`;
+        }
       });
 
       /* Dress-code scroll animation */
@@ -1271,13 +1328,20 @@
           return;
         }
 
-        const fd = new FormData(FORM);
-        fd.set('full_name', `${first} ${last}`);
-        fd.set('response', resp);
-        fd.set('attend', resp);
-        fd.append('timestamp', new Date().toISOString());
+        const params = new URLSearchParams();
+        params.append('full_name', `${first} ${last}`);
+        params.append('firstName', first);
+        params.append('lastName', last);
+        params.append('response', resp);
+        params.append('attend', resp);
+        params.append('timestamp', new Date().toISOString());
 
-        fetch(ENDPOINT, {method: 'POST', body: fd, keepalive: true}).catch(() => { });
+        fetch(ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: params.toString()
+        }).catch(err => console.error('RSVP error:', err));
 
         const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
           ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'

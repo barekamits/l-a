@@ -14,12 +14,1115 @@
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
 
     @font-face {
-      font-family: 'Sasuntsi';
-      src: url('/D&A/Sasuntsi-Regular.ttf') format('truetype');
-    }
+      font-family: 'Vrdznagir';
+      src: url('Vrdznagir.otf') format('opentype');<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wedding Invitation</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crafty+Girls&display=swap" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
+
     @font-face {
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
+    }
+    @font-face {
+      font-family: 'Island-Moments';
+      src: url("IslandMoments-Regular.ttf") format('truetype');
+    }
+    @font-face {
+      font-family: 'HEGHNAR';
+      src: url("artarumianheghnar.ttf") format('truetype');
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { overflow-x: hidden; max-width: 100vw; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: url('third.png') no-repeat center center/cover;
+      min-height: 100vh;
+      color: white;
+      position: relative;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body.unlocked {
+      background-color: #e8e0d6;
+      background-image: none;
+      color: black;
+    }
+
+    /* ═══ OVERLAY ═══ */
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.4);
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 18em;
+      transition: opacity 0.8s ease;
+      z-index: 100;
+    }
+
+    .overlay.hidden { opacity: 0; pointer-events: none; display: none; }
+
+    .overlay h1 {
+      font-size: 6em;
+      text-align: center;
+      margin: 0;
+      background: url('third.png') no-repeat center center/cover;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      transform: translateY(269px);
+    }
+
+    .slider-text-wrapper {
+      margin-top: 18em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1em;
+    }
+
+    .text { font-family: 'Great Vibes', cursive; font-size: 1.5em; color: white; }
+
+    .slider {
+      position: relative;
+      width: 250px;
+      height: 50px;
+      border: 2px dashed white;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      cursor: pointer;
+      padding: 3px;
+      box-sizing: border-box;
+    }
+
+    .circle {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background-color: transparent;
+      border: 2px solid white;
+      position: absolute;
+      right: 3px;
+      z-index: 1;
+    }
+
+    .arrow {
+      width: 44px; height: 44px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 3px;
+      transition: left 0.5s ease;
+      z-index: 2;
+      font-size: 24px;
+      color: black;
+    }
+
+    .arrow svg { width: 16px; height: 16px; }
+    
+    @media (max-width: 768px) {
+      .overlay h1 {
+        font-size: 6em;
+        transform: translateY(250px);
+      }
+      .slider-text-wrapper {
+        margin-top: 15em;
+      }
+      .text {
+        font-size: 1.5em;
+        padding: 0 20px;
+        text-align: center;
+      }
+    }
+
+    /* ═══ MAIN CONTENT ═══ */
+    .main-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      padding: 40px 20px 20px;
+      z-index: 1;
+    }
+
+    .main-content.active { display: flex; }
+
+    .invitation-card {
+      background-color: #e8e0d6;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      padding: 40px 30px;
+      position: relative;
+    }
+
+    /* ═══ IMAGE ANIMATIONS ═══ */
+    .couple-photo {
+      width: 100%;
+      height: 300px;
+      border-radius: 8px;
+      margin-bottom: 50px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .photo-wipe { display: none; }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .photo-placeholder img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: grayscale(100%);
+      opacity: 0;
+      transform: scale(0.88) translateY(30px);
+      transition: none;
+    }
+
+    .couple-photo.reveal .photo-placeholder img {
+      animation: comeForward 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+    }
+
+    @keyframes comeForward {
+      0%   { opacity: 0; transform: scale(0.88) translateY(30px); filter: grayscale(100%) blur(6px); }
+      60%  { opacity: 1; filter: grayscale(100%) blur(0px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: grayscale(100%) blur(0px); }
+    }
+
+    .img-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .couple-bg-img-inner {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      opacity: 0;
+      transform: scale(0.88) translateY(30px);
+      filter: blur(6px);
+    }
+
+    .img-wrapper.img-visible .couple-bg-img-inner {
+      animation: comeForward 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Content sections reveal */
+    .content { display: none; text-align: center; width: 100%; position: relative; }
+    .content.show { display: block; }
+
+    /* ═══ MUSIC PLAYER ═══ */
+    .music-player {
+      margin: 0 auto 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    /* Album Art Square */
+    .album-art {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 1.5px solid #222;
+      overflow: hidden;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .album-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: grayscale(100%);
+      display: block;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    /* Progress bar */
+    .progress-section {
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 2px;
+      background: #222;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #222;
+      width: 37%;
+      position: relative;
+    }
+
+    .progress-fill::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #111;
+      border-radius: 50%;
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .progress-times {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #555;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Controls row */
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+      margin-top: 8px;
+      position: relative;
+    }
+
+    .ctrl-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .ctrl-btn:hover { transform: scale(1.1); }
+    .ctrl-btn svg { display: block; }
+
+    /* Large play/pause circle */
+    .play-btn {
+      width: 58px;
+      height: 58px;
+      background: transparent;
+      border-radius: 50%;
+      border: 2px solid #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      flex-shrink: 0;
+      margin: 0 8px;
+    }
+
+    .play-btn:hover { transform: scale(1.05); }
+    .play-btn svg { display: block; }
+
+    /* Shuffle & Repeat — corners */
+    .bottom-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 12px;
+      padding: 0 4px;
+    }
+
+    /* Heart icon left of controls */
+    .heart-ctrl {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    @keyframes fadeInDrop {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══ SCHEDULE ═══ */
+    .schedule-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin-top: 30px;
+      position: relative;
+    }
+
+    .schedule-block {
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+      padding: 20px 10px;
+      position: relative;
+    }
+
+    .time {
+      font-size: 45px;
+      font-family: 'HEGHNAR';
+      color: rgba(0, 0, 0, 0.1);
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 0;
+      white-space: nowrap;
+    }
+
+    .title {
+      font-family: 'Vrdznagir';
+      font-size: 36px;
+      font-weight: bold;
+      color: #222;
+      margin-top: 30px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .desc {
+      font-family: 'Vrdznagir';
+      font-size: 16px;
+      color: #333;
+      margin: 22px 0 20px;
+      line-height: 1.5;
+      z-index: 1;
+      position: relative;
+    }
+
+    .nav-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #000;
+      background-color: #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-decoration: none;
+      transition: 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-btn:hover { background: #f2f2f2; }
+
+    /* ═══ DRESS CODE ═══ */
+    .dress-code {
+      text-align: center;
+      padding: 60px 20px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .dress-text,
+    .dress-colors span,
+    .no-white-text {
+      opacity: 0;
+      font-family: 'Vrdznagir';
+    }
+
+    .dress-colors {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .dress-title { font-family: 'HEGHNAR'; font-size: 48px; }
+
+    .dress-title.animate { animation: slideDown 1s forwards; }
+    .dress-text.animate  { animation: slideDown 1s forwards 0.3s; }
+
+    .dress-colors span.animate:nth-child(1) { animation: slideIn 0.6s forwards 0.6s; --start: -50px; }
+    .dress-colors span.animate:nth-child(2) { animation: slideIn 0.6s forwards 0.7s; --start: 50px; }
+    .dress-colors span.animate:nth-child(3) { animation: slideIn 0.6s forwards 0.8s; --start: -50px; }
+    .dress-colors span.animate:nth-child(4) { animation: slideIn 0.6s forwards 0.9s; --start: 50px; }
+
+    .no-white-text.animate { animation: slideDown 1s forwards 1.1s; }
+
+    @keyframes slideDown {
+      0%   { transform: translateY(-50px); opacity: 0; }
+      100% { transform: translateY(0);     opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      0%   { opacity: 0; transform: translateX(var(--start)); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .dress-colors span {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+    .dress-colors span:hover { transform: scale(1.1); }
+
+    .no-white-text {
+      font-family: 'Vrdznagir';
+      font-size: 16px;
+      color: #333;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    /* ═══ CALENDAR ═══ */
+   .calendar-container {
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.calendar-container table {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: clamp(14px, 4vw, 22px);
+}
+
+table { border-collapse: collapse; margin: 0; text-align: center; font-size: clamp(14px, 4vw, 22px); }
+th { font-weight: 400; padding: 6px 4px; color: #666; }
+td { width: auto; height: auto; padding: 8px 4px; color: #333; position: relative; }
+
+@media (max-width: 480px) {
+  .calendar-container table { font-size: 14px; }
+  .calendar-container th, .calendar-container td { padding: 6px 3px; }
+  .heart-cell svg { width: 28px; height: 28px; }
+  .heart-cell span { font-size: 12px; }
+}
+
+    .big-date {
+      font-size: 100px;
+      font-weight: 300;
+      color: rgba(0,0,0,0.1);
+      margin: 0;
+      line-height: 1;
+    }
+
+    .month-text {
+      font-family: 'Vrdznagir';
+      font-size: 32px;
+      font-style: italic;
+      color: #333;
+      margin-top: -15px;
+      margin-bottom: 20px;
+    }
+
+    table { border-collapse: collapse; margin: 0; text-align: center; font-size: 26px; }
+    th { font-weight: 400; padding: 10px 14px; color: #666; }
+    td { width: 52px; height: 52px; padding: 6px; color: #333; position: relative; }
+
+    .heart-cell { position: relative; }
+
+    .heart-cell svg {
+      width: 34px; height: 34px;
+      stroke: #2c3e50;
+      stroke-width: 2;
+      fill: none;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .heart-cell svg {
+      animation: heartPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes heartPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50%       { transform: translate(-50%, -50%) scale(1.15); }
+    }
+
+    .heart-cell span {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 16px;
+      font-weight: 500;
+      color: #2c3e50;
+      z-index: 1;
+    }
+
+    /* ═══ RSVP ═══ */
+    #rsvpForm {
+      margin: 40px auto;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .name-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .name-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      color: #3B3B28;
+      background-color: white;
+      border: 1px solid #3B3B28;
+      border-radius: 25px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .name-input::placeholder { color: #888; }
+    .name-input:focus { border-color: #4c4731; box-shadow: 0 0 0 2px rgba(76,71,49,0.1); }
+
+    .button-wrapper {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .btn {
+      font-size: 18px;
+      color: white;
+      padding: 12px 45px;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-yes { background-color: #4c4731; }
+    .btn-no  { background-color: #7b685b; }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ═══ CONFIRMATION MESSAGES ═══ */
+    .confirmation-message {
+      position: fixed;
+      top: 145px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      font-size: 18px;
+      color: #4c4731;
+      text-align: center;
+      opacity: 0;
+      transition: all 0.5s ease;
+      background-color: rgba(255,255,255,0.95);
+      padding: 20px 30px;
+      border-radius: 20px;
+      border: 1px solid #4c4731;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      backdrop-filter: blur(10px);
+      max-width: 350px;
+      pointer-events: none;
+    }
+
+    .confirmation-message.show {
+      opacity: 1;
+      animation: slideInFromTop 0.6s ease-out;
+    }
+
+    .confirmation-message.hide {
+      animation: slideOutToTop 0.5s ease-in;
+    }
+
+    .error-message {
+      color: #d32f2f !important;
+      border-color: #d32f2f !important;
+      background-color: rgba(255,235,238,0.95) !important;
+    }
+
+    @keyframes slideInFromTop {
+      from { opacity: 0; transform: translateX(-50%) translateY(-100px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    @keyframes slideOutToTop {
+      from { opacity: 1; transform: translateX(-50%) translateY(0); }
+      to   { opacity: 0; transform: translateX(-50%) translateY(-100px); }
+    }
+
+    .message-title {
+      font-family: 'Vrdznagir', sans-serif;
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: #4c4731;
+    }
+
+    .message-text {
+      font-family: 'Vrdznagir', sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 480px) {
+      .overlay h1 { font-size: 4em; }
+      .big-date    { font-size: 70px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ OVERLAY ═══ -->
+  <div class="overlay" id="overlay">
+    <h1>Դ &amp; Ա</h1>
+    <div class="slider-text-wrapper">
+      <div class="text">Unlock the moments that will last a lifetime.</div>
+      <div class="slider" id="slider">
+        <div class="arrow" id="arrow">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="circle" id="end-zone"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <div class="main-content" id="mainContent">
+    <div class="invitation-card">
+
+      <!-- FIRST IMAGE is now shown in the music player album art above -->
+
+      <div class="content" id="content">
+
+        <!-- ═══ MUSIC PLAYER (Apple Music style) ═══ -->
+        <div class="music-player">
+          <!-- Album Art Square with couple photo -->
+          <div class="album-art">
+            <img src="first.png" alt="Couple">
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-section">
+            <div class="progress-track">
+              <div class="progress-fill"></div>
+            </div>
+            <div class="progress-times">
+              <span id="currentTime">1:23</span>
+              <span>3:21</span>
+            </div>
+          </div>
+
+          <!-- Main controls: heart, prev, play/pause, next -->
+          <div class="controls-row">
+            <!-- Heart -->
+            <button class="heart-ctrl" title="Like">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </button>
+
+            <!-- Prev -->
+            <button class="ctrl-btn" title="Previous">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="#111">
+                <polygon points="19 20 9 12 19 4 19 20"/>
+                <line x1="5" y1="19" x2="5" y2="5" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <!-- Play / Pause circle -->
+            <button class="play-btn" id="playBtn" title="Play/Pause">
+              <svg id="iconPlay" width="24" height="24" viewBox="0 0 24 24" fill="#111">
+                <polygon points="6 3 20 12 6 21 6 3"/>
+              </svg>
+              <svg id="iconPause" width="24" height="24" viewBox="0 0 24 24" fill="#111" style="display:none;">
+                <rect x="6" y="4" width="4" height="16" rx="1"/>
+                <rect x="14" y="4" width="4" height="16" rx="1"/>
+              </svg>
+            </button>
+
+            <!-- Next -->
+            <button class="ctrl-btn" title="Next">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="#111">
+                <polygon points="5 4 15 12 5 20 5 4"/>
+                <line x1="19" y1="5" x2="19" y2="19" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <!-- Repeat -->
+            <button class="ctrl-btn" title="Repeat">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="17 1 21 5 17 9"/>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                <polyline points="7 23 3 19 7 15"/>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Shuffle bottom left -->
+          <div class="bottom-controls">
+            <button class="ctrl-btn" title="Shuffle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 3 21 3 21 8"/>
+                <line x1="4" y1="20" x2="21" y2="3"/>
+                <polyline points="21 16 21 21 16 21"/>
+                <line x1="15" y1="15" x2="21" y2="21"/>
+              </svg>
+            </button>
+            <div></div>
+          </div>
+        </div>
+
+        <audio id="bg-music" src="Sargis Avetisyan - Marry Me (Official Music Video 2024).mp3"></audio>
+
+        <div class="schedule-section">
+
+          <div class="schedule-block">
+            <div class="time">11:00</div>
+            <div class="title">Փեսայի Տուն</div>
+            <div class="desc">Երևան, Աբովյան փողոց 32, բն․ 15</div>
+          </div>
+
+          <div class="schedule-block">
+            <div class="time">12:30</div>
+            <div class="title">Հարսի Տուն</div>
+            <div class="desc">Երևան, Ազատության պողոտա 10, բն․ 5</div>
+          </div>
+
+          <div class="schedule-block">
+            <div class="time">15:00</div>
+            <div class="title">Պսակադրություն</div>
+            <div class="desc">Սաղմոսավանք Վանական Համալիր</div>
+            <a href="#" class="nav-btn">Ինչպես հասնել</a>
+          </div>
+
+          <div class="schedule-block">
+            <div class="time">17:30</div>
+            <div class="title">Խնջույք</div>
+            <div class="desc">Հրաշք Այգի Ռեստորանային համալիր</div>
+            <a href="#" class="nav-btn">Ինչպես հասնել</a>
+          </div>
+
+          <div class="schedule-block">
+            <div class="time">Ուշադրություն</div>
+            <div class="title">Հարգելի Հյուրեր</div>
+            <div class="desc">Խնդրում ենք հատուկ ուշադրություն դարձնել ձեր մանկահասակ երեխաներին ամբողջ տոնակատարության ընթացքում։</div>
+          </div>
+
+        </div>
+
+        <!-- SECOND IMAGE -->
+        <div class="img-wrapper" id="secondImgWrapper">
+          <img src="second.png.JPEG" alt="Couple BG" class="couple-bg-img-inner">
+        </div>
+
+        <!-- Dress Code -->
+        <section class="dress-code">
+          <h1 class="dress-title">Dress Code</h1>
+          <h2 class="dress-text">Ուրախ կլինենք, եթե հետևեք մեր նախընտրած գունային երանգներին</h2>
+          <div class="dress-colors">
+            <span style="background:#d4a5a5;"></span>
+            <span style="background:#f0cfcf;"></span>
+            <span style="background:#f7e2d6;"></span>
+            <span style="background:#e4d8c3;"></span>
+          </div>
+          <p class="no-white-text">Հորդորում ենք չկրել սպիտակ զգեստ՝<br>հարգելով հարսնացուին։</p>
+        </section>
+
+        <!-- Calendar -->
+        <div class="calendar-container" id="calendarContainer">
+          <p class="big-date">15/10</p>
+          <p class="month-text">15 Հոկտեմբերի</p>
+          <table>
+            <tr>
+              <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+            </tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td></tr>
+            <tr><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+            <tr>
+              <td>10</td><td>11</td>
+              <td class="heart-cell">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21s-6-4.35-9-8.7C-1.5 6.6 4.5 0 12 5.25 19.5 0 25.5 6.6 21 12.3c-3 4.35-9 8.7-9 8.7z"/>
+                </svg>
+                <span>15</span>
+              </td>
+              <td>12</td><td>13</td><td>14</td><td>16</td>
+            </tr>
+            <tr><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
+            <tr><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td></tr>
+          </table>
+        </div>
+
+        <!-- ═══ RSVP FORM ═══ -->
+        <form id="rsvpForm" class="name-fields">
+          <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
+          <input type="text" name="lastName"  class="name-input" placeholder="Ազգանուն" required>
+          <input type="hidden" name="response" id="responseInput">
+
+          <div class="button-wrapper">
+            <button type="button" class="btn btn-yes" onclick="setResponseAndSubmit('ԳԱԼԻՍ ԵՄ')">ԳԱԼԻՍ ԵՄ</button>
+            <button type="button" class="btn btn-no"  onclick="setResponseAndSubmit('ՉԵՄ ԳԱԼԻՍ')">ՉԵՄ ԳԱԼԻՍ</button>
+            <button type="submit" id="submitBtn" style="display:none;">Ուղարկել</button>
+          </div>
+
+          <div class="confirmation-message" id="successMessage" style="display:none;"></div>
+          <div class="confirmation-message error-message" id="errorMessage" style="display:none;"></div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════
+       SLIDER / UNLOCK
+    ═══════════════════════════════════════════ */
+    const arrow       = document.getElementById('arrow');
+    const slider      = document.getElementById('slider');
+    const overlay     = document.getElementById('overlay');
+    const mainContent = document.getElementById('mainContent');
+    const body        = document.body;
+
+    let isDragging = false, startX, currentX;
+    let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+
+    arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+    window.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
+      else arrow.style.left = '3px';
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      currentX = e.clientX - startX;
+      arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+    });
+
+    arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+    window.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      if (parseInt(arrow.style.left || 3) >= maxX - 10) unlock();
+      else arrow.style.left = '3px';
+    });
+    window.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      currentX = e.touches[0].clientX - startX;
+      arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
+    });
+
+    function unlock() {
+      overlay.classList.add('hidden');
+      mainContent.classList.add('active');
+      body.classList.add('unlocked');
+      document.getElementById('content').classList.add('show');
+
+      setTimeout(initScrollAnimations, 300);
+    }
+
+    function initScrollAnimations() {
+      const imgWrapper = document.getElementById('secondImgWrapper');
+      const imgObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('img-visible');
+            imgObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.25 });
+      if (imgWrapper) imgObserver.observe(imgWrapper);
+    }
+
+    /* ═══════════════════════════════════════════
+       MUSIC PLAYER
+    ═══════════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', function () {
+      const music      = document.getElementById('bg-music');
+      const playBtn    = document.getElementById('playBtn');
+      const iconPlay   = document.getElementById('iconPlay');
+      const iconPause  = document.getElementById('iconPause');
+      const fill       = document.querySelector('.progress-fill');
+      const currentEl  = document.getElementById('currentTime');
+      let isPlaying    = false;
+
+      playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          music.pause();
+          iconPlay.style.display  = 'block';
+          iconPause.style.display = 'none';
+        } else {
+          music.play();
+          iconPlay.style.display  = 'none';
+          iconPause.style.display = 'block';
+        }
+        isPlaying = !isPlaying;
+      });
+
+      music.addEventListener('timeupdate', () => {
+        if (!music.duration) return;
+        const pct = (music.currentTime / music.duration) * 100;
+        if (fill) fill.style.width = pct + '%';
+        if (currentEl) {
+          const m = Math.floor(music.currentTime / 60);
+          const s = Math.floor(music.currentTime % 60).toString().padStart(2, '0');
+          currentEl.textContent = `${m}:${s}`;
+        }
+      });
+
+      /* Dress-code scroll animation */
+      const dressSection = document.querySelector('.dress-code');
+      if (dressSection) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.querySelector('.dress-title').classList.add('animate');
+              entry.target.querySelector('.dress-text').classList.add('animate');
+              entry.target.querySelectorAll('.dress-colors span').forEach(s => s.classList.add('animate'));
+              const noWhite = entry.target.querySelector('.no-white-text');
+              if (noWhite) noWhite.classList.add('animate');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        observer.observe(dressSection);
+      }
+    });
+
+    /* ═══════════════════════════════════════════
+       RSVP
+    ═══════════════════════════════════════════ */
+    (function () {
+      const FORM     = document.getElementById('rsvpForm');
+      const OK       = document.getElementById('successMessage');
+      const ERR      = document.getElementById('errorMessage');
+      const ENDPOINT = "https://script.google.com/macros/s/AKfycbzMnMF8P0gJVkVipAeaBc9DRPH_sH-KnSqLKNaB6jq5bSMVOfJH0W2DjAJbyjYMFhPa/exec";
+
+      function showMsg(el, html) {
+        [OK, ERR].forEach(m => {
+          m.style.display = 'none';
+          m.classList.remove('show', 'hide');
+        });
+
+        el.innerHTML = html;
+        el.style.display = 'block';
+        setTimeout(() => el.classList.add('show'), 10);
+
+        setTimeout(() => {
+          el.classList.add('hide');
+          setTimeout(() => {
+            el.style.display = 'none';
+            el.classList.remove('show', 'hide');
+          }, 500);
+        }, 4000);
+      }
+
+      FORM.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+        const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
+
+        if (!first || !last) {
+          showMsg(ERR,
+            '<div class="message-title">Սխալ</div>' +
+            '<div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>'
+          );
+          return;
+        }
+
+        const resp = (document.getElementById('responseInput').value || '').trim();
+        if (!resp) {
+          showMsg(ERR,
+            '<div class="message-title">Սխալ</div>' +
+            '<div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>'
+          );
+          return;
+        }
+
+        const params = new URLSearchParams();
+        params.append('full_name', `${first} ${last}`);
+        params.append('firstName', first);
+        params.append('lastName',  last);
+        params.append('response',  resp);
+        params.append('attend',    resp);
+        params.append('timestamp', new Date().toISOString());
+
+        fetch(ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: params.toString()
+        }).catch(err => console.error('RSVP error:', err));
+
+        const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
+          ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
+          : 'Մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
+
+        showMsg(OK,
+          '<div class="message-title">Շնորհակալություն</div>' +
+          `<div class="message-text">${responseText}</div>`
+        );
+
+        FORM.reset();
+        document.getElementById('responseInput').value = '';
+      });
+
+      window.setResponseAndSubmit = function (answer) {
+        document.getElementById('responseInput').value = answer;
+        if (FORM.requestSubmit) FORM.requestSubmit();
+        else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      };
+    })();
+  </script>
+</body>
+</html>
     }
     @font-face {
       font-family: 'Island-Moments';
@@ -1037,5 +2140,6 @@ td { width: auto; height: auto; padding: 8px 4px; color: #333; position: relativ
   </script>
 </body>
 </html>
+
 
 

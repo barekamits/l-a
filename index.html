@@ -1278,95 +1278,110 @@
       }
     });
 
-    /* ═══════════════════════════════════════════
-       RSVP
-    ═══════════════════════════════════════════ */
-    (function () {
-      const FORM = document.getElementById('rsvpForm');
-      const OK = document.getElementById('successMessage');
-      const ERR = document.getElementById('errorMessage');
-      const ENDPOINT = "https://script.google.com/macros/s/AKfycbyxMH5asEZo74dH2Ca_bZrfOHKeuPbYA0vCEz6JyuzoFx1-shi3ZdPF7HZ-5AD__MXA/exec";
+/* ═══════════════════════════════════════════
+   RSVP
+═══════════════════════════════════════════ */
+(function () {
+  const FORM = document.getElementById('rsvpForm');
+  const OK = document.getElementById('successMessage');
+  const ERR = document.getElementById('errorMessage');
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbyxMH5asEZo74dH2Ca_bZrfOHKeuPbYA0vCEz6JyuzoFx1-shi3ZdPF7HZ-5AD__MXA/exec";
 
-      function showMsg(el, html) {
-        [OK, ERR].forEach(m => {
-          m.style.display = 'none';
-          m.classList.remove('show', 'hide');
-        });
+  function showMsg(el, html) {
+    [OK, ERR].forEach(m => {
+      m.style.display = 'none';
+      m.classList.remove('show', 'hide');
+    });
 
-        el.innerHTML = html;
-        el.style.display = 'block';
-        setTimeout(() => el.classList.add('show'), 10);
+    el.innerHTML = html;
+    el.style.display = 'block';
+    setTimeout(() => el.classList.add('show'), 10);
 
-        setTimeout(() => {
-          el.classList.add('hide');
-          setTimeout(() => {
-            el.style.display = 'none';
-            el.classList.remove('show', 'hide');
-          }, 500);
-        }, 4000);
-      }
+    setTimeout(() => {
+      el.classList.add('hide');
+      setTimeout(() => {
+        el.style.display = 'none';
+        el.classList.remove('show', 'hide');
+      }, 500);
+    }, 4000);
+  }
 
-      FORM.addEventListener('submit', (e) => {
-        e.preventDefault();
+  FORM.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
-        const last = (FORM.querySelector('[name="lastName"]').value || '').trim();
+    const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+    const last = (FORM.querySelector('[name="lastName"]').value || '').trim();
 
-        if (!first || !last) {
-          showMsg(ERR,
-            '<div class="message-title">Սխալ</div>' +
-            '<div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>'
-          );
-          return;
-        }
+    if (!first || !last) {
+      showMsg(ERR,
+        '<div class="message-title">Սխալ</div>' +
+        '<div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>'
+      );
+      return;
+    }
 
-        const resp = (document.getElementById('responseInput').value || '').trim();
-        if (!resp) {
-          showMsg(ERR,
-            '<div class="message-title">Սխալ</div>' +
-            '<div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>'
-          );
-          return;
-        }
+    const resp = (document.getElementById('responseInput').value || '').trim();
+    if (!resp) {
+      showMsg(ERR,
+        '<div class="message-title">Սխալ</div>' +
+        '<div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>'
+      );
+      return;
+    }
 
-        const params = new URLSearchParams();
-        params.append('full_name', `${first} ${last}`);
-        params.append('firstName', first);
-        params.append('lastName', last);
-        params.append('response', resp);
-        params.append('attend', resp);
-        params.append('timestamp', new Date().toISOString());
+    const params = new URLSearchParams();
+    params.append('full_name', `${first} ${last}`);
+    params.append('firstName', first);
+    params.append('lastName', last);
+    params.append('response', resp);
+    params.append('attend', resp);
+    params.append('timestamp', new Date().toISOString());
 
-        fetch(ENDPOINT, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          body: params.toString()
-        }).catch(err => console.error('RSVP error:', err));
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: params.toString()
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.text();
+    })
+    .then(() => {
 
-        const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
-          ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
-          : 'Մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
+      const responseText = resp === 'ԳԱԼԻՍ ԵՄ'
+        ? 'Մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։'
+        : 'Մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
 
-        showMsg(OK,
-          '<div class="message-title">Շնորհակալություն</div>' +
-          `<div class="message-text">${responseText}</div>`
-        );
+      showMsg(OK,
+        '<div class="message-title">Շնորհակալություն</div>' +
+        `<div class="message-text">${responseText}</div>`
+      );
 
-        FORM.reset();
-        document.getElementById('responseInput').value = '';
-      });
+      FORM.reset();
+      document.getElementById('responseInput').value = '';
+    })
+    .catch(() => {
+      showMsg(ERR,
+        '<div class="message-title">Սխալ</div>' +
+        '<div class="message-text">Տեղի ունեցավ խնդիր, փորձեք կրկին</div>'
+      );
+    });
 
-      window.setResponseAndSubmit = function (answer) {
-        document.getElementById('responseInput').value = answer;
-        if (FORM.requestSubmit) FORM.requestSubmit();
-        else FORM.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
-      };
-    })();
+  });
+
+  window.setResponseAndSubmit = function (answer) {
+    document.getElementById('responseInput').value = answer;
+    if (FORM.requestSubmit) FORM.requestSubmit();
+    else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  };
+})();
   </script>
 </body>
 
 </html>
+
 
 
 

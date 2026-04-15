@@ -843,11 +843,7 @@
     </div>
   </div>
 
-
   <script>
-    /* ═══════════════════════════════════════════
-       SLIDER / UNLOCK
-    ═══════════════════════════════════════════ */
     const arrow = document.getElementById('arrow');
     const slider = document.getElementById('slider');
     const overlay = document.getElementById('overlay');
@@ -857,7 +853,7 @@
     let isDragging = false, startX, currentX;
     let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
 
-    arrow.addEventListener('mousedown', e => {isDragging = true; startX = e.clientX;});
+    arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
     window.addEventListener('mouseup', () => {
       if (!isDragging) return;
       isDragging = false;
@@ -870,7 +866,7 @@
       arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
     });
 
-    arrow.addEventListener('touchstart', e => {isDragging = true; startX = e.touches[0].clientX;});
+    arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
     window.addEventListener('touchend', () => {
       if (!isDragging) return;
       isDragging = false;
@@ -887,76 +883,42 @@
       overlay.classList.add('hidden');
       mainContent.classList.add('active');
       body.classList.add('unlocked');
-      document.getElementById('content').classList.add('show');
-
       setTimeout(initScrollAnimations, 300);
     }
 
     function initScrollAnimations() {
-      const imgWrapper = document.getElementById('secondImgWrapper');
-      const imgObserver = new IntersectionObserver((entries) => {
+      const wrapper = document.getElementById('locationWrapper');
+      const icon = document.getElementById('locationIcon');
+      const wrapperObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('img-visible');
-            imgObserver.unobserve(entry.target);
+            icon.classList.add('playing');
+            const delays = [200, 4000, 7200, 10400, 13600];
+            const items = ['stop1', 'stop2', 'stop3', 'stop4', 'stop5'];
+            const dots  = ['dot1',  'dot2',  'dot3',  'dot4',  'dot5'];
+            items.forEach((id, i) => {
+              setTimeout(() => {
+                document.getElementById(id).classList.add('visible');
+                document.getElementById(dots[i]).classList.add('visible');
+              }, delays[i]);
+            });
+            wrapperObserver.unobserve(entry.target);
           }
         });
-      }, {threshold: 0.25});
-      if (imgWrapper) imgObserver.observe(imgWrapper);
+      }, { threshold: 0.1 });
+      if (wrapper) wrapperObserver.observe(wrapper);
     }
 
-    /* ═══════════════════════════════════════════
-       MUSIC PLAYER
-    ═══════════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', function () {
       const music = document.getElementById('bg-music');
-      const playBtn = document.getElementById('playBtn');
-      const iconPlay = document.getElementById('iconPlay');
-      const iconPause = document.getElementById('iconPause');
-      const fill = document.querySelector('.progress-fill');
-      const currentEl = document.getElementById('currentTime');
+      const musicBtn = document.getElementById('music-btn');
       let isPlaying = false;
-
-      playBtn.addEventListener('click', () => {
-        if (isPlaying) {
-          music.pause();
-          iconPlay.style.display = 'block';
-          iconPause.style.display = 'none';
-        } else {
-          music.play();
-          iconPlay.style.display = 'none';
-          iconPause.style.display = 'block';
-        }
-        isPlaying = !isPlaying;
-      });
-
-      music.addEventListener('timeupdate', () => {
-        if (!music.duration) return;
-        const pct = (music.currentTime / music.duration) * 100;
-        if (fill) fill.style.width = pct + '%';
-        if (currentEl) {
-          const m = Math.floor(music.currentTime / 60);
-          const s = Math.floor(music.currentTime % 60).toString().padStart(2, '0');
-          currentEl.textContent = `${m}:${s}`;
-        }
-      });
-
-      /* Dress-code scroll animation */
-      const dressSection = document.querySelector('.dress-code');
-      if (dressSection) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.querySelector('.dress-title').classList.add('animate');
-              entry.target.querySelector('.dress-text').classList.add('animate');
-              entry.target.querySelectorAll('.dress-colors span').forEach(s => s.classList.add('animate'));
-              const noWhite = entry.target.querySelector('.no-white-text');
-              if (noWhite) noWhite.classList.add('animate');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, {threshold: 0.3});
-        observer.observe(dressSection);
+      if (musicBtn) {
+        musicBtn.addEventListener('click', () => {
+          if (isPlaying) { music.pause(); musicBtn.src = "play.png"; } 
+          else { music.play(); musicBtn.src = "pause.png"; }
+          isPlaying = !isPlaying;
+        });
       }
     });
 

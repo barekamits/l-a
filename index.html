@@ -333,13 +333,17 @@
   gap: 8px; /* Գույների արանքի հեռավորությունը շարքի ներսում */
   flex-wrap: wrap; 
 }
-
+/* Սկզբնական վիճակ՝ թաքնված */
 .dc-circle {
   width: 45px;
   height: 45px;
   border-radius: 50%;
   opacity: 0;
   transform: translateY(20px);
+}
+
+/* Անիմացիան միանում է ՄԻԱՅՆ այն ժամանակ, երբ բաժինը ստանում է .active դասը */
+.dress-code-colors.active .dc-circle {
   animation: fadeUp 0.6s ease forwards;
 }
 
@@ -350,20 +354,17 @@
   }
 }
 
-/* Գույների սահմանում և Անիմացիայի Ուշացումներ (Թարմացված) */
+/* Գույների ուշացումները (Animation delays) */
+.dc-c6 { background: #D0A79E; animation-delay: 0.1s; }
+.dc-c7 { background: #B9816B; animation-delay: 0.2s; }
+.dc-c8 { background: #9B634B; animation-delay: 0.3s; }
+.dc-c9 { background: #8B6664; animation-delay: 0.4s; }
 
-/* Այժմյան Վերևի Շարք (Image_1.png colors) */
-.dc-c6 { background: #D0A79E; animation-delay: 0.1s; } /* Nude Brown */
-.dc-c7 { background: #B9816B; animation-delay: 0.2s; } /* Warm Terracotta */
-.dc-c8 { background: #9B634B; animation-delay: 0.3s; } /* Chocolate Brown */
-.dc-c9 { background: #8B6664; animation-delay: 0.4s; } /* Deep Mauve/Choco */
-
-/* Այժմյան Ներքևի Շարք (Pantone SS 2026) */
-.dc-c1 { background: #F3B0BC; animation-delay: 0.6s; } /* Tickled Pink - Ավելի մեծ ուշացում */
-.dc-c2 { background: #9B76B0; animation-delay: 0.7s; } /* Amethyst Orchid */
-.dc-c3 { background: #99B9E0; animation-delay: 0.8s; } /* Dutch Canal */
-.dc-c4 { background: #718B6F; animation-delay: 0.9s; } /* Shale Green */
-.dc-c5 { background: #F9E49B; animation-delay: 1.0s; } /* Pale Banana */
+.dc-c1 { background: #F3B0BC; animation-delay: 0.6s; }
+.dc-c2 { background: #9B76B0; animation-delay: 0.7s; }
+.dc-c3 { background: #99B9E0; animation-delay: 0.8s; }
+.dc-c4 { background: #718B6F; animation-delay: 0.9s; }
+.dc-c5 { background: #F9E49B; animation-delay: 1.0s; }
 
     /* ═══ LOCATION PATH ANIMATION ═══ */
     .location-wrapper {
@@ -1016,13 +1017,40 @@
               else FORM.dispatchEvent(new Event('submit', { bubbles:true, cancelable:true }));
             };
             })();
+  
+  
+  //guyner
+  // Սպասում ենք մինչև էջը լիարժեք բեռնվի
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // Գտնում ենք գույների բաժինը
+    const colorsContainer = document.querySelector('.dress-code-colors');
+
+    // Ստեղծում ենք «դիտորդ» (Observer)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // Եթե օգտատերը սքրոլով հասել է այս բաժնին
+        if (entry.isIntersecting) {
+          colorsContainer.classList.add('active'); // Միացնում ենք անիմացիան
+          observer.unobserve(entry.target); // Այլևս չենք հետևում, որպեսզի անիմացիան չկրկնվի
+        }
+      });
+    }, { 
+      threshold: 0.3 // Անիմացիան կսկսվի, երբ բաժնի 30%-ը հայտնվի էկրանին
+    });
+
+    if (colorsContainer) {
+      observer.observe(colorsContainer);
+    }
+  });
+
   </script>
 </body>
 
 </html>
 
 
-
+ 
 
 
 

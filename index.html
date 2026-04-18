@@ -35,15 +35,14 @@
       box-sizing: border-box;
     }
 
-    html,
-    body {
+    html, body {
       overflow-x: hidden;
       max-width: 100vw;
     }
 
     body {
       font-family: 'Cormorant Garamond', serif;
-      background: url('third.png') no-repeat center center/cover;
+      background: url('third.png') no-repeat center center / cover;
       min-height: 100vh;
       color: white;
       position: relative;
@@ -67,8 +66,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding-top: 18em;
+      justify-content: center;   /* ✅ center vertically instead of fixed padding */
+      padding: 20px;
       transition: opacity 0.8s ease;
       z-index: 100;
     }
@@ -79,30 +78,33 @@
       display: none;
     }
 
+    /* ✅ OVERLAY TITLE — responsive, no hardcoded transforms */
     .overlay h1 {
-      font-size: 6em;
+      font-size: clamp(3rem, 10vw, 6rem); /* ✅ fluid: big on desktop, smaller on mobile */
       text-align: center;
-      margin: 0;
-      background: url('third.png') no-repeat center center/cover;
+      margin: 0 0 clamp(60px, 12vh, 160px) 0; /* ✅ space below title, relative to viewport */
+      background: url('third.png') no-repeat center center / cover;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       color: transparent;
-      transform: translateY(269px);
+      /* ✅ REMOVED hardcoded translateY(269px) — was breaking on desktop & small phones */
     }
 
     .slider-text-wrapper {
-      margin-top: 18em;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 1em;
+      /* ✅ REMOVED margin-top: 18em — now handled by justify-content: center on parent */
     }
 
     .text {
       font-family: 'Great Vibes', cursive;
-      font-size: 1.5em;
+      font-size: clamp(1.1rem, 3.5vw, 1.5rem); /* ✅ fluid font size */
       color: white;
+      text-align: center;
+      padding: 0 20px;
     }
 
     .slider {
@@ -149,23 +151,6 @@
     .arrow svg {
       width: 16px;
       height: 16px;
-    }
-
-    @media (max-width: 768px) {
-      .overlay h1 {
-        font-size: 6em;
-        transform: translateY(250px);
-      }
-
-      .slider-text-wrapper {
-        margin-top: 15em;
-      }
-
-      .text {
-        font-size: 1.5em;
-        padding: 0 20px;
-        text-align: center;
-      }
     }
 
     /* ═══ MAIN CONTENT ═══ */
@@ -275,98 +260,92 @@
       transform: translateY(-30px);
     }
 
-/* ═══ DRESS CODE STYLES ═══ */
-.dress-code-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 360px;
-  margin: 60px auto; /* Մի փոքր ավելի շատ margin ներքևից */
-}
+    /* ═══ DRESS CODE ═══ */
+    .dress-code-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      margin: 60px auto;
+    }
 
-.dress-code-back-card {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #9b6e5c;
-  border-radius: 16px;
-  top: -15px;
-  left: 15px;
-  z-index: 0;
-}
+    .dress-code-back-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #9b6e5c;
+      border-radius: 16px;
+      top: -15px;
+      left: 15px;
+      z-index: 0;
+    }
 
-.dress-code-card {
-  position: relative;
-  background: #f8f5f2;
-  border-radius: 16px;
-  padding: 30px 15px;
-  text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  z-index: 1;
-}
+    .dress-code-card {
+      position: relative;
+      background: #f8f5f2;
+      border-radius: 16px;
+      padding: 30px 15px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      z-index: 1;
+    }
 
-.dress-code-title {
-  font-family: 'Great Vibes', cursive;
-  font-size: 32px;
-  color: #6d4c41;
-  margin-bottom: 8px;
-}
+    .dress-code-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 32px;
+      color: #6d4c41;
+      margin-bottom: 8px;
+    }
 
-.dress-code-subtitle {
-  font-family: 'Vrdznagir', serif;
-  font-size: 12px;
-  line-height: 1.5;
-  color: #7a6a64;
-  margin-bottom: 25px;
-  padding: 0 10px;
-}
+    .dress-code-subtitle {
+      font-family: 'Vrdznagir', serif;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #7a6a64;
+      margin-bottom: 25px;
+      padding: 0 10px;
+    }
 
-.dress-code-colors {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px; /* Շարքերի արանքի հեռավորությունը */
-}
+    .dress-code-colors {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
 
-.dress-code-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px; /* Գույների արանքի հեռավորությունը շարքի ներսում */
-  flex-wrap: wrap; 
-}
-/* Սկզբնական վիճակ՝ թաքնված */
-.dc-circle {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  opacity: 0;
-  transform: translateY(20px);
-}
+    .dress-code-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-/* Անիմացիան միանում է ՄԻԱՅՆ այն ժամանակ, երբ բաժինը ստանում է .active դասը */
-.dress-code-colors.active .dc-circle {
-  animation: fadeUp 0.6s ease forwards;
-}
+    .dc-circle {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      opacity: 0;
+      transform: translateY(20px);
+    }
 
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    .dress-code-colors.active .dc-circle {
+      animation: fadeUp 0.6s ease forwards;
+    }
 
-/* Գույների ուշացումները (Animation delays) */
-.dc-c6 { background: #D0A79E; animation-delay: 0.1s; }
-.dc-c7 { background: #B9816B; animation-delay: 0.2s; }
-.dc-c8 { background: #9B634B; animation-delay: 0.3s; }
-.dc-c9 { background: #8B6664; animation-delay: 0.4s; }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-.dc-c1 { background: #F3B0BC; animation-delay: 0.6s; }
-.dc-c2 { background: #9B76B0; animation-delay: 0.7s; }
-.dc-c3 { background: #99B9E0; animation-delay: 0.8s; }
-.dc-c4 { background: #718B6F; animation-delay: 0.9s; }
-.dc-c5 { background: #F9E49B; animation-delay: 1.0s; }
+    .dc-c6 { background: #D0A79E; animation-delay: 0.1s; }
+    .dc-c7 { background: #B9816B; animation-delay: 0.2s; }
+    .dc-c8 { background: #9B634B; animation-delay: 0.3s; }
+    .dc-c9 { background: #8B6664; animation-delay: 0.4s; }
+    .dc-c1 { background: #F3B0BC; animation-delay: 0.6s; }
+    .dc-c2 { background: #9B76B0; animation-delay: 0.7s; }
+    .dc-c3 { background: #99B9E0; animation-delay: 0.8s; }
+    .dc-c4 { background: #718B6F; animation-delay: 0.9s; }
+    .dc-c5 { background: #F9E49B; animation-delay: 1.0s; }
 
-    /* ═══ LOCATION PATH ANIMATION ═══ */
+    /* ═══ LOCATION PATH ═══ */
     .location-wrapper {
       position: relative;
       width: 100%;
@@ -447,15 +426,8 @@
       transform: translateY(0) !important;
     }
 
-    .schedule-item.left {
-      text-align: right;
-      margin-top: 60px;
-    }
-
-    .schedule-item.right {
-      text-align: left;
-      margin-top: 5%;
-    }
+    .schedule-item.left { text-align: right; margin-top: 60px; }
+    .schedule-item.right { text-align: left; margin-top: 5%; }
 
     .s-time {
       font-size: 42px;
@@ -464,7 +436,7 @@
       font-weight: bold;
       line-height: 1;
       letter-spacing: 0.02em;
-      text-align:center;
+      text-align: center;
     }
 
     .s-title {
@@ -474,8 +446,9 @@
       color: #2c2c2c;
       margin-top: -8px;
       letter-spacing: 0.06em;
-      white-space:nowrap;
+      white-space: nowrap;
     }
+
     .s-title.zags {
       position: relative;
       left: -44px;
@@ -488,7 +461,7 @@
       margin: 2px 0 10px;
       line-height: 1.5;
       font-style: italic;
-      text-align:center;
+      text-align: center;
     }
 
     .btn {
@@ -504,7 +477,7 @@
       text-decoration: none;
       transition: all 0.3s;
       letter-spacing: 0.05em;
-      justify-content:center;
+      justify-content: center;
     }
 
     .btn:hover {
@@ -525,9 +498,7 @@
       transform: translate(-50%, -50%);
     }
 
-    .stop-dot.visible {
-      opacity: 1;
-    }
+    .stop-dot.visible { opacity: 1; }
 
     .ketagic-bg {
       position: relative;
@@ -644,9 +615,7 @@
       transition: all 0.3s ease;
     }
 
-    .name-input::placeholder {
-      color: #888;
-    }
+    .name-input::placeholder { color: #888; }
 
     .button-wrapper {
       margin-top: 20px;
@@ -668,7 +637,7 @@
     }
 
     .btn-yes { background-color: #4c4731; }
-    .btn-no { background-color: #7b685b; }
+    .btn-no  { background-color: #7b685b; }
 
     .confirmation-message {
       position: fixed;
@@ -685,16 +654,13 @@
       padding: 20px 30px;
       border-radius: 20px;
       border: 1px solid #4c4731;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       backdrop-filter: blur(10px);
       max-width: 350px;
       pointer-events: none;
     }
 
-    .confirmation-message.show {
-      opacity: 1;
-      animation: slideInFromTop 0.6s ease-out;
-    }
+    .confirmation-message.show { opacity: 1; animation: slideInFromTop 0.6s ease-out; }
 
     .message-title {
       font-family: 'Vrdznagir', sans-serif;
@@ -707,9 +673,140 @@
       font-size: 16px;
     }
 
-    @media (max-width: 480px) {
-      .overlay h1 { font-size: 4em; }
-      .big-date { font-size: 70px; }
+    /* ═══ RESPONSIVE BREAKPOINTS ═══ */
+
+    /* ── Desktop (769px and above) ── */
+    @media (min-width: 769px) {
+      .overlay {
+        justify-content: center;
+        gap: 40px;
+      }
+
+      /* ✅ On desktop the background image was too large/close-cropped.
+         We constrain the overlay title size so it doesn't dominate the screen */
+      .overlay h1 {
+        font-size: clamp(3.5rem, 6vw, 5rem);
+        margin-bottom: 40px;
+      }
+
+      .slider-text-wrapper {
+        margin-top: 0; /* ✅ no extra push needed — flexbox centers everything */
+      }
+
+      .invitation-card {
+        /* ✅ slightly wider cap on desktop for breathing room */
+        max-width: 480px;
+      }
+
+      .dress-code-wrapper {
+        max-width: 400px;
+      }
+    }
+
+    /* ── Tablet (481px – 768px) ── */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .overlay h1 {
+        font-size: clamp(3rem, 8vw, 5rem);
+        margin-bottom: 30px;
+      }
+
+      .slider-text-wrapper {
+        margin-top: 0;
+      }
+
+      /* ✅ Fix schedule items misalignment on wider tablets:
+         keep them within the capped card width */
+      .location-wrapper {
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    /* ── Small phones (up to 375px) ── */
+    @media (max-width: 375px) {
+      .overlay h1 {
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+      }
+
+      .text {
+        font-size: 1rem;
+      }
+
+      .slider {
+        width: 200px; /* ✅ narrower slider fits small screens */
+      }
+
+      .s-time {
+        font-size: 32px; /* ✅ scale down oversized schedule numbers */
+      }
+
+      .s-title {
+        font-size: 16px;
+        white-space: normal; /* ✅ allow wrapping on very small screens */
+      }
+
+      .s-title.zags {
+        left: 0; /* ✅ remove negative offset that clips on narrow screens */
+      }
+
+      .big-date {
+        font-size: 48px;
+      }
+
+      table {
+        font-size: 14px;
+      }
+
+      th, td {
+        padding: 4px;
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    /* ── Very small phones (up to 320px) ── */
+    @media (max-width: 320px) {
+      .overlay h1 {
+        font-size: 2.2rem;
+      }
+
+      .slider {
+        width: 180px;
+      }
+
+      .invitation-card {
+        padding: 30px 16px;
+      }
+
+      .dc-circle {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    /* ═══ LARGE SCREENS / ULTRAWIDE ═══ */
+    @media (min-width: 1200px) {
+      body {
+        /* ✅ background-size contain keeps the image from being too zoomed on ultrawide */
+        background-size: cover;
+        background-position: center center;
+      }
+
+      .overlay {
+        /* ✅ center the overlay content nicely on large displays */
+        gap: 50px;
+      }
+
+      .overlay h1 {
+        font-size: 5rem;
+        margin-bottom: 50px;
+      }
+
+      .invitation-card {
+        max-width: 500px;
+      }
     }
   </style>
 </head>
@@ -783,17 +880,17 @@
         <div class="schedule-item left" id="stop3" style="top: 340px; right: calc(50% + 18px);">
           <div class="s-time">13:00</div>
           <div class="s-title">Պսակադրություն</div>
-          <div class="s-desc">Մարմաշենի Վանք</div>
+          <div class="s-desc">Մարմաշենի վանք</div>
           <a href="https://maps.app.goo.gl/7uracdm3w5Dj4YzA8" class="btn">Ինչպես հասնել</a>
         </div>
         <div class="schedule-item right" id="stop4" style="top: 575px; left: calc(50% + 18px);">
           <div class="s-time">16:00</div>
-          <div class="s-title zags">Զագսի արարողություն</div>
-          <div class="s-desc">Ռեստորանի բակ</div>
+          <div class="s-title zags">Զագսի Արարողություն</div>
+          <div class="s-desc">Ռեստորոանի բակ</div>
         </div>
         <div class="schedule-item left" id="stop5" style="top: 770px; right: calc(50% + 18px);">
           <div class="s-time">17:00</div>
-          <div class="s-title">Տոնական խնջույք</div>
+          <div class="s-title">Տոնական Խնջույք</div>
           <div class="s-desc">Imperial Restaurant</div>
           <a href="https://maps.app.goo.gl/zBt2AQjEejdcBDdy8" class="btn">Ինչպես հասնել</a>
         </div>
@@ -803,32 +900,30 @@
         <img src="second.png.JPEG" alt="Nkar">
       </div>
 
-<div class="dress-code-wrapper" id="dressCodeSection">
-  <div class="dress-code-back-card"></div>
-  <div class="dress-code-card">
-    <div class="dress-code-title">Dress code</div>
-    <div class="dress-code-subtitle">
-      Ուրախ կլինենք Ձեզ տեսնել մեր նախընտրած գունային երանգներին համապատասխան հագուստներով։
-    </div>
-    
-    <div class="dress-code-colors">
-      <div class="dress-code-row image-row">
-        <div class="dc-circle dc-c6" title="Nude Brown"></div>
-        <div class="dc-circle dc-c7" title="Warm Terracotta"></div>
-        <div class="dc-circle dc-c8" title="Chocolate Brown"></div>
-        <div class="dc-circle dc-c9" title="Deep Mauve/Choco"></div>
+      <div class="dress-code-wrapper" id="dressCodeSection">
+        <div class="dress-code-back-card"></div>
+        <div class="dress-code-card">
+          <div class="dress-code-title">Dress code</div>
+          <div class="dress-code-subtitle">
+            Ուրախ կլինենք Ձեզ տեսնել մեր նախընտրելի գունային երանգներին համապատասխան hագուստներով
+          </div>
+          <div class="dress-code-colors">
+            <div class="dress-code-row image-row">
+              <div class="dc-circle dc-c6" title="Nude Brown"></div>
+              <div class="dc-circle dc-c7" title="Warm Terracotta"></div>
+              <div class="dc-circle dc-c8" title="Chocolate Brown"></div>
+              <div class="dc-circle dc-c9" title="Deep Mauve/Choco"></div>
+            </div>
+            <div class="dress-code-row pantone-row">
+              <div class="dc-circle dc-c1" title="Tickled Pink"></div>
+              <div class="dc-circle dc-c2" title="Amethyst Orchid"></div>
+              <div class="dc-circle dc-c3" title="Dutch Canal"></div>
+              <div class="dc-circle dc-c4" title="Shale Green"></div>
+              <div class="dc-circle dc-c5" title="Pale Banana"></div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="dress-code-row pantone-row">
-        <div class="dc-circle dc-c1" title="Tickled Pink"></div>
-        <div class="dc-circle dc-c2" title="Amethyst Orchid"></div>
-        <div class="dc-circle dc-c3" title="Dutch Canal"></div>
-        <div class="dc-circle dc-c4" title="Shale Green"></div>
-        <div class="dc-circle dc-c5" title="Pale Banana"></div>
-      </div>
-    </div>
-  </div>
-</div>
 
       <div class="calendar-container">
         <p class="big-date">03/07</p>
@@ -857,8 +952,8 @@
         <input type="text" name="lastName" class="name-input" placeholder="Ազգանուն" required>
         <input type="hidden" name="response" id="responseInput">
         <div class="button-wrapper">
-          <button type="button" class="btn-rsvp btn-yes" onclick="setResponseAndSubmit('Գալիս եմ ')">Գալիս եմ</button>
-          <button type="button" class="btn-rsvp btn-no" onclick="setResponseAndSubmit('Չեմ գալիս')">Չեմ գալիս</button>
+          <button type="button" class="btn-rsvp btn-yes" onclick="setResponseAndSubmit('Gallis em ')">Գալիս եմ</button>
+          <button type="button" class="btn-rsvp btn-no" onclick="setResponseAndSubmit('Chem gallis')">Չեմ գալիս</button>
         </div>
         <div class="confirmation-message" id="successMessage" style="display:none;"></div>
         <div class="confirmation-message error-message" id="errorMessage" style="display:none;"></div>
@@ -867,14 +962,20 @@
   </div>
 
   <script>
-    const arrow = document.getElementById('arrow');
-    const slider = document.getElementById('slider');
-    const overlay = document.getElementById('overlay');
-    const mainContent = document.getElementById('mainContent');
-    const body = document.body;
+    // ── Slider unlock ──
+    const arrow      = document.getElementById('arrow');
+    const slider     = document.getElementById('slider');
+    const overlay    = document.getElementById('overlay');
+    const mainContent= document.getElementById('mainContent');
+    const body       = document.body;
 
-    let isDragging = false, startX, currentX;
+    // ✅ Recalculate maxX after fonts/layout settle
     let maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+    window.addEventListener('resize', () => {
+      maxX = slider.offsetWidth - arrow.offsetWidth - 6;
+    });
+
+    let isDragging = false, startX;
 
     arrow.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
     window.addEventListener('mouseup', () => {
@@ -885,11 +986,11 @@
     });
     window.addEventListener('mousemove', e => {
       if (!isDragging) return;
-      currentX = e.clientX - startX;
+      const currentX = e.clientX - startX;
       arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
     });
 
-    arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
+    arrow.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; }, { passive: true });
     window.addEventListener('touchend', () => {
       if (!isDragging) return;
       isDragging = false;
@@ -898,9 +999,9 @@
     });
     window.addEventListener('touchmove', e => {
       if (!isDragging) return;
-      currentX = e.touches[0].clientX - startX;
+      const currentX = e.touches[0].clientX - startX;
       arrow.style.left = `${Math.min(Math.max(3, currentX + 3), maxX)}px`;
-    });
+    }, { passive: true });
 
     function unlock() {
       overlay.classList.add('hidden');
@@ -911,14 +1012,14 @@
 
     function initScrollAnimations() {
       const wrapper = document.getElementById('locationWrapper');
-      const icon = document.getElementById('locationIcon');
+      const icon    = document.getElementById('locationIcon');
       const wrapperObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             icon.classList.add('playing');
             const delays = [200, 4000, 7200, 10400, 13600];
-            const items = ['stop1', 'stop2', 'stop3', 'stop4', 'stop5'];
-            const dots  = ['dot1',  'dot2',  'dot3',  'dot4',  'dot5'];
+            const items  = ['stop1','stop2','stop3','stop4','stop5'];
+            const dots   = ['dot1', 'dot2', 'dot3', 'dot4', 'dot5'];
             items.forEach((id, i) => {
               setTimeout(() => {
                 document.getElementById(id).classList.add('visible');
@@ -930,128 +1031,96 @@
         });
       }, { threshold: 0.1 });
       if (wrapper) wrapperObserver.observe(wrapper);
+
+      // ✅ Dress code scroll animation
+      const colorsContainer = document.querySelector('.dress-code-colors');
+      if (colorsContainer) {
+        const dcObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              colorsContainer.classList.add('active');
+              dcObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3 });
+        dcObserver.observe(colorsContainer);
+      }
     }
 
+    // ── Music ──
     document.addEventListener('DOMContentLoaded', function () {
-      const music = document.getElementById('bg-music');
+      const music    = document.getElementById('bg-music');
       const musicBtn = document.getElementById('music-btn');
-      let isPlaying = false;
+      let isPlaying  = false;
       if (musicBtn) {
         musicBtn.addEventListener('click', () => {
-          if (isPlaying) { music.pause(); musicBtn.src = "play.png"; } 
-          else { music.play(); musicBtn.src = "pause.png"; }
+          if (isPlaying) { music.pause(); musicBtn.src = "play.png"; }
+          else           { music.play();  musicBtn.src = "pause.png"; }
           isPlaying = !isPlaying;
         });
       }
     });
 
-// RSVP ֆունկցիոնալություն
-    (function(){
-      const FORM = document.getElementById('rsvpForm');
-      const OK   = document.getElementById('successMessage');
-      const ERR  = document.getElementById('errorMessage');
+    // ── RSVP ──
+    (function () {
+      const FORM     = document.getElementById('rsvpForm');
+      const OK       = document.getElementById('successMessage');
+      const ERR      = document.getElementById('errorMessage');
       const ENDPOINT = "https://script.google.com/macros/s/AKfycbwzUt1K2JKk-WPat3pYltvT659BSYPjlhL4HcoKsAGkxrTvtixM5ibx2Rzp6xCEZSg7/exec";
 
-      // submit handler — fire & forget
       FORM.addEventListener('submit', (e) => {
         e.preventDefault();
-        ERR.style.display = 'none';
-        ERR.classList.remove('show');
-        OK.style.display = 'none';
-        OK.classList.remove('show');
+        ERR.style.display = 'none'; ERR.classList.remove('show');
+        OK.style.display  = 'none'; OK.classList.remove('show');
 
-             // full_name
-              const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
-              const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
-              if (!first || !last){
-                ERR.innerHTML = '<div class="success-icon">❌</div><div class="message-title">Սխալ</div><div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>';
-                ERR.style.display = 'block';
-                setTimeout(() => ERR.classList.add('show'), 10);
-                return;
-              }
-
-              const resp = (document.getElementById('responseInput').value || '').trim();
-              if (!resp){
-                ERR.innerHTML = '<div class="success-icon">❌</div><div class="message-title">Սխալ</div><div class="message-text">Ընտրեք՝ գալիս եք, թե ոչ</div>';
-                ERR.style.display = 'block';
-                setTimeout(() => ERR.classList.add('show'), 10);
-                return;
-              }
-
-              const fd = new FormData(FORM);
-              fd.set('full_name', `${first} ${last}`);
-              fd.set('response', resp);
-              fd.set('attend',  resp);
-              fd.append('timestamp', new Date().toISOString());
-
-              // 🔥 fire-and-forget (չենք await անում) + keepalive որ նույնիսկ էջը փոխելիս գնա
-              fetch(ENDPOINT, { method:'POST', body: fd, keepalive: true }).catch(()=>{});
-
-              // ✅ անմիջապես success ցույց տուր
-              const responseText = resp === 'ԳԱԼԻՍ ԵՄ' ? 
-                'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը։<br>Ուրախ ենք, որ կլինեք մեզ հետ։' :
-                'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը։<br>Կարոտելու ենք Ձեզ։';
-
-              OK.innerHTML = `<div class="message-title">Շնորհակալություն</div><div class="message-text">${responseText}</div>`;
-              OK.style.display = 'block';
-              setTimeout(() => OK.classList.add('show'), 10);
-
-              // Հաղորդագրությունը թաքցնել 4 վայրկյանից հետո
-              setTimeout(() => {
-                OK.classList.add('hide');
-                setTimeout(() => {
-                  OK.style.display = 'none';
-                  OK.classList.remove('show', 'hide');
-                }, 500);
-              }, 4000);
-
-              // Form մաքրել
-              FORM.reset();
-              document.getElementById('responseInput').value = '';
-            });
-
-            // կոճակներ → դնում ենք պատասխանն ու submit
-            window.setResponseAndSubmit = function(answer){
-              document.getElementById('responseInput').value = answer; // 'ԳԱԼԻՍ ԵՄ' / 'ՉԵՄ ԳԱԼԻՍ'
-              if (FORM.requestSubmit) FORM.requestSubmit();
-              else FORM.dispatchEvent(new Event('submit', { bubbles:true, cancelable:true }));
-            };
-            })();
-  
-  
-  //guyner
-  // Սպասում ենք մինչև էջը լիարժեք բեռնվի
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    // Գտնում ենք գույների բաժինը
-    const colorsContainer = document.querySelector('.dress-code-colors');
-
-    // Ստեղծում ենք «դիտորդ» (Observer)
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        // Եթե օգտատերը սքրոլով հասել է այս բաժնին
-        if (entry.isIntersecting) {
-          colorsContainer.classList.add('active'); // Միացնում ենք անիմացիան
-          observer.unobserve(entry.target); // Այլևս չենք հետևում, որպեսզի անիմացիան չկրկնվի
+        const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
+        const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
+        if (!first || !last) {
+          ERR.innerHTML = '<div class="message-title">Sxal</div><div class="message-text">Xndrum enk lratsnel anuny ev azganouny</div>';
+          ERR.style.display = 'block';
+          setTimeout(() => ERR.classList.add('show'), 10);
+          return;
         }
+
+        const resp = (document.getElementById('responseInput').value || '').trim();
+        if (!resp) {
+          ERR.innerHTML = '<div class="message-title">Sxal</div><div class="message-text">Yntrel gallis ek, te voch</div>';
+          ERR.style.display = 'block';
+          setTimeout(() => ERR.classList.add('show'), 10);
+          return;
+        }
+
+        const fd = new FormData(FORM);
+        fd.set('full_name', `${first} ${last}`);
+        fd.set('response',  resp);
+        fd.set('attend',    resp);
+        fd.append('timestamp', new Date().toISOString());
+
+        fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
+
+        const responseText = resp.includes('Gallis') || resp.includes('gallis em')
+          ? 'Shnorhakalutʻyun, menk stacʻel enk Dzer pataskany.<br>Urax enk, vor klinek mez het.'
+          : 'Shnorhakalutʻyun, menk stacʻel enk Dzer pataskany.<br>Karotelou enk Dzer.';
+
+        OK.innerHTML = `<div class="message-title">Shnorhakalutʻyun</div><div class="message-text">${responseText}</div>`;
+        OK.style.display = 'block';
+        setTimeout(() => OK.classList.add('show'), 10);
+
+        setTimeout(() => {
+          OK.classList.add('hide');
+          setTimeout(() => { OK.style.display = 'none'; OK.classList.remove('show','hide'); }, 500);
+        }, 4000);
+
+        FORM.reset();
+        document.getElementById('responseInput').value = '';
       });
-    }, { 
-      threshold: 0.3 // Անիմացիան կսկսվի, երբ բաժնի 30%-ը հայտնվի էկրանին
-    });
 
-    if (colorsContainer) {
-      observer.observe(colorsContainer);
-    }
-  });
-
+      window.setResponseAndSubmit = function (answer) {
+        document.getElementById('responseInput').value = answer;
+        if (FORM.requestSubmit) FORM.requestSubmit();
+        else FORM.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      };
+    })();
   </script>
 </body>
-
 </html>
-
-
- 
-
-
-
-

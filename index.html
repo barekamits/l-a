@@ -40,9 +40,11 @@
       max-width: 100vw;
     }
 
-body {
+ body {
   font-family: 'Cormorant Garamond', serif;
-  background: none;
+  background: url('third.png') no-repeat center center;
+  background-size: contain;
+  background-color: #000; /* կամ ուր color ուզում ես */
   min-height: 100vh;
   color: white;
   position: relative;
@@ -56,9 +58,9 @@ body {
     }
 
 .overlay {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #d4c9be;
   background-image: url('third.png');
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
   position: fixed;
@@ -85,19 +87,17 @@ body {
   text-align: center;
   margin: 0;
   line-height: 0.9;
-  padding-top: 15vh;
-  background: url('third.png') no-repeat center center / cover;
+  padding-bottom: -15vh;
+  background: url('first.png') no-repeat center center / cover;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
   flex: 1;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
-  width: 100%;
 }
-    
     .slider-text-wrapper {
       display: flex;
       flex-direction: column;
@@ -889,7 +889,7 @@ body {
       </div>
 
       <div class="ketagic-bg">
-        <img src="/second.png.JPEG" alt="Nkar">
+        <img src="second.png.JPEG" alt="Nkar">
       </div>
 
       <div class="dress-code-wrapper" id="dressCodeSection">

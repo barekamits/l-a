@@ -1064,7 +1064,7 @@
         const first = (FORM.querySelector('[name="firstName"]').value || '').trim();
         const last  = (FORM.querySelector('[name="lastName"]').value  || '').trim();
         if (!first || !last) {
-          ERR.innerHTML = '<div class="message-title">Sxal</div><div class="message-text">Xndrum enk lratsnel anuny ev azganouny</div>';
+          ERR.innerHTML = '<div class="message-title">Սխալ</div><div class="message-text">Խնդրում ենք լրացնել անունը և ազգանունը</div>';
           ERR.style.display = 'block';
           setTimeout(() => ERR.classList.add('show'), 10);
           return;
@@ -1087,8 +1087,8 @@
         fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
 
         const responseText = resp.includes('Gallis') || resp.includes('gallis em')
-          ? 'Shnorhakalutʻyun, menk stacʻel enk Dzer pataskany.<br>Urax enk, vor klinek mez het.'
-          : 'Shnorhakalutʻyun, menk stacʻel enk Dzer pataskany.<br>Karotelou enk Dzer.';
+          ? 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը<br>ուրախ ենք օրը կիսել Ձեզ հետ'
+          : 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը';
 
         OK.innerHTML = `<div class="message-title">Shnorhakalutʻyun</div><div class="message-text">${responseText}</div>`;
         OK.style.display = 'block';

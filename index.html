@@ -40,11 +40,9 @@
       max-width: 100vw;
     }
 
- body {
+body {
   font-family: 'Cormorant Garamond', serif;
-  background: url('third.png') no-repeat center center;
-  background-size: contain;
-  background-color: #000; /* կամ ուր color ուզում ես */
+  background: none;
   min-height: 100vh;
   color: white;
   position: relative;
@@ -58,9 +56,9 @@
     }
 
 .overlay {
-  background-color: #d4c9be;
+  background-color: rgba(0, 0, 0, 0.3);
   background-image: url('third.png');
-  background-size: contain;
+  background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   position: fixed;
@@ -87,17 +85,19 @@
   text-align: center;
   margin: 0;
   line-height: 0.9;
-  padding-bottom: -15vh;
-  background: url('D&A/first.png') no-repeat center center / cover;
+  padding-top: 15vh;
+  background: url('third.png') no-repeat center center / cover;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
   flex: 1;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: center;
+  width: 100%;
 }
+    
     .slider-text-wrapper {
       display: flex;
       flex-direction: column;

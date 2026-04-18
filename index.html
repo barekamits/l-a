@@ -40,14 +40,16 @@
       max-width: 100vw;
     }
 
-    body {
-      font-family: 'Cormorant Garamond', serif;
-      background: url('third.png') no-repeat center center / cover;
-      min-height: 100vh;
-      color: white;
-      position: relative;
-      transition: background 0.5s ease, color 0.5s ease;
-    }
+ body {
+  font-family: 'Cormorant Garamond', serif;
+  background: url('third.png') no-repeat center center;
+  background-size: contain;
+  background-color: #000; /* կամ ուր color ուզում ես */
+  min-height: 100vh;
+  color: white;
+  position: relative;
+  transition: background 0.5s ease, color 0.5s ease;
+}
 
     body.unlocked {
       background-color: #e8e0d6;
@@ -55,47 +57,47 @@
       color: black;
     }
 
-    /* ═══ OVERLAY ═══ */
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.4);
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between; /* ✅ title top area, slider bottom area */
-      padding: 0 20px 60px 20px;      /* ✅ breathing room at bottom for slider */
-      transition: opacity 0.8s ease;
-      z-index: 100;
-    }
-
+.overlay {
+  background-color: #d4c9be;
+  background-image: url('third.png');
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 60px 20px;
+  transition: opacity 0.8s ease;
+  z-index: 100;
+}
     .overlay.hidden {
       opacity: 0;
       pointer-events: none;
       display: none;
     }
 
-    /* ✅ OVERLAY TITLE — bold but not overwhelming */
-    .overlay h1 {
-      font-size: clamp(4rem, 14vw, 10rem);
-      text-align: center;
-      margin: 0;
-      line-height: 0.9;
-      padding-bottom: 5vh;     /* ✅ pushes text away from slider, title sits lower */
-      background: url('third.png') no-repeat center center / cover;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      flex: 1;
-      display: flex;
-      align-items: flex-end;   /* ✅ pulled down within its flex space */
-      justify-content: center;
-    }
-
+.overlay h1 {
+  font-size: clamp(4rem, 14vw, 10rem);
+  text-align: center;
+  margin: 0;
+  line-height: 0.9;
+  padding-bottom: -15vh;
+  background: url('D&A/first.png') no-repeat center center / cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
     .slider-text-wrapper {
       display: flex;
       flex-direction: column;
@@ -784,12 +786,6 @@
 
     /* ═══ LARGE SCREENS / ULTRAWIDE ═══ */
     @media (min-width: 1200px) {
-      body {
-        /* ✅ background-size contain keeps the image from being too zoomed on ultrawide */
-        background-size: cover;
-        background-position: center center;
-      }
-
       .overlay {
         /* ✅ center the overlay content nicely on large displays */
         gap: 50px;
@@ -893,7 +889,7 @@
       </div>
 
       <div class="ketagic-bg">
-        <img src="second.png.JPEG" alt="Nkar">
+        <img src="/second.png.JPEG" alt="Nkar">
       </div>
 
       <div class="dress-code-wrapper" id="dressCodeSection">
@@ -901,7 +897,7 @@
         <div class="dress-code-card">
           <div class="dress-code-title">Dress code</div>
           <div class="dress-code-subtitle">
-            Ուրախ կլինենք Ձեզ տեսնել <br> մեր նախընտրած գունային երանգներին համապատասխան հագուստներով
+            Ուրախ կլինենք Ձեզ տեսնել  մեր նախընտրած գունային երանգներին համապատասխան հագուստներով
           </div>
           <div class="dress-code-colors">
             <div class="dress-code-row image-row">

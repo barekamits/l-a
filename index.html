@@ -66,8 +66,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;   /* ✅ center vertically instead of fixed padding */
-      padding: 20px;
+      justify-content: space-between; /* ✅ title top area, slider bottom area */
+      padding: 0 20px 60px 20px;      /* ✅ breathing room at bottom for slider */
       transition: opacity 0.8s ease;
       z-index: 100;
     }
@@ -78,17 +78,22 @@
       display: none;
     }
 
-    /* ✅ OVERLAY TITLE — responsive, no hardcoded transforms */
+    /* ✅ OVERLAY TITLE — bold but not overwhelming */
     .overlay h1 {
-      font-size: clamp(3rem, 10vw, 6rem); /* ✅ fluid: big on desktop, smaller on mobile */
+      font-size: clamp(4rem, 14vw, 10rem);
       text-align: center;
-      margin: 0 0 clamp(60px, 12vh, 160px) 0; /* ✅ space below title, relative to viewport */
+      margin: 0;
+      line-height: 0.9;
+      padding-bottom: 5vh;     /* ✅ pushes text away from slider, title sits lower */
       background: url('third.png') no-repeat center center / cover;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       color: transparent;
-      /* ✅ REMOVED hardcoded translateY(269px) — was breaking on desktop & small phones */
+      flex: 1;
+      display: flex;
+      align-items: flex-end;   /* ✅ pulled down within its flex space */
+      justify-content: center;
     }
 
     .slider-text-wrapper {
@@ -96,7 +101,7 @@
       flex-direction: column;
       align-items: center;
       gap: 1em;
-      /* ✅ REMOVED margin-top: 18em — now handled by justify-content: center on parent */
+      flex-shrink: 0;
     }
 
     .text {
@@ -678,19 +683,11 @@
     /* ── Desktop (769px and above) ── */
     @media (min-width: 769px) {
       .overlay {
-        justify-content: center;
-        gap: 40px;
+        padding-bottom: 80px;
       }
 
-      /* ✅ On desktop the background image was too large/close-cropped.
-         We constrain the overlay title size so it doesn't dominate the screen */
       .overlay h1 {
-        font-size: clamp(3.5rem, 6vw, 5rem);
-        margin-bottom: 40px;
-      }
-
-      .slider-text-wrapper {
-        margin-top: 0; /* ✅ no extra push needed — flexbox centers everything */
+        font-size: clamp(5rem, 12vw, 10rem);
       }
 
       .invitation-card {
@@ -726,8 +723,7 @@
     /* ── Small phones (up to 375px) ── */
     @media (max-width: 375px) {
       .overlay h1 {
-        font-size: 2.8rem;
-        margin-bottom: 20px;
+        font-size: clamp(3rem, 16vw, 5rem);
       }
 
       .text {
@@ -769,7 +765,7 @@
     /* ── Very small phones (up to 320px) ── */
     @media (max-width: 320px) {
       .overlay h1 {
-        font-size: 2.2rem;
+        font-size: 4rem;
       }
 
       .slider {
@@ -875,24 +871,24 @@
         </div>
         <div class="schedule-item right" id="stop2" style="top: 175px; left: calc(50% + 18px);">
           <div class="s-time">11:00</div>
-          <div class="s-title">Հարսի Տուն</div>
+          <div class="s-title">Հarsi Տun</div>
         </div>
         <div class="schedule-item left" id="stop3" style="top: 340px; right: calc(50% + 18px);">
           <div class="s-time">13:00</div>
-          <div class="s-title">Պսակադրություն</div>
-          <div class="s-desc">Մարմաշենի վանք</div>
-          <a href="https://maps.app.goo.gl/7uracdm3w5Dj4YzA8" class="btn">Ինչպես հասնել</a>
+          <div class="s-title">Պsak</div>
+          <div class="s-desc">Մarmashen</div>
+          <a href="https://maps.app.goo.gl/7uracdm3w5Dj4YzA8" class="btn">Ինчпes hasnel</a>
         </div>
         <div class="schedule-item right" id="stop4" style="top: 575px; left: calc(50% + 18px);">
           <div class="s-time">16:00</div>
-          <div class="s-title zags">Զագսի Արարողություն</div>
-          <div class="s-desc">Ռեստորոանի բակ</div>
+          <div class="s-title zags">Загси ararołutʻyun</div>
+          <div class="s-desc">Restorani bak</div>
         </div>
         <div class="schedule-item left" id="stop5" style="top: 770px; right: calc(50% + 18px);">
           <div class="s-time">17:00</div>
-          <div class="s-title">Տոնական Խնջույք</div>
+          <div class="s-title">Тonakan xnjuyк</div>
           <div class="s-desc">Imperial Restaurant</div>
-          <a href="https://maps.app.goo.gl/zBt2AQjEejdcBDdy8" class="btn">Ինչպես հասնել</a>
+          <a href="https://maps.app.goo.gl/zBt2AQjEejdcBDdy8" class="btn">Ինчпes hasnel</a>
         </div>
       </div>
 
@@ -905,7 +901,7 @@
         <div class="dress-code-card">
           <div class="dress-code-title">Dress code</div>
           <div class="dress-code-subtitle">
-            Ուրախ կլինենք Ձեզ տեսնել մեր նախընտրելի գունային երանգներին համապատասխան hագուստներով
+            Ուraxh klinek Dzer tesnel mer naxʻntrel gunayin erangnerun hamapatasxan hagustnerov.
           </div>
           <div class="dress-code-colors">
             <div class="dress-code-row image-row">
@@ -927,7 +923,7 @@
 
       <div class="calendar-container">
         <p class="big-date">03/07</p>
-        <p class="month-text">3 Հուլիսի </p>
+        <p class="month-text">3 Հouliси </p>
         <table>
           <tr>
             <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
@@ -948,12 +944,12 @@
       </div>
 
       <form id="rsvpForm" class="name-fields">
-        <input type="text" name="firstName" class="name-input" placeholder="Անուն" required>
-        <input type="text" name="lastName" class="name-input" placeholder="Ազգանուն" required>
+        <input type="text" name="firstName" class="name-input" placeholder="Anoun" required>
+        <input type="text" name="lastName" class="name-input" placeholder="Azganoun" required>
         <input type="hidden" name="response" id="responseInput">
         <div class="button-wrapper">
-          <button type="button" class="btn-rsvp btn-yes" onclick="setResponseAndSubmit('Gallis em ')">Գալիս եմ</button>
-          <button type="button" class="btn-rsvp btn-no" onclick="setResponseAndSubmit('Chem gallis')">Չեմ գալիս</button>
+          <button type="button" class="btn-rsvp btn-yes" onclick="setResponseAndSubmit('Gallis em ')">Gallis em</button>
+          <button type="button" class="btn-rsvp btn-no" onclick="setResponseAndSubmit('Chem gallis')">Chem gallis</button>
         </div>
         <div class="confirmation-message" id="successMessage" style="display:none;"></div>
         <div class="confirmation-message error-message" id="errorMessage" style="display:none;"></div>

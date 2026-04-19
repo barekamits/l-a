@@ -1086,9 +1086,9 @@
 
         fetch(ENDPOINT, { method: 'POST', body: fd, keepalive: true }).catch(() => {});
 
-        const responseText = resp.includes('Գալիս') || resp.includes('գալիս եմ')
-          ? 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը<br>ուրախ ենք օրը կիսել Ձեզ հետ'
-          : 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը';
+        const responseText = (resp === 'Գալիս եմ') 
+  ? 'Շնորհակալություն... ուրախ ենք օրը կիսել Ձեզ հետ' 
+  : 'Շնորհակալություն, մենք ստացել ենք Ձեր պատասխանը';
 
         OK.innerHTML = `<div class="message-title">Shnorhakalutʻyun</div><div class="message-text">${responseText}</div>`;
         OK.style.display = 'block';
